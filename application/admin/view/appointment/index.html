@@ -1,0 +1,61 @@
+{include file="Public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('index')}">预约列表</a></li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<form action="" method="get" class="layui-form">
+					<input type="hidden" name="pid" value="{$vs.pid}">
+					<input type="hidden" name="ty" value="{$vs.ty}">
+					<input type="hidden" name="tty" value="{$vs.tty}">
+					<input type="hidden" name="ttty" value="{$vs.ttty}">
+				</form>
+
+				<table class="layui-table">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>用户名</th>
+						<th>手机</th>
+						<th>预约时间</th>
+						<th>预约老师</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{volist name="list" id="v"}
+						<tr>
+							<td>{$v['id']}</td>
+							<td>{$v['user_name']}</td>
+							<td>{$v['phone']}</td>
+							<td>{$v['time']}</td>
+							<td>{$v['teacher']}</td>
+							<td>{$v['status']}</td>
+							<td>
+								<a href="{:url('del', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+							</td>
+						</tr>
+					{/volist}
+					</tbody>
+				</table>
+				<div class="page">
+					{$page}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>
