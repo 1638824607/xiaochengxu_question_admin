@@ -1,0 +1,72 @@
+{include file="Public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('index')}">服务优势</a></li>
+			<li><a href="{:url('add_knowledge')}">服务优势添加</a></li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<form action="" method="get" class="layui-form">
+					<input type="hidden" name="pid" value="{$vs.pid}">
+					<input type="hidden" name="ty" value="{$vs.ty}">
+					<input type="hidden" name="tty" value="{$vs.tty}">
+					<input type="hidden" name="ttty" value="{$vs.ttty}">
+				</form>
+
+				<form action="{:url('do_action')}" method="post" id="contentForm" name="formlist" class="layui-form" onkeydown="if(event.keyCode==13) return false;">
+				<table class="layui-table">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>排序值</th>
+						<th>首页图片</th>
+						<th>内页图片</th>
+						<th>大标题</th>
+						<th>小标题</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{volist name="list" id="v"}
+						<tr>
+							<td>{$v['id']}</td>
+							<td>{$v['sort']}</td>
+							<td><img src="{$v.image}" width="80" /></td>
+							<td><img src="{$v.image1}" width="80" /></td>
+							<!--<td>-->
+								<!--<?php if($v['status']==1){?>-->
+								<!--<a href="{:url('update_status', ['id' => $v['id'], 'status' => 2])}"><i class='fa fa-toggle-on' title="点击关闭"></i></a>-->
+								<!--<?php }else{?>-->
+								<!--<a href="{:url('update_status', ['id' => $v['id'], 'status' => 1])}"><i class='fa fa-toggle-off' title="点击开启"></i></a>-->
+								<!--<?php }?>-->
+							<!--</td>-->
+							<td>{$v['title']}</td>
+							<td>{$v['desc']}</td>
+							<td>
+								<a href="{:url('edit_knowledge', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>修改</a>
+								<a href="{:url('del_knowledge', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+							</td>
+						</tr>
+					{/volist}
+					</tbody>
+				</table>
+				</form>
+				<div class="page">
+					{$list->render()}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>
