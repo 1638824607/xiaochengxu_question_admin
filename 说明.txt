@@ -7,8 +7,10 @@ application/database.php
 
 程序员账号权限
 
-账号jxadmin_root
-密码99jxwlkj
+账号
+jxadmin_root
+密码
+99jxwlkj
 
 
 给客户的账号
