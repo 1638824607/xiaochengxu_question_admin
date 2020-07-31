@@ -1,0 +1,53 @@
+{include file="Public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('Forms/Index')}"><?php echo get_forms_zd(input('typeid','title'))?>表管理</a></li>
+			<li><a href="{:url('Forms/FieldAdd',"typeid=".input('typeid')."")}">字段添加</a></li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<table class="layui-table">
+					<thead>
+					<tr>
+						<th>序号</th>
+						<th>标题</th>
+						<th>名称</th>
+						<th>提示</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{volist name="list" id="v"}
+						<tr>
+							<td>{$i}</td>
+							<td>{$v.title}</td>
+							<td>{$v.Field}</td>
+							<td>{$v.tip}</td>
+							<td>
+								<?php if($v['Field']<>"id"&&$v['Field']<>"ip"&&$v['Field']<>"status"&&$v['Field']<>"sendtime"){?>
+								<a href="{:url('Forms/FieldAdd',"act=up&zd=".$v['Field']."&title=".$v['title']."&tip=".$v['tip']."&zd=".$v['Field']."&typeid=".input('typeid')."")}"  class='layui-btn layui-btn-xs'>修改</a>
+								<a href="{:url('Forms/FieldDel',"zd=".$v['Field']."&typeid=".input('typeid')."")}" onclick='return confirm("您确定要删除模块么？")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+								<?php }else{?>
+								--
+								<?php }?>
+							</td>
+						</tr>
+					{/volist}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+{include file="Public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('Model/Index')}">模型列表</a></li>
+			<li><a href="{:url('Model/Add')}">模型添加</a></li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<table class="layui-table">
+					<thead>
+					<tr>
+						<th>序号|ID</th>
+						<th>名称</th>
+						<th>字段</th>
+						<th>状态</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{volist name="list" id="v"}
+						<tr>
+							<td>{$i}|{$v['id']}</td>
+							<td>{$v.model_name}</td>
+							<td>{:get_model_name($v['model_fields'])}</td>
+							<td>
+								<?php if($v['status']==1){?>
+								<a href='{:url('Model/Audit',"id=".$v['id']."")}'><i class='fa fa-toggle-on' title="点击关闭"></i></a>
+								<?php }else{?>
+								<a href='{:url('Model/Audit',"id=".$v['id']."")}'><i class='fa fa-toggle-off' title="点击开启"></i></a>
+								<?php }?>
+							</td>
+							<td>
+								<a href='{:url('Model/Add',"id=".$v['id']."")}'  class='layui-btn layui-btn-xs'>修改</a>
+								<a href='{:url('Model/Del',"id=".$v['id']."")}' onclick='return confirm("您确定要删除模块么？")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+							</td>
+						</tr>
+					{/volist}
+					</tbody>
+				</table>
+				<div class="page">
+					{$list->render()}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>

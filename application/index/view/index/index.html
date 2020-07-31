@@ -1,0 +1,181 @@
+{include file="public/header" /}
+
+    <div class="container-fluid">
+        <div class="content">
+            <div class="title">{:get_zd_name("catname","sort"," id=1 ")}<p>{:get_zd_name("encatname","sort"," id=1 ")}</p></div>
+            <div class="indextit1">
+                <div class="tit1a">
+                    {:get_zd_name("seodescription","sort"," id=1 ")}
+                </div>
+                <div class="indextit1box fl">
+                    <h4><img src="/public/static/images/con4.png"/><em>荣誉资质</em></h4>
+                    <div class="indextit1bd">
+                        <div class="demo">
+                            <ul>
+                                {volist name=":get_news_pic(1,8,0,0,'*',4,0,'desc')" id="vo"}
+                                <li><img src="{$vo.img1}" title="{$vo.title}"></li>
+                                {/volist}
+                            </ul>
+                        </div>
+                        <div class="photo-mask"></div>
+                        <div class="photo-panel">
+                            <div class="photo-div">
+                                <div class="photo-left">
+                                    <div class="arrow-prv"></div>
+                                </div>
+                                <div class="photo-img">
+                                    <div class="photo-bar">
+                                        <div class="photo-close"></div>
+                                    </div>
+                                    <h4>荣誉资质</h4>
+                                    <div class="photo-view-h">
+                                        <img src="#" />
+                                        <p id="p_text">标题</p>
+                                    </div>
+                                </div>
+                                <div class="photo-right">
+                                    <div class="arrow-next"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="indextit1box fr">
+                    <h4><img src="/public/static/images/con5.png"/><em>合作品牌</em></h4>
+                    <div class="indextit1bd">
+                        <dl>
+                            {volist name=":get_news_pic(1,9,0,0,'*',4,0,'desc')" id="vo"}
+                            <dt><a href="{:url('/index/view/index',"id=".$vo['id']."")}" target="_blank"><img src="{$vo.img1}"/><p>{$vo.title}</p></a></dt>
+                            {/volist}
+                        </dl>
+                        <dl style="border-top:1px solid #ededed">
+                            {volist name=":get_news_pic(1,9,0,0,'*',3,4,'desc')" id="vo"}
+                            <dd><a href="{:url('/index/view/index',"id=".$vo['id']."")}" target="_blank"><img src="{$vo.img1}"/><p>{$vo.title}</p></a></dd>
+                            {/volist}
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid indextit2bg">
+        <div class="content">
+            <div class="title">{:get_zd_name("catname","sort"," id=2 ")}<p>{:get_zd_name("encatname","sort"," id=2 ")}</p></div>
+            <div class="indextit2">
+                <ul>
+                    {volist name=":get_news_good(2,10,0,0,'*',4,0,'desc')" id="vo"}
+                    <li>
+                        <a>
+                            <img src="{$vo.img1}"/>
+                            <h4>{$vo.title}<span><img src="{$vo.img2}"/></span></h4>
+                            <p>{$vo.introduce}</p>
+                        </a>
+                    </li>
+                    {/volist}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="content">
+            <div class="title">{:get_zd_name("catname","sort"," id=14 ")}<p>{:get_zd_name("encatname","sort"," id=14 ")}</p></div>
+            <div class="swiper-container" id="swiper2">
+                <div class="swiper-wrapper">
+                    {if get_news(14,15,0,0,'*',4,0,'desc')}
+                    <div class="swiper-slide">
+                        <ul>
+                            {volist name=":get_news(14,15,0,0,'*',4,0,'desc')" id="vo"}
+                            <li>
+                                <a href="{:url('/index/show/index',"id=".$vo['id']."")}">
+                                    <img src="{$vo.img1}"/>
+                                    <span>
+                                        <h4>{$vo.title}</h4>
+                                        <p>{$vo.seodescription}</p>
+                                        <code>查看更多></code>
+                                    </span>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                    {/if}
+                    {if get_news(14,15,0,0,'*',4,4,'desc')}
+                    <div class="swiper-slide">
+                        <ul>
+                            {volist name=":get_news(14,15,0,0,'*',4,4,'desc')" id="vo"}
+                            <li>
+                                <a href="{:url('/index/show/index',"id=".$vo['id']."")}">
+                                <img src="{$vo.img1}"/>
+                                <span>
+                                        <h4>{$vo.title}</h4>
+                                        <p>{$vo.seodescription}</p>
+                                        <code>查看更多></code>
+                                    </span>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                    {/if}
+                    {if get_news(14,15,0,0,'*',4,8,'desc')}
+                    <div class="swiper-slide">
+                        <ul>
+                            {volist name=":get_news(14,15,0,0,'*',4,8,'desc')" id="vo"}
+                            <li>
+                                <a href="{:url('/index/show/index',"id=".$vo['id']."")}">
+                                <img src="{$vo.img1}"/>
+                                <span>
+                                        <h4>{$vo.title}</h4>
+                                        <p>{$vo.seodescription}</p>
+                                        <code>查看更多></code>
+                                    </span>
+                                </a>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                    {/if}
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid indextit3bg">
+    <div class="content">
+        <div class="title">{:get_zd_name("catname","sort"," id=3 ")}<p>{:get_zd_name("encatname","sort"," id=3 ")}</p></div>
+        <div class="indextit3_l">
+            <div class="swiper-container" id="swiper3">
+                <div class="swiper-wrapper">
+                    {volist name=":get_news_good(3,11,0,0,'*',3,0,'desc')" id="vo"}
+                    <div class="swiper-slide">
+                        <a href="{:url('/index/show/index',"id=".$vo['id']."")}" target="_blank">
+                            <img src="{$vo.img1}"/>
+                            <span><p>{$vo.title}</p></span>
+                        </a>
+                    </div>
+                    {/volist}
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+        <div class="indextit3_r">
+            {volist name=":get_news_good(3,11,0,0,'*',4,3,'desc')" id="vo"}
+            <dl>
+                <a href="{:url('/index/show/index',"id=".$vo['id']."")}" target="_blank">
+                    <dt><h4>{:get_time($vo.sendtime,"d")}</h4><p>{:get_time($vo.sendtime,"Y/m")}</p></dt>
+                    <dd>
+                        <h4>{$vo.title}</h4>
+                        <p>{$vo.seodescription}</p>
+                    </dd>
+                </a>
+            </dl>
+            {/volist}
+        </div>
+    </div>
+</div>
+
+
+{include file="public/footer" /}

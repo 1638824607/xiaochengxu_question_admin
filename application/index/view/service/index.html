@@ -1,0 +1,32 @@
+{include file="public/header" /}
+
+<div class="container-fluid">
+    <div class="content">
+        <div class="title" style="margin-bottom: 60px;">服务支持</div>
+    </div>
+    {volist name=":get_news(2,10,0,0,'*',20,0,'asc')" id="v" key="k"}
+        {if condition="$k%2 eq 0" }
+            <div class="fwzctit1 fl">
+                <dl>
+                    <dt style="float: right;"><img src="{$v.img1}"/></dt>
+                    <dd style="float: right; margin-right: 10px;">
+                        <h4><img src="{$v.img2}"/>{$v.title}</h4>
+                        <p>{$v.introduce}</p>
+                    </dd>
+                </dl>
+            </div>
+        {else/}
+            <div class="fwzctit1 fr">
+                <dl>
+                    <dt><img src="{$v.img1}"/></dt>
+                    <dd>
+                        <h4><img src="{$v.img2}"/>{$v.title}</h4>
+                        <p>{$v.introduce}</p>
+                    </dd>
+                </dl>
+            </div>
+        {/if}
+    {/volist}
+</div>
+
+{include file="public/footer" /}

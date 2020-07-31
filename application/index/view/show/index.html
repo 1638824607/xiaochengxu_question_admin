@@ -1,0 +1,71 @@
+{include file="public/header" /}
+
+{volist name=":get_view($id)" id="v"}
+
+<div class="container-fluid">
+
+    <div class="content">
+
+        <div class="hzpptit">
+
+            <div class="hzpptit_l">
+                <h3 class="newstt1">{$v.title}</h3>
+                <div class="newsms">
+                    <code><img src="/public/static/images/nycon5.png" />发布时间: {:get_time($v.sendtime)}</code>
+                    <code><img src="/public/static/images/nycon6.png" />作者:{$v.author}</code>
+                    <code><img src="/public/static/images/nycon7.png" />阅读:{$v.hits}次</code>
+                </div>
+                <div class="hzpptit3">
+                    {:get_content($v.content)}
+                </div>
+                <div class="hzpptit4">
+                    <ul>
+                        {if get_prev($v.id)}
+                            {volist name=":get_prev($id)" id="vs"}
+                            <li><em>上一篇</em><span><a href="/index/show/index/id/{$vs.id}">{$vs.title}</a></span></li>
+                            {/volist}
+                        {else/}
+                        <li><em>上一篇</em><span><a>暂无</a></span></li>
+                        {/if}
+
+                        {if get_next($v.id)}
+                            {volist name=":get_next($id)" id="vnext"}
+                            <li><em>下一篇</em><span><a href="/index/show/index/id/{$vnext.id}">{$vnext.title}</a></span></span></li>
+                            {/volist}
+                        {else/}
+                            <li><em>下一篇</em><span><a>暂无</a></span></li>
+                        {/if}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="hzpptit_r">
+                <div class="hzpptit1">
+                    <span><h4>新闻推荐</h4></span>
+                    <div class="newstit1">
+                        {volist name=":get_news_good(3,11,0,0,'*',3,0,'desc')" id="v"}
+                        <dl>
+                            <a href="{:url('/index/show/index',"id=".$v['id']."")}">
+                            <dt><img src="{$v.img1}"/></dt>
+                            <dd><h4>{$v.title}</h4><p>{:get_time($v['sendtime'],'Y-m-d')}</p></dd>
+                            </a>
+                        </dl>
+                        {/volist}
+                        <ul>
+                            {volist name=":get_news_good(3,11,0,0,'*',5,3,'desc')" id="v"}
+                            <li>
+                                <h4><a href="{:url('/index/show/index',"id=".$v['id']."")}">{$v.title}</a></h4>
+                                <p>{:get_time($v['sendtime'],'Y-m-d')}</p>
+                            </li>
+                            {/volist}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{/volist}
+
+{include file="public/footer" /}

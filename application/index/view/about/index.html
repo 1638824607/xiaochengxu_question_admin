@@ -1,0 +1,193 @@
+{include file="public/header" /}
+
+    <div class="container-fluid">
+        <div class="content">
+            <div class="gywmtit1">
+                <dl>
+                    <dt>
+                        <h4>{:get_zd_name("catname","sort"," id=6 ")}<p>{:get_zd_name("encatname","sort"," id=6 ")}</p></h4>
+                        <span>{:get_single_content(1,6,0,0,'content')['content']}</span>
+                    </dt>
+                    <dd><img src="{:get_zd_name("img1","news"," pid=1 and ty=6 ")}"/></dd>
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid gywmtit2bg">
+        <div class="content">
+            <div class="title">{:get_zd_name("catname","sort"," id=7 ")}<p>{:get_zd_name("encatname","sort"," id=7 ")}</p></div>
+            <div class="gywmtit2">
+                <dl>
+                    {volist name=":get_news(1,7,0,0,'*',1,0)" id="v"}
+                    <dt>
+                        <h4>{$v.title}</h4>
+                        <p>{$v.introduce}</p>
+                    </dt>
+                    {/volist}
+                    {volist name=":get_news(1,7,0,0,'*',1,1)" id="v"}
+                    <dd>
+                        <h4>{$v.title}</h4>
+                        <p>{$v.introduce}</p>
+                    </dd>
+                    {/volist}
+                </dl>
+                <dl style="margin-top: 130px;">
+                    {volist name=":get_news(1,7,0,0,'*',1,2)" id="v"}
+                    <dt style="width: 420px;">
+                        <h4>{$v.title}</h4>
+                        <p>{$v.introduce}</p>
+                    </dt>
+                    {/volist}
+                    {volist name=":get_news(1,7,0,0,'*',1,3)" id="v"}
+                    <dd style="width: 420px;">
+                        <h4>{$v.title}</h4>
+                        <p>{$v.introduce}</p>
+                    </dd>
+                    {/volist}
+                </dl>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid">
+        <div class="content">
+            <div class="title">{:get_zd_name("catname","sort"," id=8 ")}<p>{:get_zd_name("encatname","sort"," id=8 ")}</p></div>
+            <div class="swiper-container" id="swiper4">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div class="gywmtit3">
+                            <ul>
+                                {volist name=":get_news(1,8,0,0,'*',3,0)" id="v"}
+                                <li><a><img src="{$v.img1}"/><h4>{$v.title}</h4></a></li>
+                                {/volist}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="gywmtit3">
+                            <ul>
+                                {volist name=":get_news(1,8,0,0,'*',3,3)" id="v"}
+                                <li><a><img src="{$v.img1}"/><h4>{$v.title}</h4></a></li>
+                                {/volist}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="swiper-slide">
+                        <div class="gywmtit3">
+                            <ul>
+                                {volist name=":get_news(1,8,0,0,'*',3,6)" id="v"}
+                                <li><a><img src="{$v.img1}"/><h4>{$v.title}</h4></a></li>
+                                {/volist}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid gywmtit4bg">
+    <div class="content">
+        <div class="title">{:get_zd_name("catname","sort"," id=9 ")}<p>{:get_zd_name("encatname","sort"," id=9 ")}</p></div>
+        <div class="gywmtit4">
+            <ul>
+                {volist name=":get_news(1,9,0,0,'*',3,0)" id="v"}
+                <li><a href="{:url('/index/view/index',"id=".$v['id']."")}"><img src="{$v.img1}"/><h4>{$v.title}</h4></a></li>
+                {/volist}
+            </ul>
+            <ul>
+                {volist name=":get_news(1,9,0,0,'*',4,3)" id="v"}
+                <li><a href="{:url('/index/view/index',"id=".$v['id']."")}"><img src="{$v.img1}"/><h4>{$v.title}</h4></a></li>
+                {/volist}
+            </ul>
+        </div>
+    </div>
+</div>
+
+
+
+{include file="public/footer" /}
+
+<script type="text/javascript">
+    var mySwiper = new Swiper('#swiper1', {
+        autoplay: {
+            delay: 3000,
+            stopOnLastSlide: false,
+            disableOnInteraction: false,
+        },
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+            bulletClass: 'my-bullet',
+            //需设置.my-bullet样式
+            bulletActiveClass: 'my-bullet-active',
+        },
+    });
+
+    var mySwiper = new Swiper('#swiper2', {
+        autoplay: {
+            delay: 3000,
+            stopOnLastSlide: false,
+            disableOnInteraction: false,
+        },
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+            bulletClass: 'my-bullet',
+            //需设置.my-bullet样式
+            bulletActiveClass: 'my-bullet-active',
+        },
+    });
+
+    var mySwiper = new Swiper('#swiper3', {
+        autoplay: {
+            delay: 4000,
+            stopOnLastSlide: false,
+            disableOnInteraction: false,
+        },
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+            bulletClass: 'my-bullet',
+            //需设置.my-bullet样式
+            bulletActiveClass: 'my-bullet-active',
+        },
+    });
+
+    var mySwiper = new Swiper('#swiper4', {
+        autoplay: {
+            delay: 4000,
+            stopOnLastSlide: false,
+            disableOnInteraction: false,
+        },
+        loop: true,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+            bulletClass: 'my-bullet',
+            //需设置.my-bullet样式
+            bulletActiveClass: 'my-bullet-active',
+        },
+    });
+
+    $(function(){
+        //排行版滚动
+        jQuery(".zj_Scrool").slide({mainCell:".bd",autoPlay:true,effect:"leftMarquee",vis:1,interTime:70});
+    });
+    $(function(){
+        function qiehuan(qhan,qhshow,qhon){
+            $(qhan).click(function(){
+                $(qhan).removeClass(qhon);
+                $(this).addClass(qhon);
+                var i = $(this).index(qhan);
+                $(qhshow).eq(i).show().siblings(qhshow).hide();
+            });
+        }
+
+    });
+</script>

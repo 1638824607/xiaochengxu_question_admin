@@ -1,0 +1,5 @@
+<?php
+//000000000000
+ exit();?>
+a:28:{s:2:"id";i:1;s:8:"model_id";i:2;s:3:"pid";i:0;s:7:"catname";s:12:"关于我们";s:9:"encatname";s:8:"ABOUT US";s:4:"img1";s:44:"/Uploads/image/20200618/2020061810350796.jpg";s:4:"img2";s:0:"";s:4:"img3";s:0:"";s:12:"titleimgsize";s:0:"";s:7:"imgsize";s:0:"";s:7:"imgname";s:0:"";s:6:"imgnum";i:0;s:8:"pagesize";i:3;s:8:"seotitle";s:12:"关于我们";s:11:"seokeywords";s:12:"关于我们";s:14:"seodescription";s:334:"公司本着“一切为用户着想”的经营方针，不仅在空调、冷库、锅炉、地暖、热水器市场上建立了良好的信誉，并在家电维护、保养方面有着广
+                    大市民的好评。以客户需要为中心、以市场需求为导向、以高质量产品为目标、以服务为后盾";s:9:"inlinkurl";s:0:"";s:10:"outlinkurl";s:0:"";s:7:"templet";s:4:"News";s:6:"sort_c";s:4:"News";s:6:"sort_a";s:6:"Single";s:8:"sort_url";s:0:"";s:6:"isgood";i:0;s:6:"isopen";i:0;s:5:"isdel";i:0;s:6:"status";i:1;s:8:"disorder";i:5;s:8:"sendtime";s:10:"1592533878";}

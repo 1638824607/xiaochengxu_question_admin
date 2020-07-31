@@ -1,0 +1,17 @@
+数据库配置文件
+application/database.php
+
+后台管理: 
+
+域名/jxadmin/
+
+程序员账号权限
+
+账号jxadmin_root
+密码99jxwlkj
+
+
+给客户的账号
+账号jxadmin
+密码99jxwlkj
+

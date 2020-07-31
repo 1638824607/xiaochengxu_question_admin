@@ -1,0 +1,170 @@
+<?php
+
+use think\Db;
+
+$PHP_SELF = isset($_SERVER['PHP_SELF']) ? $_SERVER['PHP_SELF'] : (isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : $_SERVER['ORIG_PATH_INFO']);
+$PHP_URL=basename($PHP_SELF);
+
+$q=input('q');
+$id=input('id',0);
+$pid=input('pid',0);
+$ty=input('ty',0);
+$tty=input('tty',0);
+$ttty=input('ttty',0);
+$typeid=input('typeid',0);
+$game_area=input('game_area',0);
+$game_server=input('game_server',0);
+
+
+$id=input('id',0);
+
+if(request()->controller()=="Index"){
+    $pid=0;
+    $ty=0;
+    $tty=input('tty',0);
+    $ttty=input('ttty',0);
+}elseif(request()->controller()=="About"){
+    $pid=1;
+    $ty=0;
+    $tty=input('tty',0);
+    $ttty=input('ttty',0);
+}elseif(request()->controller()=="Service"){
+    $pid=2;
+    $ty=0;
+    $tty=input('tty',0);
+    $ttty=input('ttty',0);
+}elseif(request()->controller()=="News"||request()->controller()=="Show"){
+    $pid=3;
+    $ty=0;
+    $tty=input('tty',0);
+    $ttty=input('ttty',0);
+}elseif(request()->controller()=="Contact"){
+    $pid=4;
+    $ty=0;
+    $tty=input('tty',0);
+    $ttty=input('ttty',0);
+}elseif(request()->controller()=="View"){
+    $pid=14;
+    $ty=0;
+    $tty=input('tty',0);
+    $ttty=input('ttty',0);
+}
+
+if($id){
+    $bd=Db::name('news')->field("pid,ty,tty,ttty,title,seotitle,seokeywords,seodescription")->where("status=1 AND id='$id'")->find();
+    if($bd){
+        $id=$id;
+        $vpid=$bd['pid'];
+        cookie('vpid',$vpid,62400);
+        $vty=$bd['ty'];
+        $vtty=$bd['tty'];
+        $vttty=$bd['ttty'];
+
+        $Title=$bd['title'];
+        $Seotitle=$bd['seotitle'];
+        $Seokeywords=$bd['seokeywords'];
+        $Seodescription=$bd['seodescription'];
+    }
+}elseif($pid&&$id==0){
+    if($ty) $zid=$ty; else $zid=$pid;
+    $vtty=$tty;
+    $vttty=$ttty;
+    $bd=Db::name('sort')->field("catname,seotitle,seokeywords,img1,seodescription")->where("status=1 AND id='$zid'")->find();
+    if($bd){
+        if($pid) $vpid=$pid;
+        if($ty) $vty=$ty;else $vty=$zid;
+        $banner_img=$bd['img1'];
+        $Title=$bd['catname'];
+        $Seotitle=$bd['seotitle'];
+        $Seokeywords=$bd['seokeywords'];
+        $Seodescription=$bd['seodescription'];
+    }
+}elseif($id==0){
+    $vpid=0;
+    $Seotitle=sys('sys_seotitle');
+    $Seokeywords=sys('sys_seokeywords');
+    $Seodescription=sys('sys_seodescription');
+}
+if($Custitle){
+    $Seotitle=$Custitle.'_';
+}else{
+    if($Title) $Seotitle=$Title.'_';elseif($Seotitle) $Seotitle=$Seotitle.'_';else $Seotitle="";
+}
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <title>{$Seotitle}{:sys('sys_sitename')}</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <meta name="keywords" content="{$Seokeywords}" />
+    <meta name="description" content="{$Seodescription}" />
+
+    <link rel="stylesheet" href="/public/static/css/main.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/public/static/css/swiper.min.css" type="text/css">
+
+</head>
+<body>
+
+<div class="top">
+    <div class="content zj_Scrool">
+        <div class="bd">
+            <p>欢迎光临{:sys('sys_sitename')}，我们竭诚为您服务！    全国服务热线：{:sys('sys_phone')}</p>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid topnav">
+    <div class="content">
+        <h4><a href="./"><img src="/public/static/images/logo.png"/></a></h4>
+        <ul>
+            <li>
+                <img src="/public/static/images/con1.png"/>
+                <span>营业时间<p>{:sys('sys_fax')}</p></span>
+            </li>
+            <li>
+                <img src="/public/static/images/con2.png"/>
+                <span>全国服务热线<p>{:sys('sys_phone')}</p></span>
+            </li>
+            <li>
+                <img src="/public/static/images/con3.png"/>
+                <span>公司门店地址<p>{:sys('sys_address')}</p></span>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="content">
+        <div class="topmenu">
+            <ul>
+                <li {if request()->controller()=="Index"} class="topmenunow"{/if} ><a href="{:url('index/index/index')}">首页</a></li>
+                <li {if request()->controller()=="About"} class="topmenunow"{/if} ><a href="{:url('index/about/index')}">关于我们</a></li>
+                <li {if request()->controller()=="Service"} class="topmenunow"{/if} ><a href="{:url('index/service/index')}">服务支持</a></li>
+                <li {if request()->controller()=="News"} class="topmenunow"{/if} ><a href="{:url('index/news/index')}">新闻中心</a></li>
+                <li {if request()->controller()=="Contact"} class="topmenunow"{/if} ><a href="{:url('index/contact/index')}">联系我们</a></li>
+            </ul>
+            <a href="/en"><span>英文</span></a>
+        </div>
+    </div>
+</div>
+{if  request()->controller()=="Index"}
+<div class="container-fluid">
+    <div class="swiper-container" id="swiper1">
+        <div class="swiper-wrapper">
+            {volist name=":get_news(5,13,0,0,'*',10)" id="v"}
+            <div class="swiper-slide" style="background: url({$v.img1}) center top no-repeat;"><a href="{$v.linkurl}"></a></div>
+            {/volist}
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+{else/}
+
+<div class="container-fluid nybanner" style="background: url({:get_zd_name('img1','sort'," id=".$pid ."")}) center top no-repeat;">
+    <a href="#"></a>
+</div>
+{/if}

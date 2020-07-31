@@ -1,0 +1,281 @@
+{include file="Public/header" /}
+<script charset="utf-8" src="__ADMIN__/myeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ADMIN__/myeditor/lang/zh_CN.js"></script>
+<script>
+    KindEditor.ready(function(K) {
+        var editor1 = K.create('.editor_id', {
+            filterMode: false,//是否开启过滤模式
+            cssPath : '__ADMIN__/myeditor/plugins/code/prettify.css',
+            uploadJson : '__ADMIN__/myeditor/php/upload_json.php',
+            fileManagerJson : '__ADMIN__/myeditor/php/file_manager_json.php',
+            allowFileManager : true,
+            afterBlur : function() {
+                this.sync();
+                K.ctrl(document, 13, function() {
+                    K('form[name=formlist]')[0].submit();
+                });
+                K.ctrl(this.edit.doc, 13, function() {
+                    K('form[name=formlist]')[0].submit();
+                });
+            }
+        });
+
+        var editor = K.editor({
+            allowFileManager : true
+        });
+		{for start="1" end="$v['imgnum']"}
+            K('#img{$i}_btn').click(function() {
+                editor.loadPlugin('image', function() {
+                    editor.plugin.imageDialog({
+                        imageUrl : K('#img{$i}').val(),
+                        clickFn : function(url, title, width, height, border, align) {
+                            K('#img{$i}').val(url);
+                            editor.hideDialog();
+                        }
+                    });
+                });
+            });
+		{/for}
+
+		{if condition="in_array(11,$arr)"}
+            K('#insert_file1').click(function() {
+                editor.loadPlugin('insertfile', function() {
+                    editor.plugin.fileDialog({
+                        fileUrl : K('#file1').val(),
+                        clickFn : function(url, title) {
+                            K('#file1').val(url);
+                            editor.hideDialog();
+                        }
+                    });
+                });
+            });
+		{/if}
+
+		{if condition="in_array(16,$arr)"}
+            K('#images').click(function() {
+                editor.loadPlugin('multiimage', function() {
+                    editor.plugin.multiImageDialog({
+                        clickFn : function(urlList) {
+                            var div = K('#imagesview');
+                            div.html('');
+                            var urls = '';
+                            K.each(urlList, function(i, data) {
+                                div.append('<div style="width: 100px; float:left; padding-right: 10px;"><img src="' + data.url + '" width="100"><br><input type="text" placeholder="输入图片标题"  name="titles[]" class="layui-input"><br><input type="text" placeholder="输入图片描述"  name="remark[]" class="layui-input"></div>');
+                                urls = urls+data.url+'|';
+                            });
+
+                            $("#imgurl").val(urls);
+                            editor.hideDialog();
+                        }
+                    });
+                });
+            });
+		{/if}
+    });
+
+    $(document).ready(function(){
+        $(".delete").click(function(){
+            var v=this.title;
+            $.get('/Admin-News-Titlepic-id-'+v+".html",null,function(data){
+                $(".img"+v).remove();
+            });
+        })
+    });
+</script>
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+		<div class="layui-tab layui-tab-brief" lay-filter="tab">
+			<ul class="layui-tab-title">
+				<li><a href="{$vs.listurl}">{$v.catname}</a></li>
+				<li class="layui-this"><a href="{$vs.addurl}">{$v.catname}添加</a></li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<form action="" method="post" class="layui-form" lay-filter="content" id="edit">
+						<input type="hidden" name="id" value="{$v.id}">
+						<input type="hidden" name="pid" value="{$v.pid}">
+						<input type="hidden" name="ty" value="{$v.ty}">
+						<input type="hidden" name="tty" value="{$v.tty}">
+						<input type="hidden" name="ttty" value="{$v.ttty}">
+
+						{if condition="in_array(1,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">信息标题</label>
+								<div class="layui-input-inline">
+									<input type="text" name="title" value="{$v.title}" required lay-verify="required" placeholder="请输入内容标题" class="layui-input">
+								</div>
+
+								{if condition="in_array(3,$arr)"}<input type="checkbox" class="checkbox" lay-skin='primary' name="isgood" value="1" title="推荐" {:get_my_checked($v['isgood'],1)}>{/if}
+								{if condition="in_array(4,$arr)"}<input type="checkbox" class="checkbox" lay-skin='primary' name="istop" value="1" title="置顶" {:get_my_checked($v['istop'],1)}>{/if}
+
+							</div>
+						{/if}
+
+						{if condition="in_array(2,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">信息标签</label>
+								<div class="layui-input-inline">
+									<input type="text" name="tags" value="{$v.tags}" placeholder="请输入信息标签" class="layui-input">
+								</div>
+							</div>
+						{/if}
+
+						{if condition="in_array(5,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">外部链接</label>
+								<div class="layui-input-inline">
+									<input type="text" name="linkurl" value="{$v.linkurl}" placeholder="请输入外部链接" class="layui-input">
+								</div>
+							</div>
+						{/if}
+
+						{if condition="in_array(6,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">内容摘要</label>
+								<div class="layui-input-inline">
+									<textarea name="introduce" style="width:520px;height:100px;" class="layui-textarea">{$v.introduce}</textarea>
+								</div>
+							</div>
+						{/if}
+
+						{if condition="in_array(7,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">SEO关键字</label>
+								<div class="layui-input-inline">
+									<input type="text" name="seokeywords" value="{$v.seokeywords}" placeholder="请输入SEO关键字" class="layui-input">
+								</div>
+							</div>
+						{/if}
+
+						{if condition="in_array(8,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">SEO描述</label>
+								<div class="layui-input-inline">
+									<textarea name="seodescription" style="width:520px;height:100px;" class="layui-textarea">{$v.seodescription}</textarea>
+								</div>
+							</div>
+						{/if}
+
+
+						{if condition="in_array(9,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">内容详情</label>
+								<div class="layui-input-block">
+									<textarea class="editor_id" name="content" style="width:667px;height:350px;">{$v.content}</textarea>
+								</div>
+							</div>
+						{/if}
+
+
+						{if condition="in_array(10,$arr)"}
+							{for start="1" end="$v['imgnum']"}
+								<?php $zd="img$i";?>
+								<div class="layui-form-item">
+									<label class="layui-form-label">{:get_imgname($i,$v['pid'],$v['ty'],$v['tty'])}</label>
+									<div class="layui-input-inline">
+										<input type="text" name="img{$i}" id="img{$i}" value="{$v[$zd]}" placeholder="请上传配置图片"  class="layui-input">
+									</div>
+									<button type="button" id="img{$i}_btn" class="layui-btn" data-des="ico">
+										<i class="layui-icon">&#xe67c;</i>上传图片
+									</button>
+									<font color="red">图片大小:{:get_cfg_var("post_max_size")}内,图片尺寸：{:get_imgsize($i,$v['pid'],$v['ty'],$v['tty'])}px</font>
+								</div>
+							{/for}
+						{/if}
+
+						{if condition="in_array(16,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">批量上传</label>
+								<button type="button" id="images" class="layui-btn" data-des="pics">
+									<i class="layui-icon">&#xe67c;</i>上传多图
+								</button>
+								<font color="red">图片大小:{:get_cfg_var("post_max_size")}内,图片尺寸：{:get_sort_zd($v['zid'],'titleimgsize')}px</font>
+							</div>
+							<input type="hidden" name="images" value="" id="imgurl">
+							<div id="imagesview" class="pic addedit">
+								{volist name=":get_titlepic($v['id'])" id="vv"}
+									<div style="margin-right:8px; position:relative;display:inline-block;" class="img{$vv.id}">
+										<a href='{:get_img($vv['img1'])}' target='_blank' >
+											<img width="150" src="{:get_img($vv['img1'])}">
+										</a>
+										<input type="hidden" value="{$vv['id']}"  name="ids[]">
+										<br><input type="text" value="{$vv['title']}" placeholder="输入图片标题"  name="titles[]" class="layui-input">
+										<br><input type="text" value="{$vv['remark']}" placeholder="输入图片描述"  name="remark[]" class="layui-input">
+										<span class="titlepicdel" title="{$vv.id}" style="position: absolute;right:0; top:0;display:inline-block; width:20px; height:20px; background:#000; color:#FFF;line-height:20px; font-size:20px; text-align:center;cursor:pointer;">×</span>
+									</div>
+								{/volist}
+							</div>
+						{/if}
+
+						{if condition="in_array(11,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">文件上传</label>
+								<div class="layui-input-inline">
+									<input type="text" name="file1" id="file1" value="{$v.file1}" placeholder="请选择文件上传" class="layui-input">
+								</div>
+								<button type="button" id="insert_file1" class="layui-btn" data-des="enclosure">
+									<i class="layui-icon">&#xe67c;</i>上传附件
+								</button>
+
+								<font color="#FF0000">文件大小:{:get_cfg_var("post_max_size")}</font>
+							</div>
+						{/if}
+
+						{if condition="in_array(12,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">来源</label>
+								<div class="layui-input-inline">
+									<input type="text" name="source" value="{$v.source}" placeholder="请输入来源" class="layui-input">
+								</div>
+							</div>
+						{/if}
+
+
+						{if condition="in_array(13,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">作者</label>
+								<div class="layui-input-inline">
+									<input type="text" name="author" value="{$v.author}" placeholder="请输入作者" class="layui-input">
+								</div>
+							</div>
+						{/if}
+
+						{if condition="in_array(14,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">价格</label>
+								<div class="layui-input-inline">
+									<input type="text" name="price" value="{$v.price}" placeholder="请输入价格" class="layui-input">
+								</div>
+							</div>
+						{/if}
+
+						{if condition="in_array(15,$arr)"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">人气</label>
+								<div class="layui-input-inline">
+									<input type="text" name="hits" value="{$v.hits}" placeholder="请输入人气" class="layui-input">
+								</div>
+							</div>
+						{/if}
+
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit>立即提交</button>
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>

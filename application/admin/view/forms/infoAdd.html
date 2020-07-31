@@ -1,0 +1,59 @@
+{include file="Public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+		<div class="layui-tab layui-tab-brief" lay-filter="tab">
+			<ul class="layui-tab-title">
+				<li><a href="{:url('Forms/Index')}"><?php echo get_forms_zd(input('typeid','title'))?>表管理</a></li>
+				<li class="layui-this"><a href="{:url('Forms/Add')}">字段添加</a></li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<form action="" method="post" class="layui-form" onSubmit="return check_myforms(this);">
+						<input type="hidden" name="typeid" value="{:input('get.typeid')}">
+						{volist name=":get_list_myfields_list(input('typeid'))" id="vs"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">{$vs.title}</label>
+								<div class="layui-input-inline">
+									<input type="text" name="{$vs.Field}" <?php if($vs['tip']){?>lay-verify="required"<?php }?> placeholder="{$vs.tip}" class="layui-input">
+								</div>
+							</div>
+						{/volist}
+
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit name="dosave">立即提交</button>
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+<script>
+    function checkspaces(checkstr) {
+        var str = '';
+        for(i = 0; i < checkstr.length; i++)
+        {
+            str = str + ' ';
+        }
+        return (str == checkstr);
+    }
+
+    function check_myforms(formlist){
+    <volist name=":get_js_myfields_list(I('request.typeid'))" id="vs">
+		{my$vs.js}
+    </volist>
+    }
+</script>
+
+</body>
+</html>

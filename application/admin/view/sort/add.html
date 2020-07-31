@@ -1,0 +1,293 @@
+{include file="Public/header" /}
+<link href="__ADMIN__/myeditor/themes/default/default.css" rel="stylesheet" type="text/css" />
+<script charset="utf-8" src="__ADMIN__/myeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ADMIN__/myeditor/lang/zh_CN.js"></script>
+
+<script>
+    KindEditor.ready(function(K) {
+        var editor = K.editor({
+            allowFileManager : true
+        });
+
+		{for start="1" end="config('database.BANNER_NUM')+1"}
+        K('#img{$i}_btn').click(function() {
+            editor.loadPlugin('image', function() {
+                editor.plugin.imageDialog({
+                    imageUrl : K('#img{$i}').val(),
+                    clickFn : function(url, title, width, height, border, align) {
+                        K('#img{$i}').val(url);
+                        editor.hideDialog();
+                    }
+                });
+            });
+        });
+		{/for}
+    });
+</script>
+
+
+
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+		<div class="layui-tab layui-tab-brief" lay-filter="tab">
+			<ul class="layui-tab-title">
+				<li><a href="{:url('Sort/Index')}">栏目列表</a></li>
+				<li class="layui-this"><a href="{:url('Sort/Add')}">栏目添加</a></li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<form action="" method="post" class="layui-form" onSubmit="return check_manager_add(this);">
+						<input type="hidden" name="id" value="{$v['id']}">
+						{if condition="$Think.session.admin_id eq 99999999"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">所属栏目</label>
+								<div class="layui-input-inline">
+									<select name="pid" lay-filter="model" lay-verify="required">
+										<option value="0">无(属一级栏目)</option>
+										{volist name="sort" id="s"}
+											<option value="{$s.id}" {if condition="$s['id'] eq $v['pid']"} selected{/if}>{:str_repeat("&nbsp;&nbsp;└",$s['count'])}{$s.catname}</option>
+										{/volist}
+									</select>
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">栏目模块</label>
+								<div class="layui-input-inline">
+									<select name="model_id" lay-filter="model" required lay-verify="required">
+										<option value="">请选择</option>
+										{volist name=":get_mytable_list('model')" id="s"}
+											<option value="{$s.id}|{:get_model_zd($s['id'],'model_c')}|{:get_model_zd($s['id'],'model_a')}" {if condition="$s['id'] eq $v['model_id']"} selected{/if}>{$s.model_name}</option>
+										{/volist}
+									</select>
+								</div>
+							</div>
+
+						{else/}
+							<input type="hidden" name="pid" value="{$v.pid}">
+							<input type="hidden" name="model_id" value="{:get_sort_zd($v['pid'],'model_id')}">
+							<div class="layui-form-item">
+								<label class="layui-form-label">所属栏目</label>
+								<div class="layui-input-inline">
+									{:get_sort_zd($v['pid'])}
+								</div>
+							</div>
+						{/if}
+
+
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">栏目名称</label>
+							<div class="layui-input-inline">
+								<input type="text" name="catname" value="{$v['catname']}" lay-verify="required" placeholder="请输入栏目名称" class="layui-input">
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">英文名称</label>
+							<div class="layui-input-inline">
+								<input type="text" name="encatname" value="{$v['encatname']}" placeholder="请输入英文名称" class="layui-input">
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">页面标题</label>
+							<div class="layui-input-inline">
+								<input type="text" name="seotitle" value="{$v['seotitle']}" placeholder="请输入页面标题" class="layui-input">
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">页面关键字</label>
+							<div class="layui-input-inline">
+								<textarea name="seokeywords"  style="width:520px;height:100px;" class="layui-textarea">{$v['seokeywords']}</textarea>
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">页面描述</label>
+							<div class="layui-input-inline">
+								<textarea name="seodescription"  style="width:520px;height:100px;" class="layui-textarea">{$v['seodescription']}</textarea>
+							</div>
+						</div>
+
+
+						{volist name="list2" id="v1"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">{$v1.varinfo}</label>
+								<div class="layui-input-inline">
+									<div class="layui-input-inline">
+										<input type="text" name="{$v1.varname}" id="{$v1.varname}" value="{$v1.varvalue}" class="layui-input">
+									</div>
+									<input type="button" id="{$v1.varname}_btn" value="选择图片" class="layui-btn"/>
+								</div>
+							</div>
+						{/volist}
+
+
+
+						{if condition="$Think.session.admin_id eq 99999999"}
+							<div class="layui-form-item">
+								<label class="layui-form-label">所属模板</label>
+								<div class="layui-input-inline">
+									<input type="text" name="templet" id="templet" value="{$v['templet']}" required lay-verify="required" placeholder="请输入所属模板" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">控制器</label>
+								<div class="layui-input-inline">
+									<input type="text" name="sort_c" id="sort_c" value="{$v['sort_c']}" required lay-verify="required" placeholder="请输入控制器" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">操作方法</label>
+								<div class="layui-input-inline">
+									<input type="text" name="sort_a" id="sort_a" value="{$v['sort_a']}" required lay-verify="required" placeholder="请输入操作方法" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">图片数量</label>
+								<div class="layui-input-inline">
+									<input type="text" name="imgnum" value="{$v['imgnum']}" placeholder="请输入图片数量" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">图片尺寸</label>
+								<div class="layui-input-inline">
+									<input type="text" name="imgsize" value="{$v['imgsize']}" placeholder="请输入图片尺寸 多个用,分割" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">图片名称</label>
+								<div class="layui-input-inline">
+									<input type="text" name="imgname" value="{$v['imgname']}" placeholder="请输入图片名称 多个用,分割" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">多图尺寸</label>
+								<div class="layui-input-inline">
+									<input type="text" name="titleimgsize" value="{$v['titleimgsize']}" placeholder="请输入多图上传尺寸" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">自定义参数</label>
+								<div class="layui-input-inline">
+									<input type="text" name="sort_url" id="sort_url" value="{$v['sort_url']}" placeholder="格式:参数/参数值/参数/参数值" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">外部跳链接</label>
+								<div class="layui-input-inline">
+									<input type="text" name="outlinkurl" value="{$v['outlinkurl']}" placeholder="请输入外部跳链接" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">前台文件名</label>
+								<div class="layui-input-inline">
+									<input type="text" name="inlinkurl" value="{$v['inlinkurl']}" placeholder="请输入前台文件名" class="layui-input">
+								</div>
+							</div>
+
+							<div class="layui-form-item">
+								<label class="layui-form-label">子栏目权限</label>
+								<div class="layui-input-block">
+									<input type="radio" name="isopen" value="1" title="开放"  {:get_my_checked($v['isopen'],1)}>
+									<input type="radio" name="isopen" value="0" title="关闭"  {:get_my_checked($v['isopen'],0)}>
+								</div>
+							</div>
+						{else/}
+							<input type="hidden" name="templet" value="{$v['templet']}">
+							<input type="hidden" name="sort_c" value="{$v['sort_c']}">
+							<input type="hidden" name="sort_a" value="{$v['sort_a']}">
+							<input type="hidden" name="imgnum" value="{$v['imgnum']}">
+							<input type="hidden" name="titleimgsize" value="{$v['titleimgsize']}">
+							<input type="hidden" name="imgsize" value="{$v['imgsize']}">
+							<input type="hidden" name="imgname" value="{$v['imgname']}">
+							<input type="hidden" name="sort_p" value="{$v['sort_p']}">
+							<input type="hidden" name="outlinkurl" value="{$v['outlinkurl']}">
+							<input type="hidden" name="inlinkurl" value="{$v['inlinkurl']}">
+							<input type="hidden" name="isopen" value="{:get_sort_zd($v['pid'],'isopen')}">
+						{/if}
+
+
+
+						{for start="1" end="config('database.BANNER_NUM')+1"}
+							<?php $zd="img$i";?>
+							<div class="layui-form-item">
+								<label class="layui-form-label">{:get_banner_imgname($i)}</label>
+								<div class="layui-input-inline">
+									<input type="text" name="img{$i}" id="img{$i}" value="{$v[$zd]}" placeholder="请上传配置图片"  class="layui-input">
+								</div>
+								<button type="button" id="img{$i}_btn" class="layui-btn" data-des="ico">
+									<i class="layui-icon">&#xe67c;</i>上传图片
+								</button>
+								<font color="red">图片大小:{:get_cfg_var("post_max_size")}内,图片尺寸：{:get_banner_imgsize($i)}px</font>
+							</div>
+						{/for}
+
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">栏目排序</label>
+							<div class="layui-input-inline" style="width: 120px;">
+								<input type="text" name="disorder" value="{$v['disorder']}" placeholder="请输入栏目排序" class="layui-input" style="width: 120px;">
+							</div>
+							数字越小越在前
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">状态</label>
+							<div class="layui-input-block">
+								<input type="radio" name="status" value="1" title="启用"  {:get_my_checked($v['status'],1)}>
+								<input type="radio" name="status" value="0" title="禁用"  {:get_my_checked($v['status'],0)}>
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit name="dosave">立即提交</button>
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+							</div>
+						</div>
+
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{include file="Public/footer" /}
+
+</div>
+<script>
+    layui.use('form', function(){
+        var form = layui.form;
+        form.on('select(model)', function(data){
+            var v=data.value;
+            strs=v.split("|");
+            var module_id=$("#module_id").find("option:selected").attr("title");
+            if(module_id>0){
+                $(".show").show();
+            }else{
+                $(".show").hide();
+            }
+            $("#templet").val(strs[1]);
+            $("#sort_c").val(strs[1]);
+            $("#sort_a").val(strs[2]);
+        });
+    });
+
+</script>
+</body>
+</html>
