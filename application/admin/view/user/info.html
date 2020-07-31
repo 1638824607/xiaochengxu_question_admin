@@ -9,7 +9,7 @@
 		<div class="layui-tab layui-tab-brief" lay-filter="tab">
 			<ul class="layui-tab-title">
 				<li><a href="{:url('index')}">客户管理</a></li>
-				<li class="layui-this"><a href="{:url('add_banner')}">客户详情</a></li>
+				<li class="layui-this"><a href="#">客户详情</a></li>
 			</ul>
 			<div class="layui-tab-content">
 				<div class="layui-tab-item layui-show">
@@ -17,44 +17,45 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">昵称</label>
 							<div class="layui-input-inline">
-								<input type="text" name="title" value="{$info['title']}" placeholder="请输入标题" class="layui-input">
+								<input type="text" name="nick" value="{$info['nick']}"  class="layui-input">
 							</div>
 						</div>
 
 						<div class="layui-form-item">
 							<label class="layui-form-label">手机</label>
 							<div class="layui-input-inline">
-								<input type="text" name="sort" value="{$info['sort']}" class="layui-input">
+								<input type="text" name="phone" value="{$info['phone']}" class="layui-input">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">关联微信号</label>
 							<div class="layui-input-inline">
-								<input type="text" name="sort" value="{$info['sort']}"  class="layui-input">
+								<input type="text" name="wechat" value="{$info['wechat']}"  class="layui-input">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">状态</label>
-							<div class="layui-input-inline">
-								<input type="text" name="sort" value="{$info['sort']}" class="layui-input">
+							<div class="layui-input-block">
+								<input type="radio" name="status" value="2" title="启用"  {:get_my_checked($info['status'],2)}>
+								<input type="radio" name="status" value="1" title="禁用"  {:get_my_checked($info['status'],1)}>
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">发表文章</label>
 							<div class="layui-input-inline">
-								<input type="text" name="sort" value="{$info['sort']}"  class="layui-input">
+								<input type="text" name="publish_article_num" value="{$info['publish_article_num']}"  class="layui-input">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">已做训练</label>
 							<div class="layui-input-inline">
-								<input type="text" name="sort" value="{$info['sort']}"  class="layui-input">
+								<input type="text" name="do_question_num" value="{$info['do_question_num']}"  class="layui-input">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">游戏正确率</label>
 							<div class="layui-input-inline">
-								<input type="text" name="sort" value="{$info['sort']}"  class="layui-input">
+								<input type="text" name="game_accuracy" value="{$info['game_accuracy']}"  class="layui-input">
 							</div>
 						</div>
 
@@ -62,8 +63,8 @@
 
 						<div class="layui-form-item">
 							<div class="layui-input-block">
-								<button class="layui-btn" lay-submit>立即提交</button>
-								<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+								<button type="reset" class="layui-btn layui-btn-primary">返回</button>
+								<button class="layui-btn" lay-submit>保存</button>
 							</div>
 						</div>
 					</form>
@@ -106,6 +107,17 @@
 				});
 			});
 		});
+
+		$(function () {
+			layui.use('form', function(){
+				var form = layui.form;
+				//监听提交
+				form.on('submit(login)', function(data){
+					console.log(data);
+					return false;
+				});
+			});
+		})
 	</script>
 
 	{include file="Public/footer" /}

@@ -29,15 +29,37 @@ class User extends Purview {
 	
 	//详情
     public function info(){
-        $db=Db::name('users');
-        $id=input('id',0);
-        if($id)
+        if($this->request->isPost())
         {
-            $userRow = $db->find($id);
-            return $this->fetch();
+            $db=Db::name('users');
+            // 更新
+            $id = input('id');
+            $updateData = [
+                'nick'=>input('nick'),
+                'phone' => input('phone'),
+                'wechat' => input('wechat'),
+                'status' => input('status'),
+                'publish_article_num' => input('publish_article_num'),
+                'do_question_num' => input('do_question_num'),
+                'game_accuracy' => input('game_accuracy'),
+            ];
+            $res = $db->where('id',$id)->update($updateData);
+            $this->success('操作成功',url('index'));
+
         }else{
-            $this->error('请选择用户!');
+            // 展示
+            $db=Db::name('users');
+            $id=input('id',0);
+            if($id)
+            {
+                $userRow = $db->find($id);
+                $this->assign('info',$userRow);
+                return $this->fetch();
+            }else{
+                $this->error('请选择用户!');
+            }
         }
+
     }
 	
 	//删除
