@@ -27,7 +27,7 @@ class Knowledgereadcate extends Purview
         });
         $this->assign('list',$list);
 
-        
+
         return $this->fetch();
     }
 
