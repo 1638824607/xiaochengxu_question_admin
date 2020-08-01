@@ -7,9 +7,9 @@ use think\Session;
 use think\Cookie;
 use think\Cache;
 
-class Comment extends Purview {
+class Post extends Purview {
 
-    private $table = 'community_post_comment';
+    private $table = 'community_post';
 
     public function __construct()
     {
@@ -19,13 +19,16 @@ class Comment extends Purview {
 
     //首页
     public function Index(){
-        $data = Db::name('community_post_comment')
-            ->alias('c')
-            ->join('tp_users u','c.user_id = u.id','left')
-            ->join('tp_community_post p','c.post_id = p.id','left')
-            ->field('c.id,c.content,c.created_at,user_name,nick,title')
-            ->order('c.created_at','desc')
-            ->paginate(10);
+        $data = Db::name('community_post')
+            ->alias('p')
+            ->join('tp_users u','p.user_id = u.id','left')
+            ->field('p.id,p.title,p.content,u.nick,p.created_at')
+            ->order('p.created_at','desc')
+            ->paginate(10)
+            ->each(function($item,$key){
+               $item['content'] = mb_substr($item['content'],0,20) . '...';
+               return $item;
+            });
         $this->assign('list',$data);
         return $this->fetch();
     }
