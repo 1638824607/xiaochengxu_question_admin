@@ -28,14 +28,29 @@ class Datacenter extends Purview {
 
 	// 获取统计数据
 	public function getStatData(){
+        $nowDate = date('y-m-d');
         Config::set('default_return_type', 'json');
         $totalUserNum =  $this->dUsers->count();
+        $sql = sprintf(" select count(1) as total from (select distinct user_id from (select  user_id from tp_knowledge_health_record where created_at >= %s group by user_id union all  select user_id from tp_knowledge_match_record where created_at >= 2020-08-01 group by user_id ) as tmp )as t ",$nowDate);
+        $todayAnswerNum = DB::query($sql)[0]['total'];
+
         $returnData = [
-            'totalUserNum'=>$totalUserNum,
-            'activeUsersNum'=>998,
-            'todayAnswerNum'=>22,//今日答题用户数
+            'totalUserNum'=>$totalUserNum,//用户总数
+            'activeUsersNum'=>0,//活跃用户数
+            'todayAnswerNum'=>$todayAnswerNum,//今日答题用户数
         ];
 
         return $returnData;
 	}
+
+	// 获取每日用户统计
+    public function getStatUserPage()
+    {
+        Config::set('default_return_type', 'json');
+        return [
+            'items'=>['usrname'=>'aa'],
+            'total'=>10
+        ];
+    }
+
 }

@@ -1,6 +1,10 @@
 {include file="Public/header" /}
 <script charset="utf-8" src="__ADMIN__/js/vue2.js"></script>
 <script charset="utf-8" src="__ADMIN__/js/axios.js"></script>
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <style>
 	.data-title{
 		font-size:28px;
@@ -45,7 +49,7 @@
 
 				<div class="layui-row">
 					<div class="layui-col-md9">
-						<form action="" method="post" class="layui-form" lay-filter="content" id="edit">
+						<form action="" method="post" class="layui-form" lay-filter="content">
 							<div class="layui-form-item">
 								<label class="layui-form-label" style="margin-top:6px;width:30px;">时间</label>
 								<div class="layui-input-block" style="margin-left:80px;">
@@ -65,22 +69,21 @@
 
 				<!--列表 用户统计-->
 				<div class="layui-tab-item layui-show">
-					<form action="" method="get" class="layui-form">
+						<form action="" method="get" class="layui-form">
 						<input type="hidden" name="pid" value="">
 						<input type="hidden" name="ty" value="">
 						<input type="hidden" name="tty" value="">
 						<input type="hidden" name="ttty" value="">
 					</form>
-
-					<table class="layui-table">
-						<thead>
+						<table class="layui-table">
+					<thead>
 						<tr>
 							<th>时间</th>
 							<th>新增用户</th>
 							<th>活跃用户</th>
 							<th>答题用户</th>
 						</tr>
-						</thead>
+					</thead>
 						<tbody>
 						<tr>
 							<td>2020-08-01</td>
@@ -92,7 +95,7 @@
 					</table>
 					<div class="page">
 						<ul class="pagination"><a>«</a> <a class="pagenow">1</a><a href="/admin/user/index/pid/17/ty/18?page=2">2</a><a href="/admin/user/index/pid/17/ty/18?page=3">3</a> <a href="/admin/user/index/pid/17/ty/18?page=2">»</a></ul>				</div>
-				</div>
+					</div>
 				<!--列表 用户统计 END-->
 
 				<!--列表 游戏点击量-->
@@ -126,7 +129,6 @@
 						<ul class="pagination"><a>«</a> <a class="pagenow">1</a><a href="/admin/user/index/pid/17/ty/18?page=2">2</a><a href="/admin/user/index/pid/17/ty/18?page=3">3</a> <a href="/admin/user/index/pid/17/ty/18?page=2">»</a></ul>				</div>
 				</div>
 				<!--列表 游戏点击量 END-->
-
 			</div>
 		</div>
 	</div>
@@ -163,7 +165,7 @@
 
 
 	var vue = new Vue({
-		el:"#app",
+		el:"#app1",
 		data:{
 			stat:{
 				totalUserNum:0,
@@ -173,6 +175,9 @@
 		},
 		created(){
 			this.initStatData();
+		},
+		updated(){
+			this.initLayer();
 		},
 		methods:{
 			initStatData(){
@@ -193,6 +198,11 @@
 					that.stat.activeUsersNum= res.activeUsersNum
 					that.stat.todayAnswerNum = res.todayAnswerNum
 
+				})
+			},
+			initLayer(){
+				layui.use(['form'], function(){
+					layui.form.render();
 				})
 			}
 		}
