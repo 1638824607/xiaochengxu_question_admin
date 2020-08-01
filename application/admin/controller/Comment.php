@@ -9,7 +9,7 @@ use think\Cache;
 
 class Comment extends Purview {
 
-    private $table = 'comment';
+    private $table = 'community_post_comment';
 
     public function __construct()
     {
