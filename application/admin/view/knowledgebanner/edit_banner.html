@@ -8,8 +8,8 @@
 	<div class="layui-body">
 		<div class="layui-tab layui-tab-brief" lay-filter="tab">
 			<ul class="layui-tab-title">
-				<li><a href="{:url('index')}">首页轮播</a></li>
-				<li class="layui-this"><a href="{:url('edit_banner')}">轮播添加</a></li>
+				<li><a href="{:url('index')}">知识科普轮播</a></li>
+				<li class="layui-this"><a href="{:url('edit_banner')}">知识科普轮播添加</a></li>
 			</ul>
 			<div class="layui-tab-content">
 				<div class="layui-tab-item layui-show">
@@ -17,7 +17,7 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">上传图片</label>
 							<div class="layui-input-inline">
-								<input type="text" name="image" id="image" value="{$info['image']}" placeholder="请上传配置图片"  class="layui-input">
+								<input type="text" name="image" id="img" value="{$info['image']}" placeholder="请上传配置图片"  class="layui-input">
 							</div>
 							<button type="button" id="img_btn" class="layui-btn" data-des="ico">
 								<i class="layui-icon">&#xe67c;</i>上传图片
@@ -76,9 +76,9 @@
 			K('#img_btn').click(function() {
 				editor.loadPlugin('image', function() {
 					editor.plugin.imageDialog({
-						imageUrl : K('#image').val(),
+						imageUrl : K('#img').val(),
 						clickFn : function(url, title, width, height, border, align) {
-							K('#image').val(url);
+							K('#img').val(url);
 							editor.hideDialog();
 						}
 					});

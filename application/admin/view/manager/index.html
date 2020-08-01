@@ -18,6 +18,9 @@
 						<th>所属角色</th>
 						<th>姓名</th>
 						<th>用户名</th>
+						<th>登录次数</th>
+						<th>添加题目数</th>
+						<th>发布文章数</th>
 						<th>状态</th>
 						<th>操作</th>
 					</tr>
@@ -29,6 +32,9 @@
 							<td>{:get_zd_name('role_name','role','id='.$v['role_id'].'')}</td>
 							<td>{$v['realname']}</td>
 							<td>{$v['username']}</td>
+							<td>{$v['login_num']}</td>
+							<td>功能没做</td>
+							<td>{$v['articel_num']}</td>
 							<td>
 								<?php if($v['id']>1){?>
 									<?php if($v['status']==1){?>
