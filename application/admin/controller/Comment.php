@@ -21,8 +21,8 @@ class Comment extends Purview {
     public function Index(){
         $data = Db::name('community_post_comment')
             ->alias('c')
-            ->join('tp_users u','c.user_id = u.id')
-            ->join('tp_community_post p','c.post_id = p.id')
+            ->join('tp_users u','c.user_id = u.id','left')
+            ->join('tp_community_post p','c.post_id = p.id','left')
             ->field('c.id,c.content,c.created_at,user_name,nick,title')
             ->order('c.created_at','desc')
             ->paginate(10);
