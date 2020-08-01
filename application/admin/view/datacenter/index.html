@@ -1,4 +1,6 @@
 {include file="Public/header" /}
+<script charset="utf-8" src="__ADMIN__/js/vue2.js"></script>
+<script charset="utf-8" src="__ADMIN__/js/axios.js"></script>
 <style>
 	.data-title{
 		font-size:28px;
@@ -16,7 +18,7 @@
 		margin-top:26px;
 	}
 </style>
-<div class="layui-layout layui-layout-admin">
+<div class="layui-layout layui-layout-admin" id="app">
 	{include file="Public/left" /}
 
 	<div class="layui-body">
@@ -28,16 +30,16 @@
 			<div class="layui-tab-item layui-show">
 				<div class="layui-row layui-col-space10">
 					<div class="layui-col-md4" style="background-color:#3FAAD4;height:150px;">
-						<div class="data-title">新增用户数</div>
-						<div class="data-value">999</div>
+						<div class="data-title">总用户数</div>
+						<div class="data-value" v-html="stat.totalUserNum"></div>
 					</div>
 					<div class="layui-col-md4" style="background-color:#FC478D;height:150px;">
 						<div class="data-title">活跃用户数</div>
-						<div class="data-value">999</div>
+						<div class="data-value" v-html="stat.activeUsersNum"></div>
 					</div>
 					<div class="layui-col-md4" style="background-color:#9F55C8;height:150px;">
 						<div class="data-title">今日答题用户数</div>
-						<div class="data-value">999</div>
+						<div class="data-value" v-html="stat.todayAnswerNum"></div>
 					</div>
 				</div>
 
@@ -135,6 +137,11 @@
 </div>
 <script>
 
+	const headers = new  Headers({
+		'Access-Control-Allow-Origin':'*',
+		"Content-Type":'text/plain'
+	})
+
 	layui.use('laydate', function(){
 		var laydate = layui.laydate;
 
@@ -153,6 +160,45 @@
 
 		});
 	});
+
+
+	var vue = new Vue({
+		el:"#app",
+		data:{
+			stat:{
+				totalUserNum:0,
+				activeUsersNum:0,
+				todayAnswerNum:0,//今日答题用户数
+			}
+		},
+		created(){
+			this.initStatData();
+		},
+		methods:{
+			initStatData(){
+				that = this
+				fetch("/admin/datacenter/getStatData",{
+					method: "GET",
+					headers: headers,
+					mode: "no-cors",
+
+				})
+				.then(function(res){
+					console.log(res)
+					return res.json()
+				})
+				.then(function(res){
+					console.log(res)
+					that.stat.totalUserNum = res.totalUserNum
+					that.stat.activeUsersNum= res.activeUsersNum
+					that.stat.todayAnswerNum = res.todayAnswerNum
+
+				})
+			}
+		}
+
+	})
+
 </script>
 </body>
 </html>

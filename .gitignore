@@ -4,9 +4,7 @@ composer.lock
 
 /runtime/log/
 /runtime/temp/
-<<<<<<< HEAD
 runtime/cache/
-runtime/*
-=======
+/runtime/*
 /runtime/cache
->>>>>>> 872f89f3a0039616d7cfd756221d55c42cc55827
+
