@@ -8,41 +8,50 @@
 	<div class="layui-body">
 		<div class="layui-tab layui-tab-brief" lay-filter="tab">
 			<ul class="layui-tab-title">
-				<li class="layui-this"><a href="{:url('index')}">知识阅读类型</a></li>
-				<li><a href="{:url('add_knowledge_read_cate')}">知识阅读类型添加</a></li>
+				<li class="layui-this"><a href="{:url('index')}">服务优势</a></li>
+				<li><a href="{:url('add_service_advantages')}">服务优势添加</a></li>
 			</ul>
 			<div class="layui-tab-content">
 				<div class="layui-tab-item layui-show">
 					<form action="" method="post" class="layui-form" lay-filter="content" id="edit">
-						<!--<div class="layui-form-item">-->
-							<!--<label class="layui-form-label">上传图片</label>-->
-							<!--<div class="layui-input-inline">-->
-								<!--<input type="text" name="image" id="image" value="{$info['image']}" placeholder="请上传配置图片"  class="layui-input">-->
-							<!--</div>-->
-							<!--<button type="button" id="img_btn" class="layui-btn" data-des="ico">-->
-								<!--<i class="layui-icon">&#xe67c;</i>上传图片-->
-							<!--</button>-->
-						<!--</div>-->
+						<div class="layui-form-item">
+							<label class="layui-form-label">上传首页图片</label>
+							<div class="layui-input-inline">
+								<input type="text" name="image" id="img" value="" placeholder="请上传配置图片"  class="layui-input">
+							</div>
+							<button type="button" id="img_btn" class="layui-btn" data-des="ico">
+								<i class="layui-icon">&#xe67c;</i>上传图片
+							</button>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">上传内页图片</label>
+							<div class="layui-input-inline">
+								<input type="text" name="image1" id="img1" value="" placeholder="请上传配置图片"  class="layui-input">
+							</div>
+							<button type="button" id="img_btn1" class="layui-btn" data-des="ico">
+								<i class="layui-icon">&#xe67c;</i>上传图片
+							</button>
+						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">标题</label>
 							<div class="layui-input-inline">
-								<input type="text" name="title" value="{$info['title']}" placeholder="请输入标题" class="layui-input">
+								<input type="text" name="title" value="" placeholder="请输入标题" class="layui-input">
 							</div>
 						</div>
-						<!--<div class="layui-form-item">-->
-							<!--<label class="layui-form-label">小标题</label>-->
-							<!--<div class="layui-input-inline">-->
-								<!--<input type="text" name="desc" value="{$info['desc']}" placeholder="请输入小标题" class="layui-input">-->
-							<!--</div>-->
-						<!--</div>-->
+						<div class="layui-form-item">
+							<label class="layui-form-label">小标题</label>
+							<div class="layui-input-inline">
+								<input type="text" name="desc" value="" placeholder="请输入小标题" class="layui-input">
+							</div>
+						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">排序</label>
 							<div class="layui-input-inline">
-								<input type="text" name="sort" value="{$info['sort']}" placeholder="请输入排序" class="layui-input">
+								<input type="text" name="sort" value="" placeholder="请输入排序" class="layui-input">
 							</div>
 						</div>
 
-						<input type="hidden" name="id" value="{$info['id']}">
+						<!--<input type="hidden" name="id" value="{$info['id']}">-->
 
 						<div class="layui-form-item">
 							<div class="layui-input-block">
@@ -84,6 +93,17 @@
 						imageUrl : K('#img').val(),
 						clickFn : function(url, title, width, height, border, align) {
 							K('#img').val(url);
+							editor.hideDialog();
+						}
+					});
+				});
+			});
+			K('#img_btn1').click(function() {
+				editor.loadPlugin('image', function() {
+					editor.plugin.imageDialog({
+						imageUrl : K('#img1').val(),
+						clickFn : function(url, title, width, height, border, align) {
+							K('#img1').val(url);
 							editor.hideDialog();
 						}
 					});

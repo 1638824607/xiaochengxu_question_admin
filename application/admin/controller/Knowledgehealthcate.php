@@ -16,22 +16,21 @@ namespace app\admin\controller;
 use app\admin\common\Purview;
 use think\Db;
 
-class Knowledgereadcate extends Purview
+class Knowledgehealthcate extends Purview
 {
 
     public function index()
     {
         $where= [];
-        $list = Db::name('knowledge_read_cate')->where($where)->order('sort desc,id desc')->paginate(20)->each(function($v, $key){
+        $list = Db::name('knowledge_health_cate')->where($where)->order('sort desc,id desc')->paginate(20)->each(function($v, $key){
             return $v;
         });
         $this->assign('list',$list);
 
-        
         return $this->fetch();
     }
 
-    public function add_knowledge_read_cate()
+    public function add_knowledge_health_cate()
     {
         if($this->request->isPost()){
 
@@ -42,9 +41,9 @@ class Knowledgereadcate extends Purview
             $data['title'] = $this->request->param('title');
 
             $data['sort'] = $this->request->param('sort',0);
-            $res = Db::name('knowledge_read_cate')->insert($data);
+            $res = Db::name('knowledge_health_cate')->insert($data);
             if($res){
-                $this->success('操作成功',url('index'));
+                $this->success('操作成功',url('index',['pid'=>19,'ty'=>34]));
             }else{
                 $this->error('操作失败,请重试');
             }
@@ -54,7 +53,7 @@ class Knowledgereadcate extends Purview
         }
     }
 
-    public function edit_knowledge_read_cate()
+    public function edit_knowledge_health_cate()
     {
         if($this->request->isPost()){
             if(empty($this->request->param('title'))){
@@ -63,9 +62,9 @@ class Knowledgereadcate extends Purview
             $data['title'] = $this->request->param('title');
             $data['sort'] = $this->request->param('sort',0);
 
-            $res = Db::name('knowledge_read_cate')->where(array('id'=>$this->request->param('id')))->update($data);
+            $res = Db::name('knowledge_health_cate')->where(array('id'=>$this->request->param('id')))->update($data);
             if($res){
-                $this->success('操作成功',url('index'));
+                $this->success('操作成功',url('index',['pid'=>19,'ty'=>34]));
             }else{
                 $this->error('操作失败,请重试');
             }
@@ -74,20 +73,20 @@ class Knowledgereadcate extends Purview
             if(empty($this->request->param('id'))){
                 $this->error('信息不存在');
             }
-            $info = Db::name('knowledge_read_cate')->where(array('id'=>$this->request->param('id')))->find();
+            $info = Db::name('knowledge_health_cate')->where(array('id'=>$this->request->param('id')))->find();
             $this->assign('info',$info);
             return $this->fetch();
         }
     }
 
-    public function del_knowledge_read_cate()
+    public function del_knowledge_health_cate()
     {
         if(empty($this->request->param('id'))){
             $this->error('信息不存在');
         }
-        $res = Db::name('knowledge_read_cate')->where(array('id'=>$this->request->param('id')))->delete();
+        $res = Db::name('knowledge_health_cate')->where(array('id'=>$this->request->param('id')))->delete();
         if($res){
-            $this->success('操作成功',url('index'));
+            $this->success('操作成功',url('index',['pid'=>19,'ty'=>34]));
         }else{
             $this->error('操作失败,请重试');
         }

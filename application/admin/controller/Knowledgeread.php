@@ -16,33 +16,38 @@ namespace app\admin\controller;
 use app\admin\common\Purview;
 use think\Db;
 
-class Knowledgereadcate extends Purview
+class Knowledgeread extends Purview
 {
 
     public function index()
     {
         $where= [];
-        $list = Db::name('knowledge_read_cate')->where($where)->order('sort desc,id desc')->paginate(20)->each(function($v, $key){
+        $list = Db::name('knowledge_read')->where($where)->order('sort desc,id desc')->paginate(20)->each(function($v, $key){
+            if($v['image']){
+                $v['image'] = str_replace('Uploads','uploads',$v['image']);
+            }
+
             return $v;
         });
         $this->assign('list',$list);
 
-        
         return $this->fetch();
     }
 
-    public function add_knowledge_read_cate()
+    public function add_knowledge()
     {
         if($this->request->isPost()){
 
-            if(empty($this->request->param('title'))){
-                $this->error('标题必须传');
+            if(empty($this->request->param('image'))){
+                $this->error('图片必须传');
             }
 
-            $data['title'] = $this->request->param('title');
+            $data['image'] = $this->request->param('image');
 
+            $data['title'] = $this->request->param('title');
+            $data['desc'] = $this->request->param('desc');
             $data['sort'] = $this->request->param('sort',0);
-            $res = Db::name('knowledge_read_cate')->insert($data);
+            $res = Db::name('knowledge')->insert($data);
             if($res){
                 $this->success('操作成功',url('index'));
             }else{
@@ -54,16 +59,21 @@ class Knowledgereadcate extends Purview
         }
     }
 
-    public function edit_knowledge_read_cate()
+    public function edit_knowledge()
     {
         if($this->request->isPost()){
-            if(empty($this->request->param('title'))){
-                $this->error('标题必须传');
+
+            if(empty($this->request->param('image'))){
+                $this->error('图片必须传');
             }
+
+            $data['image'] = $this->request->param('image');
+
             $data['title'] = $this->request->param('title');
+            $data['desc'] = $this->request->param('desc');
             $data['sort'] = $this->request->param('sort',0);
 
-            $res = Db::name('knowledge_read_cate')->where(array('id'=>$this->request->param('id')))->update($data);
+            $res = Db::name('knowledge')->where(array('id'=>$this->request->param('id')))->update($data);
             if($res){
                 $this->success('操作成功',url('index'));
             }else{
@@ -74,18 +84,18 @@ class Knowledgereadcate extends Purview
             if(empty($this->request->param('id'))){
                 $this->error('信息不存在');
             }
-            $info = Db::name('knowledge_read_cate')->where(array('id'=>$this->request->param('id')))->find();
+            $info = Db::name('knowledge')->where(array('id'=>$this->request->param('id')))->find();
             $this->assign('info',$info);
             return $this->fetch();
         }
     }
 
-    public function del_knowledge_read_cate()
+    public function del_knowledge()
     {
         if(empty($this->request->param('id'))){
             $this->error('信息不存在');
         }
-        $res = Db::name('knowledge_read_cate')->where(array('id'=>$this->request->param('id')))->delete();
+        $res = Db::name('knowledge')->where(array('id'=>$this->request->param('id')))->delete();
         if($res){
             $this->success('操作成功',url('index'));
         }else{
