@@ -1,0 +1,158 @@
+{include file="Public/header" /}
+<style>
+	.data-title{
+		font-size:28px;
+		text-align: center;
+		margin-top: 26px;
+		color:#fff;
+	}
+	.data-value{
+		font-size:24px;
+		text-align: center;
+		margin-top: 18px;
+		color:#fff;
+	}
+	.layui-row{
+		margin-top:26px;
+	}
+</style>
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('index')}">数据管理</a></li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<div class="layui-row layui-col-space10">
+					<div class="layui-col-md4" style="background-color:#3FAAD4;height:150px;">
+						<div class="data-title">新增用户数</div>
+						<div class="data-value">999</div>
+					</div>
+					<div class="layui-col-md4" style="background-color:#FC478D;height:150px;">
+						<div class="data-title">活跃用户数</div>
+						<div class="data-value">999</div>
+					</div>
+					<div class="layui-col-md4" style="background-color:#9F55C8;height:150px;">
+						<div class="data-title">今日答题用户数</div>
+						<div class="data-value">999</div>
+					</div>
+				</div>
+
+				<div class="layui-row">
+					<div class="layui-col-md9">
+						<form action="" method="post" class="layui-form" lay-filter="content" id="edit">
+							<div class="layui-form-item">
+								<label class="layui-form-label" style="margin-top:6px;width:30px;">时间</label>
+								<div class="layui-input-block" style="margin-left:80px;">
+									<input type="radio" name="day" value="7" title="7天">
+									<input type="radio" name="day" value="14" title="14天">
+									<input type="radio" name="day" value="30" title="30天">
+									<div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+										<input type="text" class="layui-input" id="test1">
+									</div>
+									<button type="button" class="layui-btn" style="margin-top:-8px;">导出</button>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
+
+				<!--列表 用户统计-->
+				<div class="layui-tab-item layui-show">
+					<form action="" method="get" class="layui-form">
+						<input type="hidden" name="pid" value="">
+						<input type="hidden" name="ty" value="">
+						<input type="hidden" name="tty" value="">
+						<input type="hidden" name="ttty" value="">
+					</form>
+
+					<table class="layui-table">
+						<thead>
+						<tr>
+							<th>时间</th>
+							<th>新增用户</th>
+							<th>活跃用户</th>
+							<th>答题用户</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>2020-08-01</td>
+							<td>200</td>
+							<td>100</td>
+							<td>20</td>
+						</tr>
+						</tbody>
+					</table>
+					<div class="page">
+						<ul class="pagination"><a>«</a> <a class="pagenow">1</a><a href="/admin/user/index/pid/17/ty/18?page=2">2</a><a href="/admin/user/index/pid/17/ty/18?page=3">3</a> <a href="/admin/user/index/pid/17/ty/18?page=2">»</a></ul>				</div>
+				</div>
+				<!--列表 用户统计 END-->
+
+				<!--列表 游戏点击量-->
+				<div class="layui-tab-item layui-show">
+					<form action="" method="get" class="layui-form">
+						<input type="hidden" name="pid" value="">
+						<input type="hidden" name="ty" value="">
+						<input type="hidden" name="tty" value="">
+						<input type="hidden" name="ttty" value="">
+					</form>
+
+					<table class="layui-table">
+						<thead>
+						<tr>
+							<th>时间</th>
+							<th>游戏点击量最多</th>
+							<th>当日点击最多</th>
+							<th>用户分享最多</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<td>2020-08-01</td>
+							<td>（游戏）判断力训练</td>
+							<td>（测评）疫情心理健康自评量表</td>
+							<td>（游戏）判断力训练</td>
+						</tr>
+						</tbody>
+					</table>
+					<div class="page">
+						<ul class="pagination"><a>«</a> <a class="pagenow">1</a><a href="/admin/user/index/pid/17/ty/18?page=2">2</a><a href="/admin/user/index/pid/17/ty/18?page=3">3</a> <a href="/admin/user/index/pid/17/ty/18?page=2">»</a></ul>				</div>
+				</div>
+				<!--列表 游戏点击量 END-->
+
+			</div>
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+<script>
+
+	layui.use('laydate', function(){
+		var laydate = layui.laydate;
+
+		//执行一个laydate实例
+		laydate.render({
+			elem: '#test1',
+			type: 'date',
+			trigger: 'click',
+			range: '-',
+			format: 'yyyy-MM-dd',
+			done: function (value, date, endDate) {
+				// page.beginDate = value.substr(0, 10)
+				// page.endDate = value.substr(14, 24)
+				// console.log(page.beginDate, page.endDate)
+			}
+
+		});
+	});
+</script>
+</body>
+</html>
