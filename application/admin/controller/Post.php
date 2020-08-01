@@ -7,9 +7,9 @@ use think\Session;
 use think\Cookie;
 use think\Cache;
 
-class Comment extends Purview {
+class Post extends Purview {
 
-    private $table = 'community_post_comment';
+    private $table = 'community_post';
 
     public function __construct()
     {
