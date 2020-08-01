@@ -9,7 +9,7 @@ use think\Cache;
 
 class Appointment extends Purview {
 
-    private $table = 'appointment';
+    private $table = 'community_advisory_order';
 
     public function __construct()
     {
