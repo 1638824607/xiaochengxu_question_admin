@@ -33,10 +33,12 @@ class Datacenter extends Purview {
         $totalUserNum =  $this->dUsers->count();
         $sql = sprintf(" select count(1) as total from (select distinct user_id from (select  user_id from tp_knowledge_health_record where created_at >= %s group by user_id union all  select user_id from tp_knowledge_match_record where created_at >= 2020-08-01 group by user_id ) as tmp )as t ",$nowDate);
         $todayAnswerNum = DB::query($sql)[0]['total'];
+        $sql = sprintf("select count(1) as total  from ( select 1 from tp_login_log where login_time > '%s' GROUP BY user_id )as tmp",date('Y-m-d',strtotime('-4day',strtotime($nowDate))));
+        $activeUsersNum = DB::query($sql)[0]['total'];
 
         $returnData = [
             'totalUserNum'=>$totalUserNum,//用户总数
-            'activeUsersNum'=>0,//活跃用户数
+            'activeUsersNum'=>$activeUsersNum,//活跃用户数
             'todayAnswerNum'=>$todayAnswerNum,//今日答题用户数
         ];
 
@@ -46,7 +48,7 @@ class Datacenter extends Purview {
 	// 获取每日用户统计
     public function getStatUserPage()
     {
-        Config::set('default_return_type', 'json');
+
         $page = input('page',1);
         $size = input('size',10);
         $data = [];
@@ -97,8 +99,30 @@ class Datacenter extends Purview {
             }
             DB::name('stat_users_day')->insertAll($data,true);
         }
-
-        return DB::name('stat_users_day')->paginate($size,false,['page'=>$page])->toArray();
+        if(input('is_download'))
+        {
+            $fileName = '用户统计_'. date('YmdHi') . '.csv';
+            header('Content-type: application/octet-stream; charset=utf-8');
+            header('Content-Disposition: attachment; filename=' .$fileName);
+            $list =  DB::name('stat_users_day')
+                ->field('day,new_users_num,active_users_num,answer_users_num')
+                ->where('day','>=',$start_time)
+                ->where('day','<=',$end_time)
+                ->order('day','asc')->select();
+            $header = ['时间', '新增用户', '活跃用户', '答题用户'];
+            $result = '';
+            $result .= '"'.implode('","', $header).'"' . PHP_EOL;
+            echo $result;
+            foreach($list as $key=>$item)
+            {
+                $content = '"'.implode('","', $item).'"' . PHP_EOL;
+                echo $content;
+            }
+            exit;
+        }else{
+            Config::set('default_return_type', 'json');
+            return DB::name('stat_users_day')->paginate($size,false,['page'=>$page])->toArray();
+        }
 
     }
 
