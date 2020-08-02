@@ -49,6 +49,55 @@ class Datacenter extends Purview {
         Config::set('default_return_type', 'json');
         $page = input('page',1);
         $size = input('size',10);
+        $data = [];
+        $start_time = input('start_time','2020-07-01');
+        $end_time = input('end_time',date('Y-m-d'));
+        $curr_date = date('Y-m-d H:i:s');
+        $now_time = date('Ymd');
+        $find = DB::name('stat_users_day')->order('day','desc')->find();
+        if($find['day'] != $now_time)
+        {
+            // 新增用户
+            $sql = "select count(1) as total , DATE_FORMAT(created_at,'%Y%m%d') as day  from tp_users group by DATE_FORMAT(created_at,'%Y%m%d') ";
+            $user_data = DB::name('users')->query($sql);
+            $user_data = array_column($user_data,null,'day');
+            if(!$find)
+            {
+                $find['day'] = '2020-07-01';
+            }
+            $format_date = date('Y-m-d',strtotime('+1day',strtotime($find['day'])));
+            $date = implode('',explode('-',$format_date));
+            $index = 1;
+
+            // 活跃用户
+            $sql = "select count(1) as total , DATE_FORMAT(login_time,'%Y%m%d') as day  from tp_login_log group by DATE_FORMAT(login_time,'%Y%m%d') ";
+            $login_log = DB::query($sql);
+            $login_log = array_column($login_log,null,'day');
+            while($date <= $now_time)
+            {
+                if($index > 50)
+                {
+                    exit('err');
+                }
+                // 答题用户
+                $sql = sprintf(" select count(1) as total from (select distinct user_id from (select  user_id from tp_knowledge_health_record   where created_at >= '%s'  AND created_at <= '%s' group by user_id union all  select user_id from tp_knowledge_match_record where created_at >= '%s'  AND created_at <= '%s' group by user_id ) as tmp )as t ",$format_date,$format_date .' 23:59:59',$format_date,$format_date. ' 23:59:59');
+                $answer_num = DB::query($sql)[0]['total'];
+                $row = [
+                    'day'=>$format_date,
+                    'new_users_num'=>isset($user_data[$date]) ? $user_data[$date]['total'] : 0,
+                    'active_users_num'=>isset($login_log[$date]) ? $login_log[$date]['total'] : 0,
+                    'answer_users_num'=>$answer_num,
+                    'created_at'=>$curr_date
+                ];
+                array_unshift($data,$row);
+                $date = date('Ymd',strtotime('+1day',strtotime($format_date)));
+                $format_date = date('Y-m-d',strtotime('+1day',strtotime($format_date)));
+                $index++;
+
+            }
+            DB::name('stat_users_day')->insertAll($data,true);
+        }
+
         return DB::name('stat_users_day')->paginate($size,false,['page'=>$page])->toArray();
 
     }
