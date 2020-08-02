@@ -6,8 +6,8 @@
 	<div class="layui-body">
 	<div class="layui-tab layui-tab-brief" lay-filter="tab">
 		<ul class="layui-tab-title">
-			<li class="layui-this"><a href="{:url('index')}">知识阅读列表</a></li>
-			<li><a href="{:url('add_knowledge')}">知识阅读添加</a></li>
+			<li class="layui-this"><a href="{:url('index',['pid'=>19,'ty'=>21])}">知识阅读列表</a></li>
+			<li><a href="{:url('add_knowledge_read',['pid'=>19,'ty'=>21])}">知识阅读添加</a></li>
 		</ul>
 		<div class="layui-tab-content">
 			<div class="layui-tab-item layui-show">
@@ -47,8 +47,8 @@
 							<td>{$v['title']}</td>
 							<td>{$v['desc']}</td>
 							<td>
-								<a href="{:url('edit_knowledge', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>修改</a>
-								<a href="{:url('del_knowledge', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+								<a href="{:url('edit_knowledge_read', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>修改</a>
+								<a href="{:url('del_knowledge_read', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
 							</td>
 						</tr>
 					{/volist}
