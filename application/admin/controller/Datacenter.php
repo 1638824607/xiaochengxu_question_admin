@@ -47,10 +47,10 @@ class Datacenter extends Purview {
     public function getStatUserPage()
     {
         Config::set('default_return_type', 'json');
-        return [
-            'items'=>['usrname'=>'aa'],
-            'total'=>10
-        ];
+        $page = input('page',1);
+        $size = input('size',10);
+        return DB::name('stat_users_day')->paginate($size,false,['page'=>$page])->toArray();
+
     }
 
 }

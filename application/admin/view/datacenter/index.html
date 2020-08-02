@@ -67,34 +67,50 @@
 				</div>
 
 				<!--列表 用户统计-->
+
 				<div class="layui-tab-item layui-show">
-						<form action="" method="get" class="layui-form">
+					<form action="" method="get" class="layui-form">
 						<input type="hidden" name="pid" value="">
 						<input type="hidden" name="ty" value="">
 						<input type="hidden" name="tty" value="">
 						<input type="hidden" name="ttty" value="">
 					</form>
-						<table class="layui-table">
-					<thead>
+
+					<table class="layui-table">
+						<thead>
 						<tr>
 							<th>时间</th>
 							<th>新增用户</th>
 							<th>活跃用户</th>
 							<th>答题用户</th>
 						</tr>
-					</thead>
+						</thead>
 						<tbody>
-						<tr>
-							<td>2020-08-01</td>
-							<td>200</td>
-							<td>100</td>
-							<td>20</td>
+						<tr v-for="item in statUser.items">
+							<td>{{item.day}}</td>
+							<td>{{item.new_users_num}}</td>
+							<td>{{item.active_users_num}}</td>
+							<td>{{item.answer_users_num}}</td>
 						</tr>
 						</tbody>
 					</table>
-					<div class="page">
-						<ul class="pagination"><a>«</a> <a class="pagenow">1</a><a href="/admin/user/index/pid/17/ty/18?page=2">2</a><a href="/admin/user/index/pid/17/ty/18?page=3">3</a> <a href="/admin/user/index/pid/17/ty/18?page=2">»</a></ul>				</div>
+				</div>
+
+				<template>
+					<div class="block">
+						<span class="demonstration"></span>
+						<el-pagination
+								@size-change="handleSizeChangeUser"
+								@current-change="handleCurrentChangeUser"
+								:current-page="statUser.currentPage"
+								:page-sizes="[10, 30, 50, 100]"
+								:page-size="statUser.size"
+								layout="total, sizes, prev, pager, next, jumper"
+								:total="statUser.total">
+						</el-pagination>
 					</div>
+				</template>
+
 				<!--列表 用户统计 END-->
 
 				<!--列表 游戏点击量-->
@@ -116,17 +132,29 @@
 						</tr>
 						</thead>
 						<tbody>
-						<tr>
-							<td>2020-08-01</td>
-							<td>（游戏）判断力训练</td>
-							<td>（测评）疫情心理健康自评量表</td>
-							<td>（游戏）判断力训练</td>
+						<tr v-for="item in statPlay.items">
+							<td>{{item.day}}</td>
+							<td>{{item.new_users_num}}</td>
+							<td>{{item.active_users_num}}</td>
+							<td>{{item.answer_users_num}}</td>
 						</tr>
 						</tbody>
 					</table>
-					<div class="page">
-						<ul class="pagination"><a>«</a> <a class="pagenow">1</a><a href="/admin/user/index/pid/17/ty/18?page=2">2</a><a href="/admin/user/index/pid/17/ty/18?page=3">3</a> <a href="/admin/user/index/pid/17/ty/18?page=2">»</a></ul>				</div>
-				</div>
+
+					<template>
+						<div class="block">
+							<span class="demonstration"></span>
+							<el-pagination
+									@size-change="handleSizeChangePlay"
+									@current-change="handleCurrentChangePlay"
+									:current-page="statPlay.currentPage"
+									:page-sizes="[10, 30, 50, 100]"
+									:page-size="statPlay.size"
+									layout="total, sizes, prev, pager, next, jumper"
+									:total="statPlay.total">
+							</el-pagination>
+						</div>
+					</template>
 				<!--列表 游戏点击量 END-->
 			</div>
 		</div>
@@ -169,10 +197,27 @@
 				totalUserNum:0,
 				activeUsersNum:0,
 				todayAnswerNum:0,//今日答题用户数
-			}
+
+			},
+			statUser:{
+				items:[],
+				currentPage: 1,
+				total:0,
+				size:10,
+			},
+			statPlay:{
+				items:[],
+				currentPage: 1,
+				total:0,
+				size:10,
+			},
+
+
 		},
 		created(){
-			this.initStatData();
+			this.initStatData()
+			this.initStatUserPage()
+			this.initStatPlayPage()
 		},
 		updated(){
 			this.initLayer();
@@ -198,11 +243,76 @@
 
 				})
 			},
+			initStatUserPage(){
+				that = this
+				let url = "/admin/datacenter/getStatUserPage";
+				url  = url + "?page=" + that.statUser.currentPage + "&size=" + that.statUser.size
+				fetch(url,{
+					method: "GET",
+					headers: headers,
+					mode: "no-cors"
+				})
+						.then(function(res){
+							console.log(res)
+							return res.json()
+						})
+						.then(function(res){
+							console.log(res)
+							that.statUser.items = res.data
+							that.statUser.currentPage = res.current_page
+							that.statUser.total = res.total
+
+						})
+			},
+			initStatPlayPage(){
+				that = this
+				let url = "/admin/datacenter/getStatUserPage";
+				url  = url + "?page=" + that.statPlay.currentPage + "&size=" + that.statPlay.size
+				fetch(url,{
+					method: "GET",
+					headers: headers,
+					mode: "no-cors"
+				})
+						.then(function(res){
+							console.log(res)
+							return res.json()
+						})
+						.then(function(res){
+							console.log(res)
+							that.statPlay.items = res.data
+							that.statPlay.currentPage = res.current_page
+							that.statPlay.total = res.total
+
+						})
+			},
 			initLayer(){
 				layui.use(['form'], function(){
 					layui.form.render();
 				})
+			},
+			handleSizeChangeUser(val) {
+				console.log(`每页 ${val} 条`);
+				this.statUser.size = val
+				this.initStatUserPage();
+
+			},
+			handleCurrentChangeUser(val) {
+				console.log(`当前页: ${val}`);
+				this.statUser.currentPage = val
+				this.initStatUserPage();
+			},
+			handleSizeChangePlay(val) {
+				console.log(`每页 ${val} 条`);
+				this.statPlay.size = val
+				this.initStatPlayPage();
+
+			},
+			handleCurrentChangePlay(val) {
+				console.log(`当前页: ${val}`);
+				this.statPlay.currentPage = val
+				this.initStatPlayPage();
 			}
+
 		}
 
 	})
