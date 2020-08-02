@@ -15,6 +15,7 @@ namespace app\admin\controller;
 
 use app\admin\common\Purview;
 use think\Db;
+use think\Session;
 
 class Knowledgeread extends Purview
 {
@@ -34,32 +35,48 @@ class Knowledgeread extends Purview
         return $this->fetch();
     }
 
-    public function add_knowledge()
+    public function add_knowledge_read()
     {
         if($this->request->isPost()){
 
             if(empty($this->request->param('image'))){
                 $this->error('图片必须传');
             }
+            if(empty($this->request->param('src_type'))){
+                $this->error('上传的类型必须选择');
+            }
+            if(empty($this->request->param('cate_id'))){
+                $this->error('类型必须选择');
+            }
 
-            $data['image'] = $this->request->param('image');
+            $data['src'] = $this->request->param('image');
+            $data['cate_id'] = $this->request->param('cate_id');
 
             $data['title'] = $this->request->param('title');
             $data['desc'] = $this->request->param('desc');
+            $data['content'] = $this->request->param('content');
+            $data['src_type'] = $this->request->param('src_type');
             $data['sort'] = $this->request->param('sort',0);
-            $res = Db::name('knowledge')->insert($data);
+            $data['create_time'] = date('Y-m-d H:i:s',time());
+            $data['admin_user_id'] = Session::Get('admin_id');
+
+            $res = Db::name('knowledge_read')->insert($data);
             if($res){
                 $this->success('操作成功',url('index'));
             }else{
                 $this->error('操作失败,请重试');
             }
         }else{
-
+            $where= [];
+            $list = Db::name('knowledge_read_cate')->where($where)->order('sort desc,id desc')->paginate(20)->each(function($v, $key){
+                return $v;
+            });
+            $this->assign('list',$list);
             return $this->fetch();
         }
     }
 
-    public function edit_knowledge()
+    public function edit_knowledge_read()
     {
         if($this->request->isPost()){
 
@@ -90,7 +107,7 @@ class Knowledgeread extends Purview
         }
     }
 
-    public function del_knowledge()
+    public function del_knowledge_read()
     {
         if(empty($this->request->param('id'))){
             $this->error('信息不存在');
