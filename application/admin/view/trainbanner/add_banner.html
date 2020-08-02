@@ -1,0 +1,95 @@
+{include file="Public/header" /}
+<script charset="utf-8" src="__ADMIN__/myeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ADMIN__/myeditor/lang/zh_CN.js"></script>
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+		<div class="layui-tab layui-tab-brief" lay-filter="tab">
+			<ul class="layui-tab-title">
+				<li><a href="{:url('index')}">训练提升轮播</a></li>
+				<li class="layui-this"><a href="{:url('add_banner')}">训练提升轮播添加</a></li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<form action="" method="post" class="layui-form" lay-filter="content" id="edit">
+						<div class="layui-form-item">
+							<label class="layui-form-label">上传图片</label>
+							<div class="layui-input-inline">
+								<input type="text" name="image" id="img" value="" placeholder="请上传配置图片"  class="layui-input">
+							</div>
+							<button type="button" id="img_btn" class="layui-btn" data-des="ico">
+								<i class="layui-icon">&#xe67c;</i>上传图片
+							</button>
+						</div>
+						<div class="layui-form-item">
+							<label class="layui-form-label">标题</label>
+							<div class="layui-input-inline">
+								<input type="text" name="title" value="" placeholder="请输入标题" class="layui-input">
+							</div>
+						</div>
+
+						<div class="layui-form-item">
+							<label class="layui-form-label">排序</label>
+							<div class="layui-input-inline">
+								<input type="text" name="sort" value="" placeholder="请输入排序" class="layui-input">
+							</div>
+						</div>
+
+						<!--<input type="hidden" name="id" value="{$info['id']}">-->
+
+						<div class="layui-form-item">
+							<div class="layui-input-block">
+								<button class="layui-btn" lay-submit>立即提交</button>
+								<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script>
+		KindEditor.ready(function(K) {
+			var editor1 = K.create('.editor_id', {
+				filterMode: false,//是否开启过滤模式
+				cssPath : '__ADMIN__/myeditor/plugins/code/prettify.css',
+				uploadJson : '__ADMIN__/myeditor/php/upload_json.php',
+				fileManagerJson : '__ADMIN__/myeditor/php/file_manager_json.php',
+				allowFileManager : true,
+				afterBlur : function() {
+					this.sync();
+					K.ctrl(document, 13, function() {
+						K('form[name=formlist]')[0].submit();
+					});
+					K.ctrl(this.edit.doc, 13, function() {
+						K('form[name=formlist]')[0].submit();
+					});
+				}
+			});
+
+			var editor = K.editor({
+				allowFileManager : true
+			});
+
+			K('#img_btn').click(function() {
+				editor.loadPlugin('image', function() {
+					editor.plugin.imageDialog({
+						imageUrl : K('#img').val(),
+						clickFn : function(url, title, width, height, border, align) {
+							K('#img').val(url);
+							editor.hideDialog();
+						}
+					});
+				});
+			});
+		});
+	</script>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>
