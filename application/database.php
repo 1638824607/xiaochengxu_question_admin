@@ -17,9 +17,9 @@ return [
     // 数据库名
     'database'        => 'question',
     // 用户名
-    'username'        => 'root',
+    'username'        => 'pincaiwang',
     // 密码
-    'password'        => 'root',
+    'password'        => 'pincaiwang',
     // 端口
     'hostport'        => '',
     // 连接dsn

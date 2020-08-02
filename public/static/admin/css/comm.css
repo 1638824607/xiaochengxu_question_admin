@@ -256,3 +256,8 @@ a.page-num-current:hover{
 	margin: 0 0 10px 0px;
 }
 }
+.page{width: 100%; float: left; text-align: center; margin: 40px 0 60px 0;}
+.page a{height:24px; display:inline-block; line-height:24px;
+	text-align:center; padding:0 10px; border:1px solid #ddd;border-radius:5px; margin: 0 2px;}
+.page a:link,.page a:visited{color:#23262E;}
+.page a:active,.page a:hover,.page a.pagenow{color:#fff; background:#23262E;border:1px solid #23262E;}
