@@ -36,26 +36,26 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">状态</label>
 							<div class="layui-input-block">
-								<input type="radio" name="status" value="2" title="启用"  {:get_my_checked($info['status'],2)}>
-								<input type="radio" name="status" value="1" title="禁用"  {:get_my_checked($info['status'],1)}>
+								<input type="radio" name="status" value="1" title="启用"  {:get_my_checked($info['status'],1)}>
+								<input type="radio" name="status" value="2" title="禁用"  {:get_my_checked($info['status'],2)}>
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">发表文章</label>
 							<div class="layui-input-inline">
-								<input type="text" name="publish_article_num" value="{$info['publish_article_num']}"  class="layui-input">
+								<input readonly="readonly" type="text" name="publish_article_num" value="{$info['publish_post_num']}"  class="layui-input">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">已做训练</label>
 							<div class="layui-input-inline">
-								<input type="text" name="do_question_num" value="{$info['do_question_num']}"  class="layui-input">
+								<input readonly="readonly" type="text" name="do_question_num" value="{$info['do_question_num']}"  class="layui-input">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">游戏正确率</label>
 							<div class="layui-input-inline">
-								<input type="text" name="game_accuracy" value="{$info['game_accuracy']}"  class="layui-input">
+								<input readonly="readonly" type="text" name="game_accuracy" value="{$info['game_accuracy']}"  class="layui-input">
 							</div>
 						</div>
 
@@ -63,7 +63,7 @@
 
 						<div class="layui-form-item">
 							<div class="layui-input-block">
-								<button type="reset" class="layui-btn layui-btn-primary">返回</button>
+								<button type="button" class="layui-btn layui-btn-primary" onclick="location.href = '/admin/user/index/pid/17/ty/18'">返回</button>
 								<button class="layui-btn" lay-submit>保存</button>
 							</div>
 						</div>

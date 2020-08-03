@@ -13,12 +13,43 @@ class User extends Purview {
     public function Index(){
         Cookie::set('Jumpurl',$_SERVER['REQUEST_URI']);
 		$db=Db::name('users');
-
-		$list = $db->paginate(20);
+        $where = [];
+        $kwd = trim(input('kwd',''));
+        if($kwd)
+        {
+            $list = $db->where(sprintf('phone LIKE "%s%%" OR nick LIKE "%s%%" OR user_name LIKE "%s%%"',$kwd,$kwd,$kwd))->paginate(20);
+        }else{
+            $list = $db->paginate(20);
+        }
         $page = $list->render();
         $list = $list->all();
+        /*******时实统计******/
+        // 评测
+        if(!$list)
+        {
+            $this->assign('list',[]);
+            $this->assign('page',$page);
+            return $this->fetch();
+        }
+        $users_ids = array_column($list,'id');
+        $sql = sprintf('SELECT user_id,COUNT(user_id) AS total FROM tp_knowledge_health_record WHERE user_id IN(%s) ',implode(',',$users_ids));
+        $health = array_column(DB::query($sql),'total','user_id');
+
+        $sql = sprintf('SELECT user_id,COUNT(user_id) AS total FROM tp_knowledge_match_record WHERE user_id IN(%s) ',implode(',',$users_ids));
+        $match = array_column(DB::query($sql),'total','user_id');
+
+        $sql = sprintf('SELECT user_id,COUNT(user_id) AS total FROM tp_train_game_record WHERE user_id IN(%s) ',implode(',',$users_ids));
+        $game = array_column(DB::query($sql),'total','user_id');
+
+        // 发表文章数
+        $sql = sprintf('SELECT user_id,COUNT(user_id) AS total FROM tp_community_post WHERE user_id IN(%s) ',implode(',',$users_ids));
+        $post = array_column(DB::query($sql),'total','user_id');
+        /*******时实统计 END******/
         foreach($list as $k=>$v){
-            $list[$k]['wechat'] = 'wx';
+            // 评测
+            $list[$k]['do_question_num'] = ($health[$v['id']] ?? 0 ) + ($match[$v['id']] ?? 0) + ($game[$v['id']] ?? 0);
+            // 发表文章数
+            $list[$k]['publish_post_num'] = $post[$v['id']] ?? 0;
         }
         $this->assign('list',$list);
         $this->assign('page',$page);
@@ -38,10 +69,7 @@ class User extends Purview {
                 'nick'=>input('nick'),
                 'phone' => input('phone'),
                 'wechat' => input('wechat'),
-                'status' => input('status'),
-                'publish_article_num' => input('publish_article_num'),
-                'do_question_num' => input('do_question_num'),
-                'game_accuracy' => input('game_accuracy'),
+                'status' => input('status')
             ];
             $res = $db->where('id',$id)->update($updateData);
             $this->success('操作成功',url('index'));
@@ -53,6 +81,12 @@ class User extends Purview {
             if($id)
             {
                 $userRow = $db->find($id);
+                $health = DB::name('knowledge_health_record')->where('user_id',$id)->count();
+                $match = DB::name('knowledge_match_record')->where('user_id',$id)->count();
+                $game = DB::name('train_game_record')->where('user_id',$id)->count();
+                $post = DB::name('community_post')->where('user_id',$id)->count();
+                $userRow['publish_post_num'] = $post;
+                $userRow['do_question_num'] = $health + $match + $game;
                 $this->assign('info',$userRow);
                 return $this->fetch();
             }else{

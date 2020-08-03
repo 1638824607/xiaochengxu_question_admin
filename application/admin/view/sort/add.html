@@ -54,17 +54,17 @@
 								</div>
 							</div>
 
-							<div class="layui-form-item">
-								<label class="layui-form-label">栏目模块</label>
-								<div class="layui-input-inline">
-									<select name="model_id" lay-filter="model" required lay-verify="required">
-										<option value="">请选择</option>
-										{volist name=":get_mytable_list('model')" id="s"}
-											<option value="{$s.id}|{:get_model_zd($s['id'],'model_c')}|{:get_model_zd($s['id'],'model_a')}" {if condition="$s['id'] eq $v['model_id']"} selected{/if}>{$s.model_name}</option>
-										{/volist}
-									</select>
-								</div>
-							</div>
+							<!--<div class="layui-form-item">-->
+								<!--<label class="layui-form-label">栏目模块</label>-->
+								<!--<div class="layui-input-inline">-->
+									<!--<select name="model_id" lay-filter="model" required lay-verify="required">-->
+										<!--<option value="">请选择</option>-->
+										<!--{volist name=":get_mytable_list('model')" id="s"}-->
+											<!--<option value="{$s.id}|{:get_model_zd($s['id'],'model_c')}|{:get_model_zd($s['id'],'model_a')}" {if condition="$s['id'] eq $v['model_id']"} selected{/if}>{$s.model_name}</option>-->
+										<!--{/volist}-->
+									<!--</select>-->
+								<!--</div>-->
+							<!--</div>-->
 
 						{else/}
 							<input type="hidden" name="pid" value="{$v.pid}">
@@ -86,33 +86,33 @@
 							</div>
 						</div>
 
-						<div class="layui-form-item">
-							<label class="layui-form-label">英文名称</label>
-							<div class="layui-input-inline">
-								<input type="text" name="encatname" value="{$v['encatname']}" placeholder="请输入英文名称" class="layui-input">
-							</div>
-						</div>
+						<!--<div class="layui-form-item">-->
+							<!--<label class="layui-form-label">英文名称</label>-->
+							<!--<div class="layui-input-inline">-->
+								<!--<input type="text" name="encatname" value="{$v['encatname']}" placeholder="请输入英文名称" class="layui-input">-->
+							<!--</div>-->
+						<!--</div>-->
 
-						<div class="layui-form-item">
-							<label class="layui-form-label">页面标题</label>
-							<div class="layui-input-inline">
-								<input type="text" name="seotitle" value="{$v['seotitle']}" placeholder="请输入页面标题" class="layui-input">
-							</div>
-						</div>
+						<!--<div class="layui-form-item">-->
+							<!--<label class="layui-form-label">页面标题</label>-->
+							<!--<div class="layui-input-inline">-->
+								<!--<input type="text" name="seotitle" value="{$v['seotitle']}" placeholder="请输入页面标题" class="layui-input">-->
+							<!--</div>-->
+						<!--</div>-->
 
-						<div class="layui-form-item">
-							<label class="layui-form-label">页面关键字</label>
-							<div class="layui-input-inline">
-								<textarea name="seokeywords"  style="width:520px;height:100px;" class="layui-textarea">{$v['seokeywords']}</textarea>
-							</div>
-						</div>
+						<!--<div class="layui-form-item">-->
+							<!--<label class="layui-form-label">页面关键字</label>-->
+							<!--<div class="layui-input-inline">-->
+								<!--<textarea name="seokeywords"  style="width:520px;height:100px;" class="layui-textarea">{$v['seokeywords']}</textarea>-->
+							<!--</div>-->
+						<!--</div>-->
 
-						<div class="layui-form-item">
-							<label class="layui-form-label">页面描述</label>
-							<div class="layui-input-inline">
-								<textarea name="seodescription"  style="width:520px;height:100px;" class="layui-textarea">{$v['seodescription']}</textarea>
-							</div>
-						</div>
+						<!--<div class="layui-form-item">-->
+							<!--<label class="layui-form-label">页面描述</label>-->
+							<!--<div class="layui-input-inline">-->
+								<!--<textarea name="seodescription"  style="width:520px;height:100px;" class="layui-textarea">{$v['seodescription']}</textarea>-->
+							<!--</div>-->
+						<!--</div>-->
 
 
 						{volist name="list2" id="v1"}
@@ -151,54 +151,54 @@
 								</div>
 							</div>
 
-							<div class="layui-form-item">
+							<!--<div class="layui-form-item">
 								<label class="layui-form-label">图片数量</label>
 								<div class="layui-input-inline">
 									<input type="text" name="imgnum" value="{$v['imgnum']}" placeholder="请输入图片数量" class="layui-input">
 								</div>
-							</div>
+							</div>-->
 
-							<div class="layui-form-item">
-								<label class="layui-form-label">图片尺寸</label>
-								<div class="layui-input-inline">
-									<input type="text" name="imgsize" value="{$v['imgsize']}" placeholder="请输入图片尺寸 多个用,分割" class="layui-input">
-								</div>
-							</div>
+							<!--<div class="layui-form-item">-->
+								<!--<label class="layui-form-label">图片尺寸</label>-->
+								<!--<div class="layui-input-inline">-->
+									<!--<input type="text" name="imgsize" value="{$v['imgsize']}" placeholder="请输入图片尺寸 多个用,分割" class="layui-input">-->
+								<!--</div>-->
+							<!--</div>-->
 
-							<div class="layui-form-item">
-								<label class="layui-form-label">图片名称</label>
-								<div class="layui-input-inline">
-									<input type="text" name="imgname" value="{$v['imgname']}" placeholder="请输入图片名称 多个用,分割" class="layui-input">
-								</div>
-							</div>
+							<!--<div class="layui-form-item">-->
+								<!--<label class="layui-form-label">图片名称</label>-->
+								<!--<div class="layui-input-inline">-->
+									<!--<input type="text" name="imgname" value="{$v['imgname']}" placeholder="请输入图片名称 多个用,分割" class="layui-input">-->
+								<!--</div>-->
+							<!--</div>-->
 
-							<div class="layui-form-item">
-								<label class="layui-form-label">多图尺寸</label>
-								<div class="layui-input-inline">
-									<input type="text" name="titleimgsize" value="{$v['titleimgsize']}" placeholder="请输入多图上传尺寸" class="layui-input">
-								</div>
-							</div>
+							<!--<div class="layui-form-item">-->
+								<!--<label class="layui-form-label">多图尺寸</label>-->
+								<!--<div class="layui-input-inline">-->
+									<!--<input type="text" name="titleimgsize" value="{$v['titleimgsize']}" placeholder="请输入多图上传尺寸" class="layui-input">-->
+								<!--</div>-->
+							<!--</div>-->
 
-							<div class="layui-form-item">
-								<label class="layui-form-label">自定义参数</label>
-								<div class="layui-input-inline">
-									<input type="text" name="sort_url" id="sort_url" value="{$v['sort_url']}" placeholder="格式:参数/参数值/参数/参数值" class="layui-input">
-								</div>
-							</div>
+							<!--<div class="layui-form-item">-->
+								<!--<label class="layui-form-label">自定义参数</label>-->
+								<!--<div class="layui-input-inline">-->
+									<!--<input type="text" name="sort_url" id="sort_url" value="{$v['sort_url']}" placeholder="格式:参数/参数值/参数/参数值" class="layui-input">-->
+								<!--</div>-->
+							<!--</div>-->
 
-							<div class="layui-form-item">
-								<label class="layui-form-label">外部跳链接</label>
-								<div class="layui-input-inline">
-									<input type="text" name="outlinkurl" value="{$v['outlinkurl']}" placeholder="请输入外部跳链接" class="layui-input">
-								</div>
-							</div>
+							<!--<div class="layui-form-item">-->
+								<!--<label class="layui-form-label">外部跳链接</label>-->
+								<!--<div class="layui-input-inline">-->
+									<!--<input type="text" name="outlinkurl" value="{$v['outlinkurl']}" placeholder="请输入外部跳链接" class="layui-input">-->
+								<!--</div>-->
+							<!--</div>-->
 
-							<div class="layui-form-item">
-								<label class="layui-form-label">前台文件名</label>
-								<div class="layui-input-inline">
-									<input type="text" name="inlinkurl" value="{$v['inlinkurl']}" placeholder="请输入前台文件名" class="layui-input">
-								</div>
-							</div>
+							<!--<div class="layui-form-item">-->
+								<!--<label class="layui-form-label">前台文件名</label>-->
+								<!--<div class="layui-input-inline">-->
+									<!--<input type="text" name="inlinkurl" value="{$v['inlinkurl']}" placeholder="请输入前台文件名" class="layui-input">-->
+								<!--</div>-->
+							<!--</div>-->
 
 							<div class="layui-form-item">
 								<label class="layui-form-label">子栏目权限</label>
@@ -223,19 +223,19 @@
 
 
 
-						{for start="1" end="config('database.BANNER_NUM')+1"}
-							<?php $zd="img$i";?>
-							<div class="layui-form-item">
-								<label class="layui-form-label">{:get_banner_imgname($i)}</label>
-								<div class="layui-input-inline">
-									<input type="text" name="img{$i}" id="img{$i}" value="{$v[$zd]}" placeholder="请上传配置图片"  class="layui-input">
-								</div>
-								<button type="button" id="img{$i}_btn" class="layui-btn" data-des="ico">
-									<i class="layui-icon">&#xe67c;</i>上传图片
-								</button>
-								<font color="red">图片大小:{:get_cfg_var("post_max_size")}内,图片尺寸：{:get_banner_imgsize($i)}px</font>
-							</div>
-						{/for}
+						<!--{for start="1" end="config('database.BANNER_NUM')+1"}-->
+							<!--<?php $zd="img$i";?>-->
+							<!--<div class="layui-form-item">-->
+								<!--<label class="layui-form-label">{:get_banner_imgname($i)}</label>-->
+								<!--<div class="layui-input-inline">-->
+									<!--<input type="text" name="img{$i}" id="img{$i}" value="{$v[$zd]}" placeholder="请上传配置图片"  class="layui-input">-->
+								<!--</div>-->
+								<!--<button type="button" id="img{$i}_btn" class="layui-btn" data-des="ico">-->
+									<!--<i class="layui-icon">&#xe67c;</i>上传图片-->
+								<!--</button>-->
+								<!--<font color="red">图片大小:{:get_cfg_var("post_max_size")}内,图片尺寸：{:get_banner_imgsize($i)}px</font>-->
+							<!--</div>-->
+						<!--{/for}-->
 
 
 						<div class="layui-form-item">
