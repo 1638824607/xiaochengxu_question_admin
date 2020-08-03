@@ -14,6 +14,8 @@ jxadmin_root
 
 
 给客户的账号
-账号jxadmin
-密码99jxwlkj
+账号
+jxadmin
+密码
+99jxwlkj
 
