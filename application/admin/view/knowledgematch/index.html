@@ -17,41 +17,175 @@
 					<input type="hidden" name="tty" value="{$vs.tty}">
 					<input type="hidden" name="ttty" value="{$vs.ttty}">
 				</form>
+				<style>
+					.layui-card-body{
+						line-height:12px;
+					}
+					.layui-card{
+						border-bottom: 1px solid black
+					}
+					.layui-badge-dot{
+						margin-right: 5px;
+						margin-bottom: 2px;
+					}
+					.card-header-title{
+						font-size: 18px;
+					}
 
-				<table class="layui-table">
-					<thead>
-					<tr>
-						<th>ID</th>
-						<th>排序值</th>
-						<th>图片</th>
-						<th>标题</th>
+					.card-header-delete{
+						margin-bottom: 2px;
+						margin-left: 30px;
+					}
 
-						<th>操作</th>
-					</tr>
-					</thead>
-					<tbody>
-					{volist name="list" id="v"}
-						<tr>
-							<td>{$v['id']}</td>
-							<td>{$v['sort']}</td>
-							<td><img src="{$v.image}" width="80" /></td>
-							<td>{$v.title}</td>
+					.layui-card-question{
+						margin-left: 30px;
+						margin-bottom: 2px;
+					}
 
-							<!--<td>-->
-								<!--<?php if($v['status']==1){?>-->
-								<!--<a href="{:url('update_status', ['id' => $v['id'], 'status' => 2])}"><i class='fa fa-toggle-on' title="点击关闭"></i></a>-->
-								<!--<?php }else{?>-->
-								<!--<a href="{:url('update_status', ['id' => $v['id'], 'status' => 1])}"><i class='fa fa-toggle-off' title="点击开启"></i></a>-->
-								<!--<?php }?>-->
-							<!--</td>-->
-							<td>
-								<a href="{:url('edit_banner', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>修改</a>
-								<a href="{:url('del_banner', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
-							</td>
-						</tr>
-					{/volist}
-					</tbody>
-				</table>
+				</style>
+
+				<div class="layui-card">
+					<div class="layui-card-header">
+						<span class="layui-badge-dot layui-bg-cyan"></span><span class="card-header-title">疫情心理健康自评量表</span>
+						<button type="button" class="layui-btn layui-btn-danger layui-btn-xs card-header-delete">删除</button>
+					</div>
+					<div class="layui-card-body" style="margin-top: -2%">
+						<div class="layui-card-header">
+							<span>(选择题) 1、比平时更加积极的分享一些自己认为有用的或是感到触动的疫情相关知识</span>
+							<button type="button" class="layui-btn layui-btn-xs layui-card-question">编辑</button>
+							<button type="button" class="layui-btn layui-btn-danger layui-btn-xs layui-card-question">删除</button>
+						</div>
+						<div style="margin-left: 5%">
+							<div class="layui-card-body">
+								A.完全不像我
+							</div>
+							<div class="layui-card-body">
+								B.不太像我
+							</div>
+							<div class="layui-card-body">
+								C.不清楚
+							</div>
+						</div>
+					</div>
+					<div class="layui-card-body" style="margin-top: -2%">
+						<div class="layui-card-header">(选择题) 1、比平时更加积极的分享一些自己认为有用的或是感到触动的疫情相关知识</div>
+						<div style="margin-left: 5%">
+							<div class="layui-card-body">
+								A.完全不像我
+							</div>
+							<div class="layui-card-body">
+								B.不太像我
+							</div>
+							<div class="layui-card-body">
+								C.不清楚
+							</div>
+						</div>
+					</div>
+					<div class="layui-card-body" style="margin-top: -2%">
+						<div class="layui-card-header">(选择题) 1、比平时更加积极的分享一些自己认为有用的或是感到触动的疫情相关知识</div>
+						<div style="margin-left: 5%">
+							<div class="layui-card-body">
+								A.完全不像我
+							</div>
+							<div class="layui-card-body">
+								B.不太像我
+							</div>
+							<div class="layui-card-body">
+								C.不清楚
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-card">
+					<div class="layui-card-header"><h3><span class="layui-badge-dot layui-bg-cyan"></span>疫情心理健康自评量表</h3></div>
+					<div class="layui-card-body" style="margin-top: -2%">
+						<div class="layui-card-header">(选择题) 1、比平时更加积极的分享一些自己认为有用的或是感到触动的疫情相关知识</div>
+						<div style="margin-left: 5%">
+							<div class="layui-card-body">
+								A.完全不像我
+							</div>
+							<div class="layui-card-body">
+								B.不太像我
+							</div>
+							<div class="layui-card-body">
+								C.不清楚
+							</div>
+						</div>
+					</div>
+					<div class="layui-card-body" style="margin-top: -2%">
+						<div class="layui-card-header">(选择题) 1、比平时更加积极的分享一些自己认为有用的或是感到触动的疫情相关知识</div>
+						<div style="margin-left: 5%">
+							<div class="layui-card-body">
+								A.完全不像我
+							</div>
+							<div class="layui-card-body">
+								B.不太像我
+							</div>
+							<div class="layui-card-body">
+								C.不清楚
+							</div>
+						</div>
+					</div>
+					<div class="layui-card-body" style="margin-top: -2%">
+						<div class="layui-card-header">(选择题) 1、比平时更加积极的分享一些自己认为有用的或是感到触动的疫情相关知识</div>
+						<div style="margin-left: 5%">
+							<div class="layui-card-body">
+								A.完全不像我
+							</div>
+							<div class="layui-card-body">
+								B.不太像我
+							</div>
+							<div class="layui-card-body">
+								C.不清楚
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="layui-card">
+					<div class="layui-card-header"><h3><span class="layui-badge-dot layui-bg-cyan"></span>疫情心理健康自评量表</h3></div>
+					<div class="layui-card-body" style="margin-top: -2%">
+						<div class="layui-card-header">(选择题) 1、比平时更加积极的分享一些自己认为有用的或是感到触动的疫情相关知识</div>
+						<div style="margin-left: 5%">
+							<div class="layui-card-body">
+								A.完全不像我
+							</div>
+							<div class="layui-card-body">
+								B.不太像我
+							</div>
+							<div class="layui-card-body">
+								C.不清楚
+							</div>
+						</div>
+					</div>
+					<div class="layui-card-body" style="margin-top: -2%">
+						<div class="layui-card-header">(选择题) 1、比平时更加积极的分享一些自己认为有用的或是感到触动的疫情相关知识</div>
+						<div style="margin-left: 5%">
+							<div class="layui-card-body">
+								A.完全不像我
+							</div>
+							<div class="layui-card-body">
+								B.不太像我
+							</div>
+							<div class="layui-card-body">
+								C.不清楚
+							</div>
+						</div>
+					</div>
+					<div class="layui-card-body" style="margin-top: -2%">
+						<div class="layui-card-header">(选择题) 1、比平时更加积极的分享一些自己认为有用的或是感到触动的疫情相关知识</div>
+						<div style="margin-left: 5%">
+							<div class="layui-card-body">
+								A.完全不像我
+							</div>
+							<div class="layui-card-body">
+								B.不太像我
+							</div>
+							<div class="layui-card-body">
+								C.不清楚
+							</div>
+						</div>
+					</div>
+				</div>
 				<div class="page">
 					{$list->render()}
 				</div>
