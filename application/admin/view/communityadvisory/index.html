@@ -1,0 +1,87 @@
+{include file="Public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('index')}">老师列表</a></li>
+			<!--<li><a href="{:url('add_banner')}">轮播添加</a></li>-->
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<form action="" method="get" class="layui-form">
+					<input type="hidden" name="pid" value="{$vs.pid}">
+					<input type="hidden" name="ty" value="{$vs.ty}">
+					<input type="hidden" name="tty" value="{$vs.tty}">
+					<input type="hidden" name="ttty" value="{$vs.ttty}">
+					<div class="layui-form-item nospace">
+						<div class="layui-input-inline">
+							<input type="text" name="q" value="<?php echo input('q')?>" placeholder="请输入老师姓名或者电话搜索" class="layui-input">
+						</div>
+						<div class="layui-input-inline">
+							<button class="layui-btn" lay-submit>搜索</button>
+							<a class="layui-btn layui-btn-primary"  href="{:url('index',['pid'=>24,'ty'=>44])}">清除搜索</a>
+						</div>
+					</div>
+				</form>
+
+				<table class="layui-table">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>老师名称</th>
+						<th>老师头像</th>
+						<th>职称</th>
+						<th>组织</th>
+						<th>手机号</th>
+						<th>创建时间</th>
+						<th>更新时间</th>
+						<th>简介</th>
+
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{volist name="list" id="v"}
+						<tr>
+							<td>{$v['id']}</td>
+							<td>{$v['name']}</td>
+							<td><img src="{$v.avatar}" width="80" /></td>
+							<td>{$v.job}</td>
+							<td>{$v.org}</td>
+							<td>{$v.tel}</td>
+							<td>{$v.created_at}</td>
+							<td>{$v.updated_at}</td>
+							<td>{$v.desc}</td>
+
+							<!--<td>-->
+								<!--<?php if($v['status']==1){?>-->
+								<!--<a href="{:url('update_status', ['id' => $v['id'], 'status' => 2])}"><i class='fa fa-toggle-on' title="点击关闭"></i></a>-->
+								<!--<?php }else{?>-->
+								<!--<a href="{:url('update_status', ['id' => $v['id'], 'status' => 1])}"><i class='fa fa-toggle-off' title="点击开启"></i></a>-->
+								<!--<?php }?>-->
+							<!--</td>-->
+							<td>
+								<!--<a href="{:url('edit_banner', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>修改</a>-->
+								<!--<a href="{:url('del_banner', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>-->
+							</td>
+						</tr>
+					{/volist}
+					</tbody>
+				</table>
+				<div class="page">
+					{$list->render()}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>
