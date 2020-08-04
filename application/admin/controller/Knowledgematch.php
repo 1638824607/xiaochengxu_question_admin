@@ -20,80 +20,119 @@ class Knowledgematch extends Purview
 {
     public function index()
     {
-        $list = Db::name('knowledge_banner')->order('id desc')->paginate(20)->each(function($v, $key){
-            if($v['image']){
-                $v['image'] = str_replace('Uploads','uploads',$v['image']);
-            }
-            return $v;
-        });
+        $list = Db::name('knowledge_match')->order('hot desc')->order('sort desc')->paginate(20);
         $this->assign('list',$list);
         return $this->fetch();
     }
 
-    public function add_banner()
+    public function add()
     {
-        if($this->request->isPost()){
-
-            if(empty($this->request->param('image'))){
-                $this->error('图片必须传');
-            }
-            $data['image'] = $this->request->param('image');
+        if($this->request->isPost())
+        {
             $data['title'] = $this->request->param('title');
+            $data['desc'] = $this->request->param('desc');
+            $data['src_type'] = $this->request->param('src_type');
+            $data['src'] = $this->request->param('src');
+            $data['introduce'] = $this->request->param('introduce');
+            $data['introduce_src_type'] = $this->request->param('introduce_src_type');
+            $data['introduce_src'] = $this->request->param('introduce_src');
+            $data['duration'] = $this->request->param('duration');
             $data['sort'] = $this->request->param('sort');
+            $data['hot'] = $this->request->param('hot');
 
-
-            $res = Db::name('knowledge_banner')->insert($data);
+            $res = Db::name('knowledge_match')->insert($data);
             if($res){
                 $this->success('操作成功',url('index'));
             }else{
                 $this->error('操作失败,请重试');
             }
-        }else{
-
-            return $this->fetch();
         }
+
+        return $this->fetch();
     }
 
-    public function edit_banner()
+    public function edit()
     {
-        if($this->request->isPost()){
-
-            if(empty($this->request->param('image'))){
-                $this->error('图片必须传');
-            }
-            $data['image'] = $this->request->param('image');
+        if($this->request->isPost())
+        {
             $data['title'] = $this->request->param('title');
-
+            $data['desc'] = $this->request->param('desc');
+            $data['src_type'] = $this->request->param('src_type');
+            $data['src'] = $this->request->param('src');
+            $data['introduce'] = $this->request->param('introduce');
+            $data['introduce_src_type'] = $this->request->param('introduce_src_type');
+            $data['introduce_src'] = $this->request->param('introduce_src');
+            $data['duration'] = $this->request->param('duration');
             $data['sort'] = $this->request->param('sort');
+            $data['hot'] = $this->request->param('hot');
 
-
-            $res = Db::name('knowledge_banner')->where(array('id'=>$this->request->param('id')))->update($data);
-            if($res){
+            $res = Db::name('knowledge_match')->where(array('id'=>$this->request->param('id')))->update($data);
+            if($res !== false){
                 $this->success('操作成功',url('index'));
             }else{
                 $this->error('操作失败,请重试');
             }
         }else{
-
-            if(empty($this->request->param('id'))){
+            $id = input('id');
+            if(empty($id)){
                 $this->error('信息不存在');
             }
-            $info = Db::name('knowledge_banner')->where(array('id'=>$this->request->param('id')))->find();
+            $info = Db::name('knowledge_match')->where(array('id'=>$this->request->param('id')))->find();
             $this->assign('info',$info);
             return $this->fetch();
         }
     }
 
-    public function del_banner()
+    public function del()
     {
-        if(empty($this->request->param('id'))){
+        $id = input('id');
+        if(empty($id)){
             $this->error('信息不存在');
         }
-        $res = Db::name('knowledge_banner')->where(array('id'=>$this->request->param('id')))->delete();
+        $res = Db::name('knowledge_match')->where(array('id'=>$id))->delete();
         if($res){
             $this->success('操作成功',url('index'));
         }else{
             $this->error('操作失败,请重试');
         }
+    }
+
+    public function add_question()
+    {
+        if($this->request->isPost())
+        {
+            $data['title'] = $this->request->param('title');
+            $data['desc'] = $this->request->param('desc');
+            $data['src_type'] = $this->request->param('src_type');
+            $data['src'] = $this->request->param('src');
+            $data['introduce'] = $this->request->param('introduce');
+            $data['introduce_src_type'] = $this->request->param('introduce_src_type');
+            $data['introduce_src'] = $this->request->param('introduce_src');
+            $data['duration'] = $this->request->param('duration');
+            $data['sort'] = $this->request->param('sort');
+            $data['hot'] = $this->request->param('hot');
+
+            $res = Db::name('knowledge_match')->insert($data);
+            if($res){
+                $this->success('操作成功',url('index'));
+            }else{
+                $this->error('操作失败,请重试');
+            }
+        }
+
+        $matchId = input('match_id');
+
+        if(empty($matchId)) {
+            $this->error('请选择测评');
+        }
+
+        $matchInfo = Db::name('knowledge_match')->where('id', $matchId)->find();
+
+        if(empty($matchInfo)) {
+            $this->error('题目不存在');
+        }
+
+        $this->assign('matchInfo', $matchInfo);
+        return $this->fetch();
     }
 }
