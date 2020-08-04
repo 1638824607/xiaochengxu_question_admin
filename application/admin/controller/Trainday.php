@@ -26,6 +26,16 @@ class Trainday extends Purview
 //            if($v['image']){
 //                $v['image'] = str_replace('Uploads','uploads',$v['image']);
 //            }
+            if($v['cate_id']){
+               $train_day_cate = Db::name('train_day_cate')->where(array('id'=>$v['cate_id']))->find();
+                if($train_day_cate){
+                    $v['train_day_cate_name'] = $train_day_cate['title'];
+                }else{
+                    $v['train_day_cate_name'] = '';
+                }
+            }else{
+                $v['train_day_cate_name'] = '';
+            }
             return $v;
         });
         $this->assign('list',$list);
