@@ -22,6 +22,7 @@ class Trainday extends Purview
     public function index()
     {
 
+
         $list = Db::name('train_day')->order('id desc')->paginate(20)->each(function($v, $key){
 //            if($v['image']){
 //                $v['image'] = str_replace('Uploads','uploads',$v['image']);
@@ -38,6 +39,33 @@ class Trainday extends Purview
             }
             return $v;
         });
+        $this->assign('list',$list);
+        return $this->fetch();
+    }
+
+
+    public function train_day_step_index()
+    {
+        $where = [];
+        $day_id = $this->request->param('day_id');
+        if(empty($day_id)){
+            $this->error('数据不存在');
+        }
+        $where['id'] = $day_id;
+        $list = Db::name('train_day_step')->where($where)->order('id desc')->paginate(20)->each(function($v,$key){
+
+            if($v['day_id']){
+                $train_day = Db::name('train_day')->where(array('id'=>$v['day_id']))->find();
+                if($train_day){
+                   $v['day_title'] = $train_day['title'];
+                }else{
+                    $v['day_title'] = '';
+                }
+            }else{
+                $v['day_title'] = '';
+            }
+        });
+
         $this->assign('list',$list);
         return $this->fetch();
     }
