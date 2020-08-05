@@ -75,7 +75,7 @@ class Post extends Purview {
             Cache::rm("user_{$id}");//删除缓存
 			if($this->db->delete($id)){
  				sys_log("删除用户:(id:$id)");
-				$this->success("删除成功",Cookie::get('Jumpurl'));
+				$this->success("删除成功",url('/admin/post/index/pid/36/ty/38'));
 				exit();
 			}else{
 				$this->error("删除失败");

@@ -19,13 +19,29 @@ class Comment extends Purview {
 
     //首页
     public function Index(){
-        $data = Db::name('community_post_comment')
+        $post_id = input('post_id',0);
+        $kwd = input('kwd','');
+        $where = [];
+        if($post_id)
+        {
+            $where[] = ['post_id'=>$post_id];
+        }
+        if($kwd)
+        {
+            $where['c.content'] = ['like',"%{$kwd}%"];
+        }
+        $query = Db::name('community_post_comment')
             ->alias('c')
             ->join('tp_users u','c.user_id = u.id','left')
             ->join('tp_community_post p','c.post_id = p.id','left')
-            ->field('c.id,c.content,c.created_at,user_name,nick,title')
-            ->order('c.created_at','desc')
-            ->paginate(10);
+            ->field('c.id,c.content,c.created_at,user_name,nick,title');
+         if($where)
+         {
+            $query->where($where);
+         }
+
+        $data = $query->order('c.created_at','desc')
+        ->paginate(10);
         $this->assign('list',$data);
         return $this->fetch();
     }
@@ -72,7 +88,13 @@ class Comment extends Purview {
             Cache::rm("user_{$id}");//删除缓存
 			if($this->db->delete($id)){
  				sys_log("删除用户:(id:$id)");
-				$this->success("删除成功",Cookie::get('Jumpurl'));
+                if(!empty($_SERVER["HTTP_REFERER"])){
+                    $url = $_SERVER["HTTP_REFERER"];
+                    $host = parse_url($url);
+                    $jumpUrl = url($host['path']);
+                    $this->success("删除成功",$jumpUrl);
+                }
+                $this->success("删除成功",Cookie::get('Jumpurl'));
 				exit();
 			}else{
 				$this->error("删除失败");
