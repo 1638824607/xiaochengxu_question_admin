@@ -37,7 +37,7 @@ class Login extends Controller {
                     Session::set('admin_id',$info['id']);
                     Session::set('admin_username',$info['username']);
                     Session::set('admin_role_name',$arr['role_name']);
-
+                    Session::set('userinfo',$info);
                     sys_log("登录后台系统!");
 
                     $info = array("code" => "1", "data" => "/Admin/Admin/Index", "tip" => "ok");
@@ -51,7 +51,11 @@ class Login extends Controller {
 
                     Session::set('admin_username','super');
                     Session::set('admin_role_name','super');
-
+                    Session::set('userinfo',[
+                        'image'=>'http://daodao.shenruxiang.com/sns/post/cd28b7505f3d539879ea2dda5a9b121d.jpg',
+                        'realname'=>'小王子',
+                        'phone'=>'12345678911'
+                    ]);
                     $info = array("code" => "1", "data" => "/Admin/Admin/Index", "tip" => "ok");
                     echo json_encode($info);
                     exit();

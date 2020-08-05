@@ -1,0 +1,75 @@
+{include file="Public/header" /}
+<script charset="utf-8" src="__ADMIN__/js/vue2.js"></script>
+<script charset="utf-8" src="__ADMIN__/js/axios.js"></script>
+<script charset="utf-8" src="__ADMIN__/js/moment.js"></script>
+<!-- 引入组件库 -->
+<link rel="stylesheet" href="__ADMIN__/css/element.css">
+<!-- 引入组件库 -->
+<script src="__ADMIN__/js/element.js"></script>
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body" id="app">
+		<el-row :gutter="20">
+			<el-col :span="12" :offset="6">
+				<div class="grid-content bg-purple">
+
+					<template>
+						<el-row class="demo-avatar demo-basic">
+							<el-col :span="12">
+								<div class="sub-title"></div>
+								<div class="demo-basic--circle">
+									<div>
+										<el-avatar icon="el-icon-user-solid" :size="140" src="{$info['image']}"></el-avatar>
+									</div>
+								</div>
+							</el-col>
+						</el-row>
+					</template>
+				</div>
+			</el-col>
+		</el-row>
+
+
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<div class="layui-tab-content">
+			<div class="layui-form-item">
+				<label class="layui-form-label">姓名</label>
+				<div class="layui-input-inline">
+					<input type="text" name="realname" value="{$info.realname}" class="layui-input" readonly>
+				</div>
+			</div>
+
+			<div class="layui-form-item">
+				<label class="layui-form-label">手机</label>
+				<div class="layui-input-inline">
+					<input type="text" name="phone" value="{$info.phone}" class="layui-input" readonly>
+				</div>
+			</div>
+
+
+			<el-row style="margin-left: 79px; margin-top: 40px;">
+				<el-col :span="3"><div class="grid-content bg-purple"><el-button round @click="location.href='/admin/admin/logout.html'">退出登录</el-button></div></el-col>
+				<el-col :span="3"><div class="grid-content bg-purple-light"><el-button round @click="location.href='/admin/manager/person.html'">修改密码</el-button></div></el-col>
+			</el-row>
+
+
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+<script>
+	var vue = new Vue({
+		el:"#app",
+		data:{
+			circleUrl: "http://daodao.shenruxiang.com/sns/post/cd28b7505f3d539879ea2dda5a9b121d.jpg",
+			sizeList: ["large"],
+		}
+	})
+</script>
+</body>
+</html>

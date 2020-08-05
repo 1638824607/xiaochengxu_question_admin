@@ -115,5 +115,17 @@ class Manager extends Purview {
 			$this->error('请选择删除信息!');
 		}
 	}
+
+	/*
+	 * 个人中心
+	 */
+	public function info()
+    {
+
+        $user =Session::get('userinfo');
+        $this->assign('info',$user);
+        return $this->fetch();
+    }
+
 }
 ?>
