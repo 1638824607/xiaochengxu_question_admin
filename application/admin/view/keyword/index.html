@@ -1,0 +1,387 @@
+{include file="Public/header" /}
+<script charset="utf-8" src="__ADMIN__/js/vue2.js"></script>
+<script charset="utf-8" src="__ADMIN__/js/axios.js"></script>
+<script charset="utf-8" src="__ADMIN__/js/moment.js"></script>
+<!-- 引入组件库 -->
+<link rel="stylesheet" href="__ADMIN__/css/element.css">
+<!-- 引入组件库 -->
+<script src="__ADMIN__/js/element.js"></script>
+<style>
+	.data-title{
+		font-size:28px;
+		text-align: center;
+		margin-top: 26px;
+		color:#fff;
+	}
+	.data-value{
+		font-size:24px;
+		text-align: center;
+		margin-top: 18px;
+		color:#fff;
+	}
+	.layui-row{
+		margin-top:26px;
+	}
+	 .el-input__inner{
+		 height:34px;
+		 height:34px;
+	 }
+	.el-date-editor .el-range-input{
+		width:38%;
+	}
+	.el-range-editor.el-input__inner{
+		padding:0px 6px;
+	}
+	.el-date-editor--daterange.el-input__inner{
+		width:220px;
+	}
+</style>
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+	<div class="layui-body" id="app">
+
+	<!-- 列表页-->
+	<div class="layui-tab layui-tab-brief" lay-filter="tab" v-show="listShow">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('index')}">关键词管理</a></li>
+		</ul>
+		<div class="layui-tab-content">
+
+				<div class="layui-row">
+					<div class="layui-col-md9">
+						<form action="" method="post" class="layui-form" lay-filter="content">
+							<div class="layui-form-item">
+								<div class="layui-input-block" style="margin-left:0px;">
+									<div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+										<template>
+											<div class="block">
+												<span class="demonstration">选择日期</span>
+												<el-date-picker
+														v-model="keyword.selectDate"
+														type="daterange"
+														range-separator="至"
+														start-placeholder="开始日期"
+														end-placeholder="结束日期"
+													    value-format="yyyy-MM-dd">
+												</el-date-picker>
+											</div>
+										</template>
+									</div>
+									<el-button type="success" @click="initKeywordPage()">查询</el-button>
+									<el-button type="primary" @click="add()">添加</el-button>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
+
+
+				<div class="layui-tab-item layui-show">
+					<form action="" method="get" class="layui-form">
+						<input type="hidden" name="pid" value="">
+						<input type="hidden" name="ty" value="">
+						<input type="hidden" name="tty" value="">
+						<input type="hidden" name="ttty" value="">
+					</form>
+
+					<table class="layui-table">
+						<thead>
+						<tr>
+							<th>序号</th>
+							<th>关键词</th>
+							<th>添加用户</th>
+							<th>添加时间</th>
+							<th>操作</th>
+						</tr>
+						</thead>
+						<tbody>
+						<tr v-for="item in keyword.items">
+							<td>{{item.id}}</td>
+							<td>{{item.content}}</td>
+							<td>{{item.user_name}}</td>
+							<td>{{item.created_at}}</td>
+
+							<td>
+								<a href="#" @click="del(item)" class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<template>
+					<div class="block">
+						<span class="demonstration"></span>
+						<el-pagination
+								@size-change="handleSizeChangeKeyword"
+								@current-change="handleCurrentChangeKeyword"
+								:current-page="keyword.currentPage"
+								:page-sizes="[10, 30, 50, 100]"
+								:page-size="keyword.size"
+								layout="total, sizes, prev, pager, next, jumper"
+								:total="keyword.total">
+						</el-pagination>
+					</div>
+				</template>
+
+		</div>
+	</div>
+
+	<!-- 列表页 END-->
+		<div class="layui-tab layui-tab-brief" lay-filter="tab" v-show="!listShow">
+			<ul class="layui-tab-title">
+				<li class="layui-this"><a href="{:url('index')}">关键词管理</a></li>
+			</ul>
+		<div class="layui-tab-content">
+		<el-form ref="form" :model="form" label-width="80px">
+			<el-form-item label="关键词">
+				<el-input v-model="form.content"></el-input>
+			</el-form-item>
+			<el-form-item>
+				<el-button type="primary" @click="onSubmit">立即创建</el-button>
+				<el-button @click="reback()">返回</el-button>
+			</el-form-item>
+		</el-form>
+		</div>
+		</div>
+
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+<script>
+	moment.locale('zh-cn', {
+		months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
+		monthsShort: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+		weekdays: '星期日_星期一_星期二_星期三_星期四_星期五_星期六'.split('_'),
+		weekdaysShort: '周日_周一_周二_周三_周四_周五_周六'.split('_'),
+		weekdaysMin: '日_一_二_三_四_五_六'.split('_'),
+		longDateFormat: {
+			LT: 'HH:mm',
+			LTS: 'HH:mm:ss',
+			L: 'YYYY-MM-DD',
+			LL: 'YYYY年MM月DD日',
+			LLL: 'YYYY年MM月DD日Ah点mm分',
+			LLLL: 'YYYY年MM月DD日ddddAh点mm分',
+			l: 'YYYY-M-D',
+			ll: 'YYYY年M月D日',
+			lll: 'YYYY年M月D日 HH:mm',
+			llll: 'YYYY年M月D日dddd HH:mm'
+		},
+		meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
+		meridiemHour: function (hour, meridiem) {
+			if (hour === 12) {
+				hour = 0;
+			}
+			if (meridiem === '凌晨' || meridiem === '早上' ||
+					meridiem === '上午') {
+				return hour;
+			} else if (meridiem === '下午' || meridiem === '晚上') {
+				return hour + 12;
+			} else {
+				// '中午'
+				return hour >= 11 ? hour : hour + 12;
+			}
+		},
+		meridiem: function (hour, minute, isLower) {
+			const hm = hour * 100 + minute;
+			if (hm < 600) {
+				return '凌晨';
+			} else if (hm < 900) {
+				return '早上';
+			} else if (hm < 1130) {
+				return '上午';
+			} else if (hm < 1230) {
+				return '中午';
+			} else if (hm < 1800) {
+				return '下午';
+			} else {
+				return '晚上';
+			}
+		},
+		calendar: {
+			sameDay: '[今天]LT',
+			nextDay: '[明天]LT',
+			nextWeek: '[下]ddddLT',
+			lastDay: '[昨天]LT',
+			lastWeek: '[上]ddddLT',
+			sameElse: 'L'
+		},
+		dayOfMonthOrdinalParse: /\d{1,2}(日|月|周)/,
+		ordinal: function (number, period) {
+			switch (period) {
+				case 'd':
+				case 'D':
+				case 'DDD':
+					return number + '日';
+				case 'M':
+					return number + '月';
+				case 'w':
+				case 'W':
+					return number + '周';
+				default:
+					return number;
+			}
+		},
+		relativeTime: {
+			future: '%s内',
+			past: '%s前',
+			s: '几秒',
+			ss: '%d秒',
+			m: '1分钟',
+			mm: '%d分钟',
+			h: '1小时',
+			hh: '%d小时',
+			d: '1天',
+			dd: '%d天',
+			M: '1个月',
+			MM: '%d个月',
+			y: '1年',
+			yy: '%d年'
+		},
+		week: {
+			// GB/T 7408-1994《数据元和交换格式·信息交换·日期和时间表示法》与ISO 8601:1988等效
+			dow: 1, // Monday is the first day of the week.
+			doy: 4  // The week that contains Jan 4th is the first week of the year.
+		}
+	})
+	const headers = new  Headers({
+		'Access-Control-Allow-Origin':'*',
+		"Content-Type":'text/plain'
+	})
+
+	layui.use('laydate', function(){
+		var laydate = layui.laydate;
+
+		//执行一个laydate实例
+		laydate.render({
+			elem: '#test1',
+			type: 'date',
+			trigger: 'click',
+			range: '-',
+			format: 'yyyy-MM-dd',
+			done: function (value, date, endDate) {
+				// page.beginDate = value.substr(0, 10)
+				// page.endDate = value.substr(14, 24)
+				// console.log(page.beginDate, page.endDate)
+			}
+
+		});
+	});
+
+	var vue = new Vue({
+		el:"#app",
+		data:{
+			keyword:{
+				items:[],
+				currentPage: 1,
+				total:0,
+				size:10,
+				selectDate: [],
+			},
+			form: {
+				content: ''
+			},
+			listShow:true
+
+		},
+		created(){
+			this.initKeywordPage()
+		},
+		methods:{
+			initKeywordPage(){
+				that = this
+				let url = "/admin/Keyword/getListPage";
+				let date = that.keyword.selectDate.length == 2 ? "&start_time=" + that.keyword.selectDate[0] + "&end_time=" + that.keyword.selectDate[1] : ''
+				url  = url + "?page=" + that.keyword.currentPage + "&size=" + that.keyword.size + date
+				fetch(url,{
+					method: "GET",
+					headers: headers,
+					mode: "no-cors"
+				})
+						.then(function(res){
+							console.log(res)
+							return res.json()
+						})
+						.then(function(res){
+							console.log(res)
+							that.keyword.items = res.data
+							that.keyword.currentPage = res.current_page
+							that.keyword.total = res.total
+
+						})
+			},
+			handleSizeChangeKeyword(val) {
+				console.log(`每页 ${val} 条`)
+				this.keyword.size = val
+				this.initKeywordPage()
+
+			},
+			handleCurrentChangeKeyword(val) {
+				console.log(`当前页: ${val}`)
+				this.keyword.currentPage = val
+				this.initKeywordPage()
+			},
+			del(item) {
+				let conf = confirm('确定要删除吗?')
+				let url = '/admin/Keyword/del'
+				let data = new FormData()
+				data.append('id',item.id)
+				if(conf) {
+					axios.post(url,data)
+							.then(res=>{
+								// 箭头函数, 这里this指vm
+								this.$delete(this.keyword.items,this.keyword.items.indexOf(item))
+							})
+							.catch(error=>{
+								console.log(error)
+							})
+
+				}
+				console.log(item)
+			},
+			onSubmit() {
+				console.log('submit!');
+				let that = this
+				let url = "/admin/Keyword/add";
+				let data = new FormData()
+				for (var k in this.form)
+				{
+					data.append(k,this.form[k])
+				}
+				axios.post(url,data)
+					.then(res=>{
+						// 箭头函数, 这里this指vm
+						if(res.data.status == 1)
+						{
+							layer.msg("添加成功");
+							let row = {
+								id: res.data.data.id,
+								content: that.form.content,
+								created_at: res.data.data.created_at,
+								user_name: ''
+							}
+							that.keyword.items.unshift(row)
+						}else{
+							layer.msg('添加失败');
+						}
+					})
+					.catch(error=>{
+						console.log(error)
+					})
+			},
+			add(){
+				this.listShow = false
+			},
+			reback(){
+				this.listShow = true
+			}
+		}
+
+	})
+
+</script>
+</body>
+</html>

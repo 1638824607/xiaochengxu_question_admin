@@ -54,7 +54,8 @@ class Login extends Controller {
                     Session::set('userinfo',[
                         'image'=>'http://daodao.shenruxiang.com/sns/post/cd28b7505f3d539879ea2dda5a9b121d.jpg',
                         'realname'=>'小王子',
-                        'phone'=>'12345678911'
+                        'phone'=>'12345678911',
+                        'id'=>1,
                     ]);
                     $info = array("code" => "1", "data" => "/Admin/Admin/Index", "tip" => "ok");
                     echo json_encode($info);
