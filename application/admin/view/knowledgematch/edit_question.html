@@ -18,19 +18,19 @@
 						<div class="layui-tab-item layui-show">
 							<form action="" method="post" class="layui-form" lay-filter="content" id="edit">
 
-								<input type="hidden" name="match_id" value="{$matchInfo['id']}">
+								<input type="hidden" name="id" value="{$matchQuestionInfo['id']}">
 
 								<div class="layui-form-item">
 									<label class="layui-form-label">标题</label>
 									<div class="layui-input-inline">
-										<input type="text" name="title" value="" placeholder="请输入标题" class="layui-input">
+										<input type="text" name="title" value="{$matchQuestionInfo['title']}" placeholder="请输入标题" class="layui-input">
 									</div>
 								</div>
 
 								<div class="layui-form-item">
 									<label class="layui-form-label">简介</label>
 									<div class="layui-input-inline">
-										<textarea name="desc"   placeholder="请输入简介" class="layui-textarea"></textarea>
+										<textarea name="desc"   placeholder="请输入简介" class="layui-textarea">{$matchQuestionInfo['desc']}</textarea>
 									</div>
 								</div>
 
@@ -38,8 +38,8 @@
 									<label class="layui-form-label">题目类型</label>
 									<div class="layui-input-inline">
 										<select name="src_type" lay-filter="src_type" id="src_type">
-											<option value="1">选择题</option>
-											<option value="2">问答题</option>
+											<option value="1" {if($matchQuestionInfo['type'] == '选择')}selected{/if}>选择题</option>
+											<option value="2" {if($matchQuestionInfo['type'] == '问答')}selected{/if}>问答题</option>
 										</select>
 									</div>
 								</div>
@@ -47,20 +47,33 @@
 								<div class="layui-form-item">
 									<label class="layui-form-label">题目编号</label>
 									<div class="layui-input-inline">
-										<input type="number" name="number"  placeholder="请输入题目编号" class="layui-input">
+										<input type="number" name="number" value="{$matchQuestionInfo['number']}"  placeholder="请输入题目编号" class="layui-input">
 									</div>
 									<div class="layui-form-mid layui-word-aux">1开始 从小到大 不可重复</div>
 								</div>
 
-								<div class="layui-form-item " id="answer">
+
+								<div class="layui-form-item " id="answer" {if($matchQuestionInfo['type'] == '问答')}hidden{/if}>
 									<label class="layui-form-label">题目答案</label>
 									<div class="layui-input-inline">
-										<input type="number" name="answer"  placeholder="请输入题目答案" class="layui-input">
+										<input type="number" name="answer" value="{$matchQuestionInfo['answer']}"  placeholder="请输入题目答案" class="layui-input">
 									</div>
 									<div class="layui-form-mid layui-word-aux">数字（ABCD对应1234）</div>
 								</div>
 
 								<div id="question_list">
+									{notempty name="$matchQuestionInfo['options']"}
+
+										<?php $optionList = explode('|', $matchQuestionInfo['options']); ?>
+
+											{volist name="optionList" id="option" key="k"}
+												<div class="layui-form-item">
+													<label class="layui-form-label">{$matchQuestionInfo['type']}{if($matchQuestionInfo['type'] == '选择')}{:intToChr($k-1)}{/if}</label>
+													<div class="layui-input-inline"><input type="text" name="question[]" value="{$option}" placeholder="请输入{$matchQuestionInfo['type']}" class="layui-input">
+													</div>
+												</div>
+											{/volist}
+									{/notempty}
 								</div>
 
 								<div class="layui-form-item">

@@ -11,39 +11,44 @@
  * 吾道建站合作联系方式 微信:18226849637   QQ:730249592  备注: 吾道建站
  * 吾道建站座右铭:客户即合理 存在即合理
  */
+
 namespace app\admin\controller;
 
 use app\admin\common\Purview;
+use app\admin\model\KnowledgeMatchModel;
+use app\admin\model\KnowledgeMatchQuestionModel;
 use think\Db;
 
 class Knowledgematch extends Purview
 {
     public function index()
     {
-        $list = Db::name('knowledge_match')->order('hot desc')->order('sort desc')->paginate(20);
-        $this->assign('list',$list);
+        $list = KnowledgeMatchModel::with(['question'])->order('hot desc')->order('sort desc')->paginate(20);
+
+        $this->assign('list', $list);
+        $this->assign('questionType', KnowledgeMatchQuestionModel::$questionType);
         return $this->fetch();
     }
 
+
     public function add()
     {
-        if($this->request->isPost())
-        {
-            $data['title'] = $this->request->param('title');
-            $data['desc'] = $this->request->param('desc');
-            $data['src_type'] = $this->request->param('src_type');
-            $data['src'] = $this->request->param('src');
-            $data['introduce'] = $this->request->param('introduce');
+        if ($this->request->isPost()) {
+            $data['title']              = $this->request->param('title');
+            $data['desc']               = $this->request->param('desc');
+            $data['src_type']           = $this->request->param('src_type');
+            $data['src']                = $this->request->param('src');
+            $data['introduce']          = $this->request->param('introduce');
             $data['introduce_src_type'] = $this->request->param('introduce_src_type');
-            $data['introduce_src'] = $this->request->param('introduce_src');
-            $data['duration'] = $this->request->param('duration');
-            $data['sort'] = $this->request->param('sort');
-            $data['hot'] = $this->request->param('hot');
+            $data['introduce_src']      = $this->request->param('introduce_src');
+            $data['duration']           = $this->request->param('duration');
+            $data['sort']               = $this->request->param('sort');
+            $data['hot']                = $this->request->param('hot');
 
             $res = Db::name('knowledge_match')->insert($data);
-            if($res){
-                $this->success('操作成功',url('index'));
-            }else{
+            if ($res) {
+                $this->success('操作成功', url('index'));
+            } else {
                 $this->error('操作失败,请重试');
             }
         }
@@ -53,32 +58,31 @@ class Knowledgematch extends Purview
 
     public function edit()
     {
-        if($this->request->isPost())
-        {
-            $data['title'] = $this->request->param('title');
-            $data['desc'] = $this->request->param('desc');
-            $data['src_type'] = $this->request->param('src_type');
-            $data['src'] = $this->request->param('src');
-            $data['introduce'] = $this->request->param('introduce');
+        if ($this->request->isPost()) {
+            $data['title']              = $this->request->param('title');
+            $data['desc']               = $this->request->param('desc');
+            $data['src_type']           = $this->request->param('src_type');
+            $data['src']                = $this->request->param('src');
+            $data['introduce']          = $this->request->param('introduce');
             $data['introduce_src_type'] = $this->request->param('introduce_src_type');
-            $data['introduce_src'] = $this->request->param('introduce_src');
-            $data['duration'] = $this->request->param('duration');
-            $data['sort'] = $this->request->param('sort');
-            $data['hot'] = $this->request->param('hot');
+            $data['introduce_src']      = $this->request->param('introduce_src');
+            $data['duration']           = $this->request->param('duration');
+            $data['sort']               = $this->request->param('sort');
+            $data['hot']                = $this->request->param('hot');
 
-            $res = Db::name('knowledge_match')->where(array('id'=>$this->request->param('id')))->update($data);
-            if($res !== false){
-                $this->success('操作成功',url('index'));
-            }else{
+            $res = Db::name('knowledge_match')->where(array('id' => $this->request->param('id')))->update($data);
+            if ($res !== false) {
+                $this->success('操作成功', url('index'));
+            } else {
                 $this->error('操作失败,请重试');
             }
-        }else{
+        } else {
             $id = input('id');
-            if(empty($id)){
+            if (empty($id)) {
                 $this->error('信息不存在');
             }
-            $info = Db::name('knowledge_match')->where(array('id'=>$this->request->param('id')))->find();
-            $this->assign('info',$info);
+            $info = Db::name('knowledge_match')->where(array('id' => $this->request->param('id')))->find();
+            $this->assign('info', $info);
             return $this->fetch();
         }
     }
@@ -86,53 +90,124 @@ class Knowledgematch extends Purview
     public function del()
     {
         $id = input('id');
-        if(empty($id)){
+        if (empty($id)) {
             $this->error('信息不存在');
         }
-        $res = Db::name('knowledge_match')->where(array('id'=>$id))->delete();
-        if($res){
-            $this->success('操作成功',url('index'));
-        }else{
+        $res = Db::name('knowledge_match')->where(array('id' => $id))->delete();
+        if ($res) {
+            $this->success('操作成功', url('index'));
+        } else {
             $this->error('操作失败,请重试');
         }
     }
 
     public function add_question()
     {
-        if($this->request->isPost())
-        {
-            $data['title'] = $this->request->param('title');
-            $data['desc'] = $this->request->param('desc');
-            $data['src_type'] = $this->request->param('src_type');
-            $data['src'] = $this->request->param('src');
-            $data['introduce'] = $this->request->param('introduce');
-            $data['introduce_src_type'] = $this->request->param('introduce_src_type');
-            $data['introduce_src'] = $this->request->param('introduce_src');
-            $data['duration'] = $this->request->param('duration');
-            $data['sort'] = $this->request->param('sort');
-            $data['hot'] = $this->request->param('hot');
 
-            $res = Db::name('knowledge_match')->insert($data);
-            if($res){
-                $this->success('操作成功',url('index'));
-            }else{
+        if ($this->request->isPost()) {
+            $data['match_id'] = $this->request->param('match_id');
+            $data['title']    = $this->request->param('title');
+            $data['desc']     = $this->request->param('desc');
+            $data['number']   = $this->request->param('number');
+            $data['type']     = $this->request->param('src_type');
+            $data['answer']   = $this->request->param('answer');
+            $data['question'] = $this->request->param('question/a');
+
+            if (empty($data['match_id'])) {
+                $this->error('未找到测评记录');
+            }
+
+            if (empty($data['title']) || empty($data['desc'])
+                || empty($data['type']) || empty($data['number'])
+                || empty($data['question'])) {
+                $this->error('请输入完整');
+            }
+
+            if ($data['type'] == 1 && empty($data['answer'])) {
+                $this->error('请输入选择题答案');
+            }
+
+            $data['options']    = implode('|', $data['question']);
+            $data['type']       = $data['type'] == 1 ? '选择' : '问答';
+            $data['created_at'] = date('Y-m-d H:i:s');
+            $data['updated_at'] = date('Y-m-d H:i:s');
+
+            $res = Db::name('knowledge_match_question')->insert($data);
+
+            if ($res) {
+                $this->success('操作成功', url('index'));
+            } else {
                 $this->error('操作失败,请重试');
             }
         }
 
         $matchId = input('match_id');
 
-        if(empty($matchId)) {
+        if (empty($matchId)) {
             $this->error('请选择测评');
         }
 
         $matchInfo = Db::name('knowledge_match')->where('id', $matchId)->find();
 
-        if(empty($matchInfo)) {
-            $this->error('题目不存在');
+        if (empty($matchInfo)) {
+            $this->error('测评不存在');
         }
 
         $this->assign('matchInfo', $matchInfo);
+        return $this->fetch();
+    }
+
+    public function edit_question()
+    {
+
+        if ($this->request->isPost()) {
+            $data['id']       = $this->request->param('id');
+            $data['title']    = $this->request->param('title');
+            $data['desc']     = $this->request->param('desc');
+            $data['number']   = $this->request->param('number');
+            $data['type']     = $this->request->param('src_type');
+            $data['answer']   = $this->request->param('answer');
+            $data['question'] = $this->request->param('question/a');
+
+            if (empty($data['title']) || empty($data['desc'])
+                || empty($data['type']) || empty($data['number'])
+                || empty($data['question'])) {
+                $this->error('请输入完整');
+            }
+
+            if ($data['type'] == 1 && empty($data['answer'])) {
+                $this->error('请输入选择题答案');
+            }
+
+            $data['options']    = implode('|', $data['question']);
+            $data['type']       = $data['type'] == 1 ? '选择' : '问答';
+            $data['updated_at'] = date('Y-m-d H:i:s');
+
+            $res = Db::name('knowledge_match_question')->where(['id' => $data['id']])->update($data);
+
+            if ($res !== false) {
+                $this->success('操作成功', url('index'));
+            } else {
+                $this->error('操作失败,请重试');
+            }
+        }
+
+        $id = input('id');
+
+        if (empty($id)) {
+            $this->error('请选择题目');
+        }
+
+        $matchQuesiontInfo = Db::name('knowledge_match_question')->where('id', $id)->find();
+
+        if (empty($matchQuesiontInfo)) {
+            $this->error('题目不存在');
+        }
+
+        $matchInfo = Db::name('knowledge_match')->where('id', $matchQuesiontInfo['match_id'])->find();
+
+        $this->assign('matchInfo', $matchInfo);
+        $this->assign('matchQuestionInfo', $matchQuesiontInfo);
         return $this->fetch();
     }
 }

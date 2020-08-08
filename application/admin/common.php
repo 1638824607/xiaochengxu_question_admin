@@ -396,3 +396,18 @@ function get_frm_out_put($arr,$nm,$tag,$value='',$js="",$firstNode=""){
     }
     return $str;
 }
+
+function dd($data)
+{
+    echo '<pre>';
+    var_dump($data);
+    die;
+}
+
+function intToChr($index, $start = 65) {
+    $str = '';
+    if (floor($index / 26) > 0) {
+        $str .= intToChr(floor($index / 26)-1);
+    }
+    return $str . chr($index % 26 + $start);
+}
