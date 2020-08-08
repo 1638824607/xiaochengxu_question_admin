@@ -18,34 +18,35 @@
 		<div class="layui-tab-content">
 			<div class="layui-tab-item layui-show">
 				{volist name="list" id="vo"}
-				<div class="layui-card">
-
-					<div class="layui-card-header">
-						<span class="layui-badge-dot layui-bg-cyan"></span><span class="card-header-title">{$vo['title']}</span>
-						<a href="{:url('add_question', ['match_id' => $vo['id']])}" class="layui-btn layui-btn-warm layui-btn-xs card-header-delete">添加题目</a>
-						<a href="{:url('edit', ['id' => $vo['id']])}"  class="layui-btn layui-btn-normal layui-btn-xs card-header-delete">编辑</a>
-						<a href="{:url('del', ['id' => $vo['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class="layui-btn layui-btn-danger layui-btn-xs card-header-delete">删除</a>
-					</div>
-					<div class="layui-card-body" style="margin-top: -1%">
+					<div class="layui-card">
 						<div class="layui-card-header">
-							<span>(选择题) 1、比平时更加积极的分享一些自己认为有用的或是感到触动的疫情相关知识</span>
-							<button type="button" class="layui-btn layui-btn-xs layui-card-question">编辑</button>
-							<button type="button" class="layui-btn layui-btn-danger layui-btn-xs layui-card-question">删除</button>
+							<span class="layui-badge-dot layui-bg-cyan"></span><span class="card-header-title">{$vo['title']}</span>
+							<a href="{:url('add_question', ['match_id' => $vo['id']])}" class="layui-btn layui-btn-warm layui-btn-xs card-header-delete">添加题目</a>
+							<a href="{:url('edit', ['id' => $vo['id']])}"  class="layui-btn layui-btn-normal layui-btn-xs card-header-delete">编辑</a>
+							<a href="{:url('del', ['id' => $vo['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class="layui-btn layui-btn-danger layui-btn-xs card-header-delete">删除</a>
 						</div>
-						<div style="margin-left: 5%">
-							<div class="layui-card-body">
-								A.完全不像我
-							</div>
-							<div class="layui-card-body">
-								B.不太像我
-							</div>
-							<div class="layui-card-body">
-								C.不清楚
-							</div>
-						</div>
+						{notempty name="$vo['question']"}
+							{volist name="$vo['question']" id="question"}
+								<div class="layui-card-body" style="margin-top: -1%">
+									<div class="layui-card-header">
+										<span>({$question['type']}题) {$question['number']}、{$question['title']}</span>
+										<a href="{:url('edit_question', ['id' => $question['id']])}" class="layui-btn layui-btn-xs layui-card-question">编辑</a>
+										<button type="button" class="layui-btn layui-btn-danger layui-btn-xs layui-card-question">删除</button>
+									</div>
+									{notempty name="$question['options']"}
+										<div style="margin-left: 5%">
+											<?php $optionList = explode('|', $question['options']); ?>
+											{volist name="optionList" id="option" key="k"}
+												<div class="layui-card-body">
+													{:intToChr($k-1)}.{$option}
+												</div>
+											{/volist}
+										</div>
+									{/notempty}
+								</div>
+							{/volist}
+						{/notempty}
 					</div>
-
-				</div>
 				{/volist}
 				<div class="page">
 					{$list->render()}
