@@ -7,7 +7,7 @@
 	<div class="layui-tab layui-tab-brief" lay-filter="tab">
 		<ul class="layui-tab-title">
 			<li class="layui-this"><a href="{:url('train_day_step_index')}">分解步骤列表</a></li>
-			<!--<li><a href="{:url('add_banner')}">轮播添加</a></li>-->
+			<li><a href="{:url('add_banner')}">分解步骤</a></li>
 		</ul>
 		<div class="layui-tab-content">
 			<div class="layui-tab-item layui-show">
@@ -31,7 +31,7 @@
 					<thead>
 					<tr>
 						<th>ID</th>
-						<th>所属静心分类</th>
+						<th>所属静心名称</th>
 						<th>静心步骤标题</th>
 						<th>时长</th>
 						<th>音乐地址</th>
@@ -47,19 +47,13 @@
 							<td>{$v['day_title']}</td>
 							<td>{$v['title']}</td>
 							<td>{$v['duration']}(秒)</td>
+							<td>{$v.src}</td>
 							<td>{$v.created_at}</td>
-							<td>{$v.updated_at}</td>
 
-							<!--<td>-->
-								<!--<?php if($v['status']==1){?>-->
-								<!--<a href="{:url('update_status', ['id' => $v['id'], 'status' => 2])}"><i class='fa fa-toggle-on' title="点击关闭"></i></a>-->
-								<!--<?php }else{?>-->
-								<!--<a href="{:url('update_status', ['id' => $v['id'], 'status' => 1])}"><i class='fa fa-toggle-off' title="点击开启"></i></a>-->
-								<!--<?php }?>-->
-							<!--</td>-->
+							<td>{$v.updated_at}</td>
 							<td>
-								<!--<a href="{:url('edit_banner', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>修改</a>-->
-								<!--<a href="{:url('del_banner', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>-->
+								<a href="{:url('edit_banner', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>修改</a>
+								<a href="{:url('del_banner', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
 							</td>
 						</tr>
 					{/volist}
