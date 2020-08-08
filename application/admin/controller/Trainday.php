@@ -235,7 +235,7 @@ class Trainday extends Purview
 
     public function del_train_day_step()
     {
-        
+
         if(empty($this->request->param('id'))){
             $this->error('静心步骤id不存在');
         }

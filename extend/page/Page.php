@@ -11,7 +11,7 @@ class Page extends Paginator
         if ($this->currentPage() > 1) {
             return "<a href='" . $this->url(1) . "' title='首页'>首页</a>";
         } else {
-            return "<p>首页</p>";
+            return "<a>首页</a>";
         }
     }
 
@@ -20,7 +20,7 @@ class Page extends Paginator
         if ($this->currentPage() > 1) {
             return "<a href='" . $this->url($this->currentPage - 1) . "' title='上一页'>上一页</a>";
         } else {
-            return "<p>上一页</p>";
+            return "<a>上一页</a>";
         }
     }
 
@@ -29,7 +29,7 @@ class Page extends Paginator
         if ($this->hasMore) {
             return "<a href='" . $this->url($this->currentPage + 1) . "' title='下一页'>下一页</a>";
         } else {
-            return"<p>下一页</p>";
+            return"<a>下一页</a>";
         }
     }
 
@@ -38,14 +38,14 @@ class Page extends Paginator
         if ($this->hasMore) {
             return "<a href='" . $this->url($this->lastPage) . "' title='尾页'>尾页</a>";
         } else {
-            return "<p>尾页</p>";
+            return "<a>尾页</a>";
         }
     }
 
     //统计信息
     protected function info(){
-        return "<p class='pageRemark'>共<b>" . $this->lastPage .
-        "</b>页<b>" . $this->total . "</b>条数据</p>";
+        return "<a class='pageRemark'>共<a>" . $this->lastPage .
+        "</a>页<a>" . $this->total . "</a>条数据</a>";
     }
 
     /**
@@ -107,42 +107,22 @@ class Page extends Paginator
 
             if ($this->simple) {
 
-                return sprintf(
-
-                    '%s
-%s %s %s
-',
-
+                return sprintf('%s %s %s %s',
                     $this->css(),
-
                     $this->prev(),
-
                     $this->getLinks(),
-
                     $this->next()
-
                 );
 
             } else {
 
-                return sprintf(
-
-                    '%s
-%s %s %s %s %s %s
-',
-
+                return sprintf('%s %s %s %s %s %s %s',
                     $this->css(),
-
                     $this->home(),
-
                     $this->prev(),
-
                     $this->getLinks(),
-
                     $this->next(),
-
                     $this->last(),
-
                     $this->info()
 
                 );
@@ -234,7 +214,7 @@ class Page extends Paginator
      * 分页样式
      */
     protected function css(){
-        return '  <style type="text/css">
+        return "<style type='text/css'>
              .pagination p{
                  margin:0;
                  cursor:pointer
@@ -296,6 +276,6 @@ class Page extends Paginator
              }
              .dates li {font-size: 14px;margin:20px 0}
              .dates li span{float:right}
-         </style>';
+         </style>";
     }
 }
