@@ -3,7 +3,7 @@ application/database.php
 
 后台管理: 
 
-域名/jxadmin/
+域名/jxadmin2/
 
 程序员账号权限
 
