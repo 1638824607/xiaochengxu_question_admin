@@ -95,6 +95,7 @@ class Knowledgematch extends Purview
         }
         $res = Db::name('knowledge_match')->where(array('id' => $id))->delete();
         if ($res) {
+            Db::name('knowledge_match_question')->where(array('match_id' => $id))->delete();
             $this->success('操作成功', url('index'));
         } else {
             $this->error('操作失败,请重试');
