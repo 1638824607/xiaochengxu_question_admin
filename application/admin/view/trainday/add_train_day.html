@@ -1,0 +1,138 @@
+{include file="Public/header" /}
+<script charset="utf-8" src="__ADMIN__/myeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ADMIN__/myeditor/lang/zh_CN.js"></script>
+
+<div class="layui-layout layui-layout-admin">
+    {include file="Public/left" /}
+
+    <div class="layui-body">
+        <div class="layui-tab layui-tab-brief" lay-filter="tab">
+            <ul class="layui-tab-title">
+                <li><a href="{:url('index')}">静心列表</a></li>
+                <li class="layui-this"><a href="{:url('add_train_day',['pid'=>43,'ty'=>45])}">静心添加</a></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <form action="" method="post" class="layui-form" lay-filter="content" id="edit">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">请选择上传类型</label>
+                            <div class="layui-input-inline">
+                                <select name="src_type" lay-filter="model" lay-verify="required">
+                                    <option value="">请选择类型</option>
+                                    <option value="1">图片</option>
+                                    <option value="2">视频</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">上传文件</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="image" id="img" value="" placeholder="请上传配置文件"  class="layui-input">
+                            </div>
+                            <button type="button" id="img_btn" class="layui-btn" data-des="ico">
+                                <i class="layui-icon">&#xe67c;</i>上传文件
+                            </button>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">知识阅读类型</label>
+                            <div class="layui-input-inline">
+                                <select name="cate_id" lay-filter="model" lay-verify="required">
+                                    <option value="">请选择类型</option>
+                                    {volist name="list" id="vs"}
+                                    <option value="{$vs.id}">{$vs.title}</option>
+                                    {/volist}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">标题</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="title" value="" placeholder="请输入标题" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">简介</label>
+                            <div class="layui-input-inline">
+                                <textarea name="desc" style="width:520px;height:100px;" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">内容摘要</label>
+                            <div class="layui-input-inline">
+                                <textarea name="content" style="width:520px;height:100px;" class="layui-textarea"></textarea>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">排序</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="sort" value="" placeholder="请输入排序" class="layui-input">
+                            </div>
+                        </div>
+
+                        <!--<input type="hidden" name="id" value="{$info['id']}">-->
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn" lay-submit>立即提交</button>
+                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        KindEditor.ready(function(K) {
+            var editor1 = K.create('.editor_id', {
+                filterMode: false,//是否开启过滤模式
+                cssPath : '__ADMIN__/myeditor/plugins/code/prettify.css',
+                uploadJson : '__ADMIN__/myeditor/php/upload_json.php',
+                fileManagerJson : '__ADMIN__/myeditor/php/file_manager_json.php',
+                allowFileManager : true,
+                afterBlur : function() {
+                    this.sync();
+                    K.ctrl(document, 13, function() {
+                        K('form[name=formlist]')[0].submit();
+                    });
+                    K.ctrl(this.edit.doc, 13, function() {
+                        K('form[name=formlist]')[0].submit();
+                    });
+                }
+            });
+
+            var editor = K.editor({
+                allowFileManager : true
+            });
+
+            K('#img_btn').click(function() {
+                editor.loadPlugin('image', function() {
+                    editor.plugin.imageDialog({
+                        imageUrl : K('#img').val(),
+                        clickFn : function(url, title, width, height, border, align) {
+                            K('#img').val(url);
+                            editor.hideDialog();
+                        }
+                    });
+                });
+            });
+            K('#img_btn1').click(function() {
+                editor.loadPlugin('image', function() {
+                    editor.plugin.imageDialog({
+                        imageUrl : K('#img1').val(),
+                        clickFn : function(url, title, width, height, border, align) {
+                            K('#img1').val(url);
+                            editor.hideDialog();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    {include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>

@@ -75,6 +75,8 @@ class Trainday extends Purview
 
         }else{
 
+            $list = Db::name('train_day_cate')->select();
+            $this->assign('list',$list);
             return $this->fetch();
         }
     }
