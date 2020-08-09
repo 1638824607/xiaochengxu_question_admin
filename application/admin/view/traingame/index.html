@@ -1,0 +1,63 @@
+{include file="Public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('index')}">益脑游戏列表</a></li>
+			<li class=""><a href="{:url('add')}">益脑游戏添加</a></li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+
+				<table class="layui-table">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>名称</th>
+						<th>描述</th>
+						<th>简介</th>
+						<th>指导语</th>
+						<th>时长</th>
+						<th>图片</th>
+						<th>参与人数</th>
+						<th>创建时间</th>
+						<th>操作</th>
+					</tr>
+					</thead>
+					<tbody>
+					{volist name="list" id="v"}
+					<tr>
+						<td>{$v['id']}</td>
+						<td width="80">{$v['title']}</td>
+						<td>{$v['desc']}</td>
+						<td>{$v['introduction']}</td>
+						<td>{$v['guide']}</td>
+						<td>{$v['duration']}</td>
+						<td><img src="{$v['image']}" width="80" alt=""></td>
+						<td>{$v['join_num']}</td>
+						<td>{$v['created_at']}</td>
+						<td>
+							<a href="{:url('edit', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>编辑</a>
+							<a href="{:url('del', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+						</td>
+					</tr>
+					{/volist}
+					</tbody>
+				</table>
+				<div class="page">
+					{$list->render()}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>
