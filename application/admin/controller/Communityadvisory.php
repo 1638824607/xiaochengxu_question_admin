@@ -34,6 +34,94 @@ class Communityadvisory extends Purview
     }
 
 
+    public function add_community_advisory()
+    {
+        if($this->request->isPost()){
+
+            $data = [];
+            if(empty($this->request->param('name'))){
+                $this->error('老师姓名不能为空');
+            }
+
+            if(empty($this->request->param('avatar'))){
+                $this->error('老师头像不能为空');
+            }
+
+            $data['name'] = $this->request->param('name');
+            $data['avatar'] = $this->request->param('avatar');
+            $data['job'] = $this->request->param('job');
+            $data['org'] = $this->request->param('org');
+            $data['tel'] = $this->request->param('tel');
+            $data['desc'] = $this->request->param('desc');
+            $data['created_at'] = date('Y-m-d H:i:s',time());
+
+            $res = Db::name('community_advisory')->insert($data);
+            if($res){
+
+                $this->success('操作成功',url('index',['pid'=>24,'ty'=>44]));
+            }else{
+                $this->error('操作失败');
+            }
+        }else{
+
+            return $this->fetch();
+        }
+    }
+
+    public function edit_community_advisory()
+    {
+        if($this->request->isPost()){
+            $data = [];
+            if(empty($this->request->param('id'))){
+                $this->error('数据不存在!');
+            }
+            if(empty($this->request->param('name'))){
+                $this->error('老师姓名不能为空');
+            }
+
+            if(empty($this->request->param('avatar'))){
+                $this->error('老师头像不能为空');
+            }
+            $data['name'] = $this->request->param('name');
+            $data['avatar'] = $this->request->param('avatar');
+            $data['job'] = $this->request->param('job');
+            $data['org'] = $this->request->param('org');
+            $data['tel'] = $this->request->param('tel');
+            $data['desc'] = $this->request->param('desc');
+            $data['updated_at'] = date('Y-m-d H:i:s',time());
+
+            $res = Db::name('community_advisory')->where('id',$this->request->param('id'))->update($data);
+            if($res){
+
+                $this->success('操作成功',url('index',['pid'=>24,'ty'=>44]));
+            }else{
+                $this->error('操作失败');
+            }
+        }else{
+            if(empty($this->request->param('id'))){
+                $this->error('数据不存在!');
+            }
+            $info = Db::name('community_advisory')->where('id',$this->request->param('id'))->find();
+            $this->assign('info',$info);
+            return $this->fetch();
+        }
+    }
+
+    public function del_community_advisory()
+    {
+       $id = $this->request->param('id');
+        if(empty($id)){
+            $this->error('老师信息不存在');
+        }
+        $res = Db::name('community_advisory')->where('id',$id)->delete();
+        if($res){
+            $this->success('操作成功',url('index'));
+        }else{
+            $this->error('操作失败');
+        }
+    }
+
+
 
 
 }

@@ -6,8 +6,8 @@
 	<div class="layui-body">
 	<div class="layui-tab layui-tab-brief" lay-filter="tab">
 		<ul class="layui-tab-title">
-			<li class="layui-this"><a href="{:url('index')}">老师列表</a></li>
-			<!--<li><a href="{:url('add_banner')}">轮播添加</a></li>-->
+			<li class="layui-this"><a href="{:url('index',['pid'=>24,'ty'=>44])}">老师列表</a></li>
+			<li><a href="{:url('add_community_advisory',['pid'=>24,'ty'=>44])}">老师添加</a></li>
 		</ul>
 		<div class="layui-tab-content">
 			<div class="layui-tab-item layui-show">
@@ -64,8 +64,8 @@
 								<!--<?php }?>-->
 							<!--</td>-->
 							<td>
-								<!--<a href="{:url('edit_banner', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>修改</a>-->
-								<!--<a href="{:url('del_banner', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>-->
+								<a href="{:url('edit_community_advisory', ['id' => $v['id'],'pid'=>24,'ty'=>44])}"  class='layui-btn layui-btn-xs'>修改</a>
+								<a href="{:url('del_community_advisory', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
 							</td>
 						</tr>
 					{/volist}
