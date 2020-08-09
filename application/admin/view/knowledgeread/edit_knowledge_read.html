@@ -106,20 +106,26 @@
 			});
 
 			K('#img_btn').click(function() {
-				var src_type = $('#src_type').val();
-				if(src_type == '') {
-					layer.msg('请选择上传类型');
-					return false;
-				}
 				var type = src_type == 1 ? 'image' : 'insertfile';
 				editor.loadPlugin(type, function() {
-					editor.plugin.fileDialog({
-						fileUrl : K('#image').val(),
-						clickFn : function(url, title, width, height, border, align) {
-							K('#image').val(url);
-							editor.hideDialog();
-						}
-					});
+					if(type=='image') {
+						editor.plugin.imageDialog({
+							imageUrl : K('#img').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#img').val(url);
+								editor.hideDialog();
+							}
+						});
+					}else{
+						editor.plugin.fileDialog({
+							fileUrl : K('#img').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#img').val(url);
+								editor.hideDialog();
+							}
+						});
+					}
+
 				});
 			});
 		});
