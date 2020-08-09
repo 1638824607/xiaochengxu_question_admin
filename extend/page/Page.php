@@ -25,7 +25,7 @@ class Page extends Paginator
     }
 
     //下一页
-    protected function next() {
+    protected function next(){
         if ($this->hasMore) {
             return "<a href='" . $this->url($this->currentPage + 1) . "' title='下一页'>下一页</a>";
         } else {
@@ -34,7 +34,7 @@ class Page extends Paginator
     }
 
     //尾页
-    protected function last() {
+    protected function last(){
         if ($this->hasMore) {
             return "<a href='" . $this->url($this->lastPage) . "' title='尾页'>尾页</a>";
         } else {
