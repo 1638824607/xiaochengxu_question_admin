@@ -15,16 +15,18 @@
 namespace app\admin\controller;
 
 use app\admin\common\Purview;
+use app\admin\model\KnowledgeHealthQuestionModel;
+use app\admin\model\KnowledgeHealthRecordModel;
 use app\admin\model\KnowledgeMatchModel;
 use app\admin\model\KnowledgeMatchQuestionModel;
 use app\admin\model\KnowledgeMatchRecordModel;
 use think\Db;
 
-class Knowledgematchrecord extends Purview
+class Knowledgehealthrecord extends Purview
 {
     public function index()
     {
-        $list = KnowledgeMatchRecordModel::with(['user', 'match'])->order('id desc')->paginate(20);
+        $list = KnowledgeHealthRecordModel::with(['user', 'health'])->order('id desc')->paginate(20);
 
         $this->assign('list', $list);
         return $this->fetch();

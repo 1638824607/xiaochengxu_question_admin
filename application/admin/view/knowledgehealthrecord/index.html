@@ -1,0 +1,59 @@
+{include file="Public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('index')}">健康自测记录</a></li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+				<form action="" method="get" class="layui-form">
+					<input type="hidden" name="pid" value="{$vs.pid}">
+					<input type="hidden" name="ty" value="{$vs.ty}">
+					<input type="hidden" name="tty" value="{$vs.tty}">
+					<input type="hidden" name="ttty" value="{$vs.ttty}">
+				</form>
+
+				<table class="layui-table">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>测评</th>
+						<th>用户ID/昵称</th>
+						<th>分数</th>
+						<th>水平</th>
+						<th>开始时间</th>
+						<th>时间</th>
+					</tr>
+					</thead>
+					<tbody>
+					{volist name="list" id="v"}
+						<tr>
+							<td>{$v['id']}</td>
+							<td>{$v['health']['title']}</td>
+							<td>{$v['user_id']}/{$v['user']['nick']}</td>
+							<td>{$v['score']}</td>
+							<td>{$v['score_level']}</td>
+							<td>{$v['start_time']}</td>
+							<td>{$v['end_time']}</td>
+						</tr>
+					{/volist}
+					</tbody>
+				</table>
+				<div class="page">
+					{$list->render()}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>
