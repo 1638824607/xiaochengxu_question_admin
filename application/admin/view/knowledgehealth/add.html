@@ -31,7 +31,7 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">封面图类型</label>
 							<div class="layui-input-inline">
-								<select name="src_type">
+								<select name="src_type" id="src_type">
 									<option value="1">图片</option>
 									<option value="2">视频</option>
 								</select>
@@ -58,7 +58,7 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">介绍类型</label>
 							<div class="layui-input-inline">
-								<select name="introduce_src_type">
+								<select name="introduce_src_type" id="introduce_src_type">
 									<option value="1">图片</option>
 									<option value="2">视频</option>
 								</select>
@@ -132,26 +132,64 @@
 			});
 
 			K('#img_btn').click(function() {
-				editor.loadPlugin('image', function() {
-					editor.plugin.imageDialog({
-						imageUrl : K('#img').val(),
-						clickFn : function(url, title, width, height, border, align) {
-							K('#img').val(url);
-							editor.hideDialog();
-						}
-					});
+				var src_type = $('#src_type').val();
+				if(src_type == '') {
+					layer.msg('请选择上传类型');
+					return false;
+				}
+
+				var type = src_type == 1 ? 'image' : 'insertfile';
+
+				editor.loadPlugin(type, function() {
+					if(type=='image') {
+						editor.plugin.imageDialog({
+							imageUrl : K('#img').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#img').val(url);
+								editor.hideDialog();
+							}
+						});
+					}else{
+						editor.plugin.fileDialog({
+							fileUrl : K('#img').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#img').val(url);
+								editor.hideDialog();
+							}
+						});
+					}
+
 				});
 			});
 
 			K('#img_btn1').click(function() {
-				editor.loadPlugin('image', function() {
-					editor.plugin.imageDialog({
-						imageUrl : K('#img1').val(),
-						clickFn : function(url, title, width, height, border, align) {
-							K('#img1').val(url);
-							editor.hideDialog();
-						}
-					});
+				var src_type = $('#introduce_src_type').val();
+				if(src_type == '') {
+					layer.msg('请选择上传类型');
+					return false;
+				}
+
+				var type = src_type == 1 ? 'image' : 'insertfile';
+
+				editor.loadPlugin(type, function() {
+					if(type=='image') {
+						editor.plugin.imageDialog({
+							imageUrl : K('#img1').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#img1').val(url);
+								editor.hideDialog();
+							}
+						});
+					}else{
+						editor.plugin.fileDialog({
+							fileUrl : K('#img1').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#img1').val(url);
+								editor.hideDialog();
+							}
+						});
+					}
+
 				});
 			});
 		});

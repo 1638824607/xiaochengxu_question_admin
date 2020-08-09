@@ -33,7 +33,7 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">封面图类型</label>
 							<div class="layui-input-inline">
-								<select name="src_type">
+								<select name="src_type" id="src_type">
 									<option value="1" {if condition="1 eq $info['src_type']"} selected{/if}>图片</option>
 									<option value="2" {if condition="2 eq $info['src_type']"} selected{/if}>视频</option>
 								</select>
@@ -60,7 +60,7 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">介绍类型</label>
 							<div class="layui-input-inline">
-								<select name="introduce_src_type">
+								<select name="introduce_src_type" id="introduce_src_type">
 									<option value="1" {if condition="1 eq $info['introduce_src_type']"} selected{/if}>图片</option>
 									<option value="2" {if condition="2 eq $info['introduce_src_type']"} selected{/if}>视频</option>
 								</select>
@@ -112,27 +112,86 @@
 	</div>
 	<script>
 		KindEditor.ready(function(K) {
-			K('#img_btn').click(function() {
-				editor.loadPlugin('image', function() {
-					editor.plugin.imageDialog({
-						imageUrl : K('#img').val(),
-						clickFn : function(url, title, width, height, border, align) {
-							K('#img').val(url);
-							editor.hideDialog();
-						}
+			var editor1 = K.create('.editor_id', {
+				filterMode: false,//是否开启过滤模式
+				cssPath : '__ADMIN__/myeditor/plugins/code/prettify.css',
+				uploadJson : '__ADMIN__/myeditor/php/upload_json.php',
+				fileManagerJson : '__ADMIN__/myeditor/php/file_manager_json.php',
+				allowFileManager : true,
+				afterBlur : function() {
+					this.sync();
+					K.ctrl(document, 13, function() {
+						K('form[name=formlist]')[0].submit();
 					});
+					K.ctrl(this.edit.doc, 13, function() {
+						K('form[name=formlist]')[0].submit();
+					});
+				}
+			});
+
+			var editor = K.editor({
+				allowFileManager : true
+			});
+
+			K('#img_btn').click(function() {
+				var src_type = $('#src_type').val();
+				if(src_type == '') {
+					layer.msg('请选择上传类型');
+					return false;
+				}
+
+				var type = src_type == 1 ? 'image' : 'insertfile';
+
+				editor.loadPlugin(type, function() {
+					if(type=='image') {
+						editor.plugin.imageDialog({
+							imageUrl : K('#img').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#img').val(url);
+								editor.hideDialog();
+							}
+						});
+					}else{
+						editor.plugin.fileDialog({
+							fileUrl : K('#img').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#img').val(url);
+								editor.hideDialog();
+							}
+						});
+					}
+
 				});
 			});
 
 			K('#img_btn1').click(function() {
-				editor.loadPlugin('image', function() {
-					editor.plugin.imageDialog({
-						imageUrl : K('#img1').val(),
-						clickFn : function(url, title, width, height, border, align) {
-							K('#img1').val(url);
-							editor.hideDialog();
-						}
-					});
+				var src_type = $('#introduce_src_type').val();
+				if(src_type == '') {
+					layer.msg('请选择上传类型');
+					return false;
+				}
+
+				var type = src_type == 1 ? 'image' : 'insertfile';
+
+				editor.loadPlugin(type, function() {
+					if(type=='image') {
+						editor.plugin.imageDialog({
+							imageUrl : K('#img1').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#img1').val(url);
+								editor.hideDialog();
+							}
+						});
+					}else{
+						editor.plugin.fileDialog({
+							fileUrl : K('#img1').val(),
+							clickFn : function(url, title, width, height, border, align) {
+								K('#img1').val(url);
+								editor.hideDialog();
+							}
+						});
+					}
+
 				});
 			});
 		});
