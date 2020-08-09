@@ -31,14 +31,19 @@
 									<div class="layui-card-header">
 										<span>({$question['type']}题) {$question['number']}、{$question['title']}</span>
 										<a href="{:url('edit_question', ['id' => $question['id']])}" class="layui-btn layui-btn-xs layui-card-question">编辑</a>
-										<button type="button" class="layui-btn layui-btn-danger layui-btn-xs layui-card-question">删除</button>
+										<a href="{:url('del_question', ['id' => $question['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class="layui-btn layui-btn-danger layui-btn-xs layui-card-question">删除</a>
 									</div>
 									{notempty name="$question['options']"}
 										<div style="margin-left: 5%">
 											<?php $optionList = explode('|', $question['options']); ?>
 											{volist name="optionList" id="option" key="k"}
 												<div class="layui-card-body">
-													{:intToChr($k-1)}.{$option}
+													{if($question['type'] == '选择')}
+														{:intToChr($k-1)}.{$option}
+													{else/}
+														{$k}.{$option}
+													{/if}
+
 												</div>
 											{/volist}
 										</div>
