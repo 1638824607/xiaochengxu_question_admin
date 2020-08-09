@@ -1,0 +1,51 @@
+{include file="Public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('index')}">健康自测数据统计</a></li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+
+				<table class="layui-table">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>测评ID/名称</th>
+						<th>点击数</th>
+						<th>分享数</th>
+						<th>参与数</th>
+						<th>日期</th>
+					</tr>
+					</thead>
+					<tbody>
+					{volist name="list" id="v"}
+					<tr>
+						<td>{$v['id']}</td>
+						<td>{$v['knowledge_id']}/{$v['knowledge_name']}</td>
+						<td>{$v['click_num']}</td>
+						<td>{$v['share_num']}</td>
+						<td>{$v['join_num']}</td>
+						<td>{$v['create_day']}</td>
+					</tr>
+					{/volist}
+					</tbody>
+				</table>
+				<div class="page">
+					{$list->render()}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>
