@@ -112,6 +112,27 @@
 	</div>
 	<script>
 		KindEditor.ready(function(K) {
+			var editor1 = K.create('.editor_id', {
+				filterMode: false,//是否开启过滤模式
+				cssPath : '__ADMIN__/myeditor/plugins/code/prettify.css',
+				uploadJson : '__ADMIN__/myeditor/php/upload_json.php',
+				fileManagerJson : '__ADMIN__/myeditor/php/file_manager_json.php',
+				allowFileManager : true,
+				afterBlur : function() {
+					this.sync();
+					K.ctrl(document, 13, function() {
+						K('form[name=formlist]')[0].submit();
+					});
+					K.ctrl(this.edit.doc, 13, function() {
+						K('form[name=formlist]')[0].submit();
+					});
+				}
+			});
+
+			var editor = K.editor({
+				allowFileManager : true
+			});
+
 			K('#img_btn').click(function() {
 				editor.loadPlugin('image', function() {
 					editor.plugin.imageDialog({
