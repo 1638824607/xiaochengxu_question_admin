@@ -14,7 +14,15 @@
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
                     <form action="" method="post" class="layui-form" lay-filter="content" id="edit">
-
+                        <!--<div class="layui-form-item">-->
+                            <!--<label class="layui-form-label">请选择上传类型</label>-->
+                            <!--<div class="layui-input-inline">-->
+                                <!--<select name="src_type" id="src_type" lay-filter="model" lay-verify="required">-->
+                                    <!--<option value="1">图片</option>-->
+                                    <!--<option value="2">视频</option>-->
+                                <!--</select>-->
+                            <!--</div>-->
+                        <!--</div>-->
                         <div class="layui-form-item">
                             <label class="layui-form-label">上传文件</label>
                             <div class="layui-input-inline">
@@ -50,15 +58,10 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">内容摘要</label>
                             <div class="layui-input-inline">
-                                <textarea name="content" style="width:520px;height:100px;" class="layui-textarea"></textarea>
+                                <textarea class="editor_id" name="introduction" style="width:667px;height:350px;"></textarea>
                             </div>
                         </div>
-                        <div class="layui-form-item">
-                            <label class="layui-form-label">排序</label>
-                            <div class="layui-input-inline">
-                                <input type="text" name="sort" value="" placeholder="请输入排序" class="layui-input">
-                            </div>
-                        </div>
+
 
                         <!--<input type="hidden" name="id" value="{$info['id']}">-->
 
@@ -97,22 +100,17 @@
             });
 
             K('#img_btn').click(function() {
-                editor.loadPlugin('image', function() {
-                    editor.plugin.imageDialog({
-                        imageUrl : K('#img').val(),
+//                var src_type = $('#src_type').val();
+//                if(src_type == '') {
+//                    layer.msg('请选1择上传类型');
+//                    return false;
+//                }
+//                var type = src_type == 1 ? 'image' : 'insertfile';
+                editor.loadPlugin('insertfile', function() {
+                    editor.plugin.fileDialog({
+                        fileUrl : K('#img').val(),
                         clickFn : function(url, title, width, height, border, align) {
                             K('#img').val(url);
-                            editor.hideDialog();
-                        }
-                    });
-                });
-            });
-            K('#img_btn1').click(function() {
-                editor.loadPlugin('image', function() {
-                    editor.plugin.imageDialog({
-                        imageUrl : K('#img1').val(),
-                        clickFn : function(url, title, width, height, border, align) {
-                            K('#img1').val(url);
                             editor.hideDialog();
                         }
                     });
