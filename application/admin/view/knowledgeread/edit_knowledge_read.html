@@ -106,6 +106,12 @@
 			});
 
 			K('#img_btn').click(function() {
+				var src_type = $('#src_type').val();
+				if(src_type == '') {
+					layer.msg('请选择上传类型');
+					return false;
+				}
+
 				var type = src_type == 1 ? 'image' : 'insertfile';
 				editor.loadPlugin(type, function() {
 					if(type=='image') {
