@@ -15,18 +15,18 @@
 namespace app\admin\controller;
 
 use app\admin\common\Purview;
-use app\admin\model\KnowledgeHealthModel;
-use app\admin\model\KnowledgeHealthQuestionModel;
+use app\admin\model\KnowledgeMatchModel;
+use app\admin\model\KnowledgeMatchQuestionModel;
+use app\admin\model\KnowledgeMatchRecordModel;
 use think\Db;
 
-class Knowledgehealth extends Purview
+class Knowledgematchrecord extends Purview
 {
     public function index()
     {
-        $list = KnowledgeHealthModel::with(['question'])->order('hot desc')->order('sort desc')->paginate(20);
+        $list = KnowledgeMatchRecordModel::with(['user', 'match'])->order('id desc')->paginate(1);
 
         $this->assign('list', $list);
-        $this->assign('questionType', KnowledgeHealthQuestionModel::$questionType);
         return $this->fetch();
     }
 
@@ -45,7 +45,7 @@ class Knowledgehealth extends Purview
             $data['sort']               = $this->request->param('sort');
             $data['hot']                = $this->request->param('hot');
 
-            $res = Db::name('knowledge_health')->insert($data);
+            $res = Db::name('knowledge_match')->insert($data);
             if ($res) {
                 $this->success('操作成功', url('index'));
             } else {
@@ -70,7 +70,7 @@ class Knowledgehealth extends Purview
             $data['sort']               = $this->request->param('sort');
             $data['hot']                = $this->request->param('hot');
 
-            $res = Db::name('knowledge_health')->where(array('id' => $this->request->param('id')))->update($data);
+            $res = Db::name('knowledge_match')->where(array('id' => $this->request->param('id')))->update($data);
             if ($res !== false) {
                 $this->success('操作成功', url('index'));
             } else {
@@ -81,7 +81,7 @@ class Knowledgehealth extends Purview
             if (empty($id)) {
                 $this->error('信息不存在');
             }
-            $info = Db::name('knowledge_health')->where(array('id' => $this->request->param('id')))->find();
+            $info = Db::name('knowledge_match')->where(array('id' => $this->request->param('id')))->find();
             $this->assign('info', $info);
             return $this->fetch();
         }
@@ -93,9 +93,9 @@ class Knowledgehealth extends Purview
         if (empty($id)) {
             $this->error('信息不存在');
         }
-        $res = Db::name('knowledge_health')->where(array('id' => $id))->delete();
+        $res = Db::name('knowledge_match')->where(array('id' => $id))->delete();
         if ($res) {
-            Db::name('knowledge_health_question')->where(array('health_id' => $id))->delete();
+            Db::name('knowledge_match_question')->where(array('match_id' => $id))->delete();
             $this->success('操作成功', url('index'));
         } else {
             $this->error('操作失败,请重试');
@@ -106,7 +106,7 @@ class Knowledgehealth extends Purview
     {
 
         if ($this->request->isPost()) {
-            $data['health_id'] = $this->request->param('health_id');
+            $data['match_id'] = $this->request->param('match_id');
             $data['title']    = $this->request->param('title');
             $data['desc']     = $this->request->param('desc');
             $data['number']   = $this->request->param('number');
@@ -114,7 +114,7 @@ class Knowledgehealth extends Purview
             $data['answer']   = $this->request->param('answer');
             $data['question'] = $this->request->param('question/a');
 
-            if (empty($data['health_id'])) {
+            if (empty($data['match_id'])) {
                 $this->error('未找到测评记录');
             }
 
@@ -133,7 +133,7 @@ class Knowledgehealth extends Purview
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['updated_at'] = date('Y-m-d H:i:s');
 
-            $res = Db::name('knowledge_health_question')->insert($data);
+            $res = Db::name('knowledge_match_question')->insert($data);
 
             if ($res) {
                 $this->success('操作成功', url('index'));
@@ -142,19 +142,19 @@ class Knowledgehealth extends Purview
             }
         }
 
-        $healthId = input('health_id');
+        $matchId = input('match_id');
 
-        if (empty($healthId)) {
+        if (empty($matchId)) {
             $this->error('请选择测评');
         }
 
-        $healthInfo = Db::name('knowledge_health')->where('id', $healthId)->find();
+        $matchInfo = Db::name('knowledge_match')->where('id', $matchId)->find();
 
-        if (empty($healthInfo)) {
+        if (empty($matchInfo)) {
             $this->error('测评不存在');
         }
 
-        $this->assign('healthInfo', $healthInfo);
+        $this->assign('matchInfo', $matchInfo);
         return $this->fetch();
     }
 
@@ -184,7 +184,7 @@ class Knowledgehealth extends Purview
             $data['type']       = $data['type'] == 1 ? '选择' : '问答';
             $data['updated_at'] = date('Y-m-d H:i:s');
 
-            $res = Db::name('knowledge_health_question')->where(['id' => $data['id']])->update($data);
+            $res = Db::name('knowledge_match_question')->where(['id' => $data['id']])->update($data);
 
             if ($res !== false) {
                 $this->success('操作成功', url('index'));
@@ -199,16 +199,16 @@ class Knowledgehealth extends Purview
             $this->error('请选择题目');
         }
 
-        $healthQuesiontInfo = Db::name('knowledge_health_question')->where('id', $id)->find();
+        $matchQuesiontInfo = Db::name('knowledge_match_question')->where('id', $id)->find();
 
-        if (empty($healthQuesiontInfo)) {
+        if (empty($matchQuesiontInfo)) {
             $this->error('题目不存在');
         }
 
-        $healthInfo = Db::name('knowledge_health')->where('id', $healthQuesiontInfo['health_id'])->find();
+        $matchInfo = Db::name('knowledge_match')->where('id', $matchQuesiontInfo['match_id'])->find();
 
-        $this->assign('healthhInfo', $healthInfo);
-        $this->assign('healthQuestionInfo', $healthQuesiontInfo);
+        $this->assign('matchInfo', $matchInfo);
+        $this->assign('matchQuestionInfo', $matchQuesiontInfo);
         return $this->fetch();
     }
 
@@ -219,7 +219,7 @@ class Knowledgehealth extends Purview
         if (empty($id)) {
             $this->error('信息不存在');
         }
-        $res = Db::name('knowledge_health_question')->where(array('id' => $id))->delete();
+        $res = Db::name('knowledge_match_question')->where(array('id' => $id))->delete();
         if ($res) {
             $this->success('操作成功', url('index'));
         } else {

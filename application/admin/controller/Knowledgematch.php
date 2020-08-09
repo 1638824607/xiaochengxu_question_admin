@@ -95,6 +95,7 @@ class Knowledgematch extends Purview
         }
         $res = Db::name('knowledge_match')->where(array('id' => $id))->delete();
         if ($res) {
+            Db::name('knowledge_match_question')->where(array('match_id' => $id))->delete();
             $this->success('操作成功', url('index'));
         } else {
             $this->error('操作失败,请重试');
@@ -127,7 +128,7 @@ class Knowledgematch extends Purview
                 $this->error('请输入选择题答案');
             }
 
-            $data['options']    = implode('|', $data['question']);
+            $data['options']    = implode('|', array_filter($data['question']));
             $data['type']       = $data['type'] == 1 ? '选择' : '问答';
             $data['created_at'] = date('Y-m-d H:i:s');
             $data['updated_at'] = date('Y-m-d H:i:s');
@@ -179,7 +180,7 @@ class Knowledgematch extends Purview
                 $this->error('请输入选择题答案');
             }
 
-            $data['options']    = implode('|', $data['question']);
+            $data['options']    = implode('|', array_filter($data['question']));
             $data['type']       = $data['type'] == 1 ? '选择' : '问答';
             $data['updated_at'] = date('Y-m-d H:i:s');
 
@@ -209,5 +210,20 @@ class Knowledgematch extends Purview
         $this->assign('matchInfo', $matchInfo);
         $this->assign('matchQuestionInfo', $matchQuesiontInfo);
         return $this->fetch();
+    }
+
+    public function del_question()
+    {
+        $id = input('id');
+
+        if (empty($id)) {
+            $this->error('信息不存在');
+        }
+        $res = Db::name('knowledge_match_question')->where(array('id' => $id))->delete();
+        if ($res) {
+            $this->success('操作成功', url('index'));
+        } else {
+            $this->error('操作失败,请重试');
+        }
     }
 }

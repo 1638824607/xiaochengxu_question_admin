@@ -1,57 +1,58 @@
 {include file="Public/header" /}
-
+<style>
+	.layui-card-body{line-height:12px;}
+	.layui-card{border-bottom: 1px solid black}
+	.layui-badge-dot{margin-right: 5px;margin-bottom: 2px;}
+	.card-header-title{font-size: 18px;}
+	.card-header-delete{margin-bottom: 2px;margin-left: 30px;}
+	.layui-card-question{margin-left: 30px;margin-bottom: 2px;}
+</style>
 <div class="layui-layout layui-layout-admin">
 	{include file="Public/left" /}
-
 	<div class="layui-body">
 	<div class="layui-tab layui-tab-brief" lay-filter="tab">
 		<ul class="layui-tab-title">
-			<li class="layui-this"><a href="{:url('index')}">知识科普轮播图</a></li>
-			<li><a href="{:url('add_banner')}">知识科普轮播图添加</a></li>
+			<li class="layui-this"><a href="{:url('index')}">健康自测测评列表</a></li>
+			<li><a href="{:url('add')}">健康自测测评添加</a></li>
 		</ul>
 		<div class="layui-tab-content">
 			<div class="layui-tab-item layui-show">
-				<form action="" method="get" class="layui-form">
-					<input type="hidden" name="pid" value="{$vs.pid}">
-					<input type="hidden" name="ty" value="{$vs.ty}">
-					<input type="hidden" name="tty" value="{$vs.tty}">
-					<input type="hidden" name="ttty" value="{$vs.ttty}">
-				</form>
+				{volist name="list" id="vo"}
+					<div class="layui-card">
+						<div class="layui-card-header">
+							<span class="layui-badge-dot layui-bg-cyan"></span><span class="card-header-title">{$vo['title']}</span>
+							<a href="{:url('add_question', ['health_id' => $vo['id']])}" class="layui-btn layui-btn-warm layui-btn-xs card-header-delete">添加题目</a>
+							<a href="{:url('edit', ['id' => $vo['id']])}"  class="layui-btn layui-btn-normal layui-btn-xs card-header-delete">编辑</a>
+							<a href="{:url('del', ['id' => $vo['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class="layui-btn layui-btn-danger layui-btn-xs card-header-delete">删除</a>
+						</div>
+						{notempty name="$vo['question']"}
+							{volist name="$vo['question']" id="question"}
+								<div class="layui-card-body" style="margin-top: -1%">
+									<div class="layui-card-header">
+										<span>({$question['type']}题) {$question['number']}、{$question['title']}</span>
+										<a href="{:url('edit_question', ['id' => $question['id']])}" class="layui-btn layui-btn-xs layui-card-question">编辑</a>
+										<a href="{:url('del_question', ['id' => $question['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class="layui-btn layui-btn-danger layui-btn-xs layui-card-question">删除</a>
+									</div>
+									{notempty name="$question['options']"}
+										<div style="margin-left: 5%">
+											<?php $optionList = explode('|', $question['options']); ?>
+											{volist name="optionList" id="option" key="k"}
+												<div class="layui-card-body">
+													{if($question['type'] == '选择')}
+														{:intToChr($k-1)}.{$option}
+													{else/}
+														{$k}.{$option}
+													{/if}
 
-				<table class="layui-table">
-					<thead>
-					<tr>
-						<th>ID</th>
-						<th>排序值</th>
-						<th>图片</th>
-						<th>标题</th>
-
-						<th>操作</th>
-					</tr>
-					</thead>
-					<tbody>
-					{volist name="list" id="v"}
-						<tr>
-							<td>{$v['id']}</td>
-							<td>{$v['sort']}</td>
-							<td><img src="{$v.image}" width="80" /></td>
-							<td>{$v.title}</td>
-
-							<!--<td>-->
-								<!--<?php if($v['status']==1){?>-->
-								<!--<a href="{:url('update_status', ['id' => $v['id'], 'status' => 2])}"><i class='fa fa-toggle-on' title="点击关闭"></i></a>-->
-								<!--<?php }else{?>-->
-								<!--<a href="{:url('update_status', ['id' => $v['id'], 'status' => 1])}"><i class='fa fa-toggle-off' title="点击开启"></i></a>-->
-								<!--<?php }?>-->
-							<!--</td>-->
-							<td>
-								<a href="{:url('edit_banner', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>修改</a>
-								<a href="{:url('del_banner', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
-							</td>
-						</tr>
-					{/volist}
-					</tbody>
-				</table>
+												</div>
+											{/volist}
+										</div>
+									{/notempty}
+								</div>
+							{/volist}
+						{/notempty}
+					</div>
+				{/volist}
 				<div class="page">
 					{$list->render()}
 				</div>
@@ -59,9 +60,7 @@
 		</div>
 	</div>
 </div>
-
 	{include file="Public/footer" /}
-
 </div>
 
 </body>
