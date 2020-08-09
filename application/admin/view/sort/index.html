@@ -47,7 +47,7 @@
 
 								<?php if($v['isopen']==1||session('admin_id')==99999999){?>
 									<a href="{:url('Sort/Add',"pid=".$v['id']."")}" class='layui-btn layui-btn-xs'>添加子栏目</a>
-									
+
 									<a href="{:url('Sort/Del',['id'=>$v['id']])}" onclick='return confirm("您确定要删除吗？")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
 								<?php }?>
 								<a href='{:url('Sort/Add',"id=".$v['id']."")}'  class='layui-btn layui-btn-xs layui-btn-danger'>修改</a>

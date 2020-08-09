@@ -6,8 +6,8 @@
 	<div class="layui-body">
 	<div class="layui-tab layui-tab-brief" lay-filter="tab">
 		<ul class="layui-tab-title">
-			<li class="layui-this"><a href="{:url('train_day_step_index')}">分解步骤列表</a></li>
-			<li><a href="{:url('add_banner')}">分解步骤</a></li>
+			<li class="layui-this"><a href="{:url('train_day_step_index',['pid'=>43,'ty'=>45])}">分解步骤列表</a></li>
+			<li><a href="{:url('add_train_day_step',['pid'=>43,'ty'=>45,'day_id'=>input('day_id')])}">分解步骤</a></li>
 		</ul>
 		<div class="layui-tab-content">
 			<div class="layui-tab-item layui-show">
@@ -52,8 +52,8 @@
 
 							<td>{$v.updated_at}</td>
 							<td>
-								<a href="{:url('edit_banner', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>修改</a>
-								<a href="{:url('del_banner', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+								<a href="{:url('edit_train_day_step', ['pid'=>43,'ty'=>45,'id' => $v['id'],'day_id' => $v['day_id']])}"  class='layui-btn layui-btn-xs'>修改</a>
+								<a href="{:url('del_train_day_step', ['pid'=>43,'ty'=>45,'id' => $v['id'],'day_id' => $v['day_id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
 							</td>
 						</tr>
 					{/volist}

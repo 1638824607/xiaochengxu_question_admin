@@ -8,37 +8,29 @@
     <div class="layui-body">
         <div class="layui-tab layui-tab-brief" lay-filter="tab">
             <ul class="layui-tab-title">
-                <li><a href="{:url('index')}">静心列表</a></li>
-                <li class="layui-this"><a href="{:url('add_train_day',['pid'=>43,'ty'=>45])}">静心添加</a></li>
+                <li ><a href="{:url('index',['pid'=>19,'ty'=>21])}">知识阅读列表</a></li>
+                <li class="layui-this"><a href="{:url('edit_knowledge_read',['pid'=>19,'ty'=>21, 'id' => $info['id']])}">知识阅读编辑</a></li>
             </ul>
             <div class="layui-tab-content">
                 <div class="layui-tab-item layui-show">
                     <form action="" method="post" class="layui-form" lay-filter="content" id="edit">
-                        <!--<div class="layui-form-item">-->
-                            <!--<label class="layui-form-label">请选择上传类型</label>-->
-                            <!--<div class="layui-input-inline">-->
-                                <!--<select name="src_type" id="src_type" lay-filter="model" lay-verify="required">-->
-                                    <!--<option value="1">图片</option>-->
-                                    <!--<option value="2">视频</option>-->
-                                <!--</select>-->
-                            <!--</div>-->
-                        <!--</div>-->
+
                         <div class="layui-form-item">
                             <label class="layui-form-label">上传文件</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="image" id="img" value="" placeholder="请上传配置文件"  class="layui-input">
+                                <input type="text" name="image" id="image" value="{$info['image']}" placeholder="请上传配置文件"  class="layui-input">
                             </div>
                             <button type="button" id="img_btn" class="layui-btn" data-des="ico">
                                 <i class="layui-icon">&#xe67c;</i>上传文件
                             </button>
                         </div>
                         <div class="layui-form-item">
-                            <label class="layui-form-label">静心分类</label>
+                            <label class="layui-form-label">知识阅读类型</label>
                             <div class="layui-input-inline">
                                 <select name="cate_id" lay-filter="model" lay-verify="required">
                                     <option value="">请选择类型</option>
                                     {volist name="list" id="vs"}
-                                    <option value="{$vs.id}">{$vs.title}</option>
+                                    <option {if condition="$vs['id'] eq $info['cate_id']"} selected{/if} value="{$vs.id}">{$vs.title}</option>
                                     {/volist}
                                 </select>
                             </div>
@@ -46,24 +38,24 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">标题</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="title" value="" placeholder="请输入标题" class="layui-input">
+                                <input type="text" name="title" value="{$info['title']}" placeholder="请输入标题" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">简介</label>
                             <div class="layui-input-inline">
-                                <textarea name="desc" style="width:520px;height:100px;" class="layui-textarea"></textarea>
+                                <textarea name="desc" style="width:520px;height:100px;" class="layui-textarea">{$info['desc']}</textarea>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">内容摘要</label>
                             <div class="layui-input-inline">
-                                <textarea class="editor_id" name="introduction" style="width:667px;height:350px;"></textarea>
+                                <textarea class="editor_id" name="introduction" style="width:667px;height:350px;">{$info['introduction']}</textarea>
                             </div>
                         </div>
 
 
-                        <!--<input type="hidden" name="id" value="{$info['id']}">-->
+                        <input type="hidden" name="id" value="{$info['id']}">
 
                         <div class="layui-form-item">
                             <div class="layui-input-block">
@@ -111,7 +103,6 @@
                     });
                 });
             });
-
         });
     </script>
 

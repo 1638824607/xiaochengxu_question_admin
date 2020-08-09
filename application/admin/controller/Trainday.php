@@ -24,7 +24,7 @@ class Trainday extends Purview
     {
 
 
-        $list = Db::name('train_day')->order('id desc')->paginate(1)->each(function($v, $key){
+        $list = Db::name('train_day')->order('id desc')->paginate(20)->each(function($v, $key){
 //            if($v['image']){
 //                $v['image'] = str_replace('Uploads','uploads',$v['image']);
 //            }
@@ -65,7 +65,7 @@ class Trainday extends Purview
             $data['image'] = $this->request->param('image');
             $data['introduction'] = $this->request->param('introduction');
             $data['created_at'] = date('Y-m-d H:i:s',time());
-            $data['updated_at'] = '';
+
 
             $res = Db::name('train_day')->insert($data);
             if($res){
@@ -98,8 +98,8 @@ class Trainday extends Purview
             $data['desc'] = $this->request->param('desc');
             $data['image'] = $this->request->param('image');
             $data['introduction'] = $this->request->param('introduction');
-            $data['created_at'] = date('Y-m-d H:i:s',time());
-            $data['updated_at'] = '';
+            $data['updated_at'] = date('Y-m-d H:i:s',time());
+
 
             $res = Db::name('train_day')->where('id',$this->request->param('id'))->update($data);
             if($res){
@@ -110,6 +110,9 @@ class Trainday extends Purview
 
         }else{
             $info = Db::name('train_day')->where('id',$this->request->param('id'))->find();
+            $this->assign('info',$info);
+            $list = Db::name('train_day_cate')->select();
+            $this->assign('list',$list);
             return $this->fetch();
         }
     }
@@ -158,12 +161,13 @@ class Trainday extends Purview
 
     public function add_train_day_step()
     {
+        if(empty($this->request->param('day_id'))){
+            $this->error('所属静心信息不存在!');
+        }
         if($this->request->isPost()){
 
             $data = [];
-            if(empty($this->request->param('day_id'))){
-                $this->error('所属静心信息不存在!');
-            }
+
             if(empty($this->request->param('title'))){
                 $this->error('所属静心步骤标题不能为空!');
             }
@@ -172,16 +176,16 @@ class Trainday extends Purview
                 $this->error('时长不能为空!');
             }
 
-            if(empty($this->request->param('src'))){
+            if(empty($this->request->param('image'))){
                 $this->error('音乐地址不能为空!');
             }
 
             $data['day_id'] = $this->request->param('day_id');
             $data['title'] = $this->request->param('title');
             $data['duration'] = $this->request->param('duration');
-            $data['src'] = $this->request->param('src');
+            $data['src'] = $this->request->param('image');
             $data['created_at'] = date('Y-m-d H:i:s',time());
-            $data['updated_at'] = '';
+
 
             $res = Db::name('train_day_step')->insert($data);
             if($res){
@@ -210,12 +214,12 @@ class Trainday extends Purview
             if(empty($this->request->param('duration'))){
                 $this->error('时长不能为空!');
             }
-            if(empty($this->request->param('src'))){
+            if(empty($this->request->param('image'))){
                 $this->error('音乐地址不能为空!');
             }
             $data['title'] = $this->request->param('title');
             $data['duration'] = $this->request->param('duration');
-            $data['src'] = $this->request->param('src');
+            $data['src'] = $this->request->param('image');
 
             $data['updated_at'] = date('Y-m-d H:i:s',time());
 
