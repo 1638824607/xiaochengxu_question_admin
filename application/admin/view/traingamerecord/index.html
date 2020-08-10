@@ -1,0 +1,53 @@
+{include file="Public/header" /}
+
+<div class="layui-layout layui-layout-admin">
+	{include file="Public/left" /}
+
+	<div class="layui-body">
+	<div class="layui-tab layui-tab-brief" lay-filter="tab">
+		<ul class="layui-tab-title">
+			<li class="layui-this"><a href="{:url('index')}">益脑游戏记录</a></li>
+		</ul>
+		<div class="layui-tab-content">
+			<div class="layui-tab-item layui-show">
+
+				<table class="layui-table">
+					<thead>
+					<tr>
+						<th>ID</th>
+						<th>游戏ID/游戏名</th>
+						<th>用户ID/昵称</th>
+						<th>开始时间</th>
+						<th>结束时间</th>
+						<th>报告总结</th>
+						<th>数据json</th>
+					</tr>
+					</thead>
+					<tbody>
+					{volist name="list" id="v"}
+					<tr>
+						<td>{$v['id']}</td>
+						<td >{$v['game']['id']}/{$v['game']['title']}</td>
+						<td>{$v['user']['id']}/{$v['user']['nick']}</td>
+						<td>{$v['start_at']}</td>
+						<td>{$v['end_at']}</td>
+						<td>{$v['summary']}</td>
+						<td>{$v['data_json']}</td>
+					</tr>
+					{/volist}
+					</tbody>
+				</table>
+				<div class="page">
+					{$list->render()}
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+	{include file="Public/footer" /}
+
+</div>
+
+</body>
+</html>

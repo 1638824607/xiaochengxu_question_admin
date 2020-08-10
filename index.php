@@ -10,8 +10,9 @@
 // +----------------------------------------------------------------------
 
 // [ 应用入口文件 ]
-
+$_SERVER['PATH_INFO'] = $_SERVER['REQUEST_URI' ];
 // 定义应用目录
 define('APP_PATH', 'application/');
+
 // 加载框架引导文件
 require 'thinkphp/start.php';
