@@ -411,3 +411,10 @@ function intToChr($index, $start = 65) {
     }
     return $str . chr($index % 26 + $start);
 }
+
+function getMca()
+{
+    $request = \think\Request::instance();
+
+    return ['m' => strtolower($request->module()), 'c' => strtolower($request->controller()), 'a' => strtolower($request->action())];
+}

@@ -65,26 +65,32 @@
     <div class="layui-side-scroll">
         <!-- 左侧导航区域 -->
         <ul class="layui-nav layui-nav-tree" id="nav" lay-shrink="all">
-            {volist name=":get_mytable_list('sort',' AND pid=0','id,catname')" id='v1'}
-            <li class="layui-nav-item nav-item<?php if($v1['id']==input('pid',0)){?> layui-nav-itemed<?php }?>">
+            {volist name="adminAuthList" id="v1"}
+
+            <li class="layui-nav-item nav-item {if($v1['is_active'])}layui-nav-itemed{/if}">
                 <a class="" href="javascript:;"><i class="fa fa-globe" aria-hidden="true"></i>{$v1['catname']}</a>
-                {volist name=":get_mytable_list('sort',' AND pid='.$v1['id'].'','id,catname')" id='v2'}
-                    <?php
-                        $count2=get_count("sort",'status=1 AND pid='.$v2['id'].'');
-                         if($count2) $url2="javascript:;";else $url2=url('Sort/Action',array('pid'=>$v1['id'],'ty'=>$v2['id']));
-                    ?>
+                {volist name="v1['child']" id="v2"}
+<!--                    <?php-->
+<!--                        //$count2=get_count("sort",'status=1 AND pid='.$v2['id'].'');-->
+<!--                         //if($count2) $url2="javascript:;";else $url2=url('Sort/Action',array('pid'=>$v1['id'],'ty'=>$v2['id']));-->
+<!--                   // echo $url2;
+ ?>-->
                     <dl class="layui-nav-child ">
-                        <dd <?php if($v2['id']==input('ty',0)){?>class="layui-nav-itemed"<?php }?>>
-                            <a href="<?php echo $url2;?>"><i class="fa fa-file-text-o" aria-hidden="true"></i>{$v2['catname']}</a>
-                        <?php if($count2){?>
-                            {volist name=":get_table_list('sort',' AND pid='.$v2['id'].'','id,catname,sort_a,sort_c')" id='v3'}
+                        <dd class="{if($v2['is_active'])}layui-nav-itemed{/if}">
+                            {if($v2['child'])}
+                                <a href="javascript:void(0)"><i class="fa fa-file-text-o" aria-hidden="true"></i>{$v2['catname']}</a>
+                            {else/}
+                                <a href="{:url($v2['sort_c'] . '/' . $v2['sort_a'])}"><i class="fa fa-file-text-o" aria-hidden="true"></i>{$v2['catname']}</a>
+                            {/if}
+                            {volist name="v2['child']" id="v3"}
+
                             <dl class="layui-nav-child">
-                                <dd <?php if($v3['id']==input('tty',0)){?>class="layui-nav-itemed"<?php }?>>
-                                    <a href="<?php echo URL('Sort/Action',"pid=".$v1['id']."&ty=".$v2['id']."&tty=".$v3['id']."")?>"><i class="fa fa-file-text-o" aria-hidden="true"></i>{$v3['catname']}</a>
+                                <dd class="layui-nav-itemed">
+                                    <a href="{:url($v3['sort_c'] . '/' . $v3['sort_a'])}"><i class="fa fa-file-text-o" aria-hidden="true"></i>{$v3['catname']}</a>
                                 </dd>
                             </dl>
                             {/volist}
-                        <?php }?>
+
                         </dd>
                     </dl>
                 {/volist}

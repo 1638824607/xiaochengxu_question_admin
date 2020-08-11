@@ -1,110 +1,209 @@
 <?php
+
 namespace app\admin\common;
+
 use think\Request;
 use think\Controller;
 use think\Session;
 use think\Cookie;
 use think\Db;
 
-class Purview extends controller {
-    function __construct(){
- 		parent::__construct();
-        $PHP_URL=$_SERVER['REQUEST_URI'];
+class Purview extends controller
+{
+    function __construct()
+    {
+        parent::__construct();
+        $PHP_URL = $_SERVER['REQUEST_URI'];
 
-        $request = Request::instance();
-        $PHP_IP=$request->ip();
-        $module = $request->module();
-        $controller=$request->controller();
-        $action=$request->action();
-        $now_ac="{$controller}-{$action}";
+        $request    = Request::instance();
+        $PHP_IP     = $request->ip();
+        $module     = $request->module();
+        $controller = $request->controller();
+        $action     = $request->action();
+        $now_ac     = "{$controller}-{$action}";
         //echo $controller;
         //echo $action;
         //exit();
-        if($controller=='Sort'&&$action=='action'){
+        if ($controller == 'Sort' && $action == 'action') {
 
-        }else{
+        } else {
 
-            $admin_role_auth_ids=Session::Get('admin_role_auth_ids');
-            if($admin_role_auth_ids){
-                $qxid=explode(",",$admin_role_auth_ids);
+            $admin_role_auth_ids = Session::Get('admin_role_auth_ids');
+            if ($admin_role_auth_ids) {
+                $qxid = explode(",", $admin_role_auth_ids);
             }
 
-            if(Session::Get('admin_id')){
-            }else{
-                $this->success("请先登录！",URL("Login/Index"),1);
+            if (Session::Get('admin_id')) {
+            } else {
+                $this->success("请先登录！", URL("Login/Index"), 1);
                 exit();
             }
-            $admin_role_auth_ids=Session::Get('admin_role_auth_ids');
-            $qxid=explode(",",$admin_role_auth_ids);
-            if($admin_role_auth_ids){
+            $admin_role_auth_ids = Session::Get('admin_role_auth_ids');
+            $qxid                = explode(",", $admin_role_auth_ids);
+            if ($admin_role_auth_ids) {
 
-                if(Session::Get('gty'))  $now_ty=Session::Get('gty');
+                if (Session::Get('gty')) $now_ty = Session::Get('gty');
 
 
-                if(!in_array($now_ty,$qxid)){
-                    $this->success("没有权限！",URL("Login/Index"),1);
+                if (! in_array($now_ty, $qxid)) {
+                    $this->success("没有权限！", URL("Login/Index"), 1);
                     exit();
                 }
 
 
-                if($controller=='Settings'){
-                    if(!in_array(9901,$qxid)){
-                        $this->success("没有权限！",URL("Login/Index"),1);
+                if ($controller == 'Settings') {
+                    if (! in_array(9901, $qxid)) {
+                        $this->success("没有权限！", URL("Login/Index"), 1);
                         exit();
                     }
                 }
 
-                if($controller=='Model'){
-                    if(!in_array(9902,$qxid)){
-                        $this->success("没有权限！",URL("Login/Index"),1);
+                if ($controller == 'Model') {
+                    if (! in_array(9902, $qxid)) {
+                        $this->success("没有权限！", URL("Login/Index"), 1);
                         exit();
                     }
                 }
 
-                if($controller=='Sort'&&$action<>'Make'){
-                    if(!in_array(9903,$qxid)){
-                        $this->success("没有权限！",URL("Login/Index"),1);
+                if ($controller == 'Sort' && $action <> 'Make') {
+                    if (! in_array(9903, $qxid)) {
+                        $this->success("没有权限！", URL("Login/Index"), 1);
                         exit();
                     }
                 }
 
-                if($controller=='Role'){
-                    if(!in_array(9904,$qxid)){
-                        $this->success("没有权限！",URL("Login/Index"),1);
+                if ($controller == 'Role') {
+                    if (! in_array(9904, $qxid)) {
+                        $this->success("没有权限！", URL("Login/Index"), 1);
                         exit();
                     }
                 }
 
-                if($controller=='Manager'&&$action<>'Person'){
-                    if(!in_array(9905,$qxid)){
-                        $this->success("没有权限！",URL("Login/Index"),1);
+                if ($controller == 'Manager' && $action <> 'Person') {
+                    if (! in_array(9905, $qxid)) {
+                        $this->success("没有权限！", URL("Login/Index"), 1);
                         exit();
                     }
                 }
 
-                if($controller=='Logs'){
-                    if(!in_array(9906,$qxid)){
-                        $this->success("没有权限！",URL("Login/Index"),1);
+                if ($controller == 'Logs') {
+                    if (! in_array(9906, $qxid)) {
+                        $this->success("没有权限！", URL("Login/Index"), 1);
                         exit();
                     }
                 }
 
-                if($controller=='Backup'){
-                    if(!in_array(9907,$qxid)){
-                        $this->success("没有权限！",URL("Login/Index"),1);
+                if ($controller == 'Backup') {
+                    if (! in_array(9907, $qxid)) {
+                        $this->success("没有权限！", URL("Login/Index"), 1);
                         exit();
                     }
                 }
 
-                if($controller=='Sort'&&$action=='Make'){
-                    if(!in_array(9908,$qxid)){
-                        $this->success("没有权限！",URL("Login/Index"),1);
+                if ($controller == 'Sort' && $action == 'Make') {
+                    if (! in_array(9908, $qxid)) {
+                        $this->success("没有权限！", URL("Login/Index"), 1);
                         exit();
                     }
                 }
-
             }
+
+            $adminAuthList = $this->get_auth_list($admin_role_auth_ids);
+
+            $this->assign('adminAuthList', $adminAuthList);
         }
     }
+
+    public function get_auth_list($admin_role_auth_ids)
+    {
+        $mca = getMca();
+
+        $sortInfo = Db::name('sort')->where(['sort_c' => $mca['c'], 'sort_a' => $mca['a']])->find();
+        $id      = empty($sortInfo['id']) ? 0 : $sortInfo['id'];
+//        $pid      = empty($sortInfo['pid']) ? 0 : $sortInfo['pid'];
+        $idList  = $this->getCurIdList($id);
+
+        $sqlkey1 = ' AND pid = 0';
+        if ($admin_role_auth_ids == 0) $sqlkey1 .= ""; else $sqlkey1 .= " AND id in(" . $admin_role_auth_ids . ")";
+        $list1 = Db::name('sort')->field('*')->where("status=1{$sqlkey1}")->order('disorder asc,id asc')->select();;
+        if (empty($list1)) {
+            return [];
+        }
+
+        foreach ($list1 as &$v1) {
+            $sqlkey2 = ' AND pid = ' . $v1['id'];
+            if ($admin_role_auth_ids == 0) $sqlkey2 .= ""; else $sqlkey2 .= " AND id in(" . $admin_role_auth_ids . ")";
+            $list2 = Db::name('sort')->field('*')->where("status=1{$sqlkey2}")->order('disorder asc,id asc')->select();
+
+            if($v1['id'] == $idList[0]) {
+                $v1['is_active'] = true;
+            }else{
+                $v1['is_active'] = false;
+            }
+
+            if(empty($list2)) {
+                $v1['child']     = [];
+                $v1['is_active'] = false;
+                continue;
+            }
+
+            foreach($list2 as &$v2) {
+                $sqlkey3 = ' AND pid = ' . $v2['id'];
+                if ($admin_role_auth_ids == 0) $sqlkey3 .= ""; else $sqlkey3 .= " AND id in(" . $admin_role_auth_ids . ")";
+                $list3 = Db::name('sort')->field('*')->where("status=1{$sqlkey3}")->order('disorder asc,id asc')->select();
+
+                if($v2['id'] == $idList[1]) {
+                    $v2['is_active'] = true;
+                }else{
+                    $v2['is_active'] = false;
+                }
+
+                if(empty($list3)) {
+                    $v2['child'] = [];
+                    continue;
+                }
+
+                $v2['child'] = $list3;
+            }
+
+            $v1['child'] = $list2;
+        }
+
+        return $list1;
+    }
+
+    public function getCurIdList($id)
+    {
+        if(empty($id)) {
+            return [];
+        }
+
+        $idList = [$id];
+
+        $parentSortInfo = Db::name('sort')->field('id, pid')->where('id', $id)->find();
+
+        if(empty($parentSortInfo['pid'])) {
+            return $idList;
+        }
+
+        $parentSortInfo = Db::name('sort')->field('id, pid')->where('id', $parentSortInfo['pid'])->find();
+
+        if( empty($parentSortInfo['id'])) {
+            return $idList;
+        }
+
+        array_unshift($idList, $parentSortInfo['id']);
+
+        $parentSortInfo = Db::name('sort')->field('id, pid')->where('id', $parentSortInfo['pid'])->find();
+
+        if( empty($parentSortInfo['id'])) {
+            return $idList;
+        }
+
+        array_unshift($idList, $parentSortInfo['id']);
+
+        return $idList;
+    }
 }
+
 ?>
