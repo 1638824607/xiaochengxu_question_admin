@@ -70,11 +70,7 @@
             <li class="layui-nav-item nav-item {if($v1['is_active'])}layui-nav-itemed{/if}">
                 <a class="" href="javascript:;"><i class="fa fa-globe" aria-hidden="true"></i>{$v1['catname']}</a>
                 {volist name="v1['child']" id="v2"}
-<!--                    <?php-->
-<!--                        //$count2=get_count("sort",'status=1 AND pid='.$v2['id'].'');-->
-<!--                         //if($count2) $url2="javascript:;";else $url2=url('Sort/Action',array('pid'=>$v1['id'],'ty'=>$v2['id']));-->
-<!--                   // echo $url2;
- ?>-->
+
                     <dl class="layui-nav-child ">
                         <dd class="{if($v2['is_active'])}layui-nav-itemed{/if}">
                             {if($v2['child'])}
