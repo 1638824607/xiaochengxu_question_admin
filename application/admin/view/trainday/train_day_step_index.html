@@ -6,28 +6,13 @@
 	<div class="layui-body">
 	<div class="layui-tab layui-tab-brief" lay-filter="tab">
 		<ul class="layui-tab-title">
-			<li class="layui-this"><a href="{:url('train_day_step_index',['pid'=>43,'ty'=>45])}">分解步骤列表</a></li>
-			<li><a href="{:url('add_train_day_step',['pid'=>43,'ty'=>45,'day_id'=>input('day_id')])}">分解步骤</a></li>
-			<li><a href="{:url('index',['pid'=>43,'ty'=>45])}">静心列表</a></li>
+			<li><a href="{:url('index',['pid'=>43,'ty'=>45])}">每日静心列表</a></li>
+			<li class="layui-this"><a href="{:url('train_day_step_index',['day_id'=>input('day_id')])}">每日静心练习分解列表</a></li>
+			<li><a href="{:url('add_train_day_step',['pid'=>43,'ty'=>45,'day_id'=>input('day_id')])}">每日静心练习分解添加</a></li>
 		</ul>
 		<div class="layui-tab-content">
 			<div class="layui-tab-item layui-show">
-				<form action="" method="get" class="layui-form">
-					<input type="hidden" name="pid" value="{$vs.pid}">
-					<input type="hidden" name="ty" value="{$vs.ty}">
-					<input type="hidden" name="tty" value="{$vs.tty}">
-					<input type="hidden" name="ttty" value="{$vs.ttty}">
-					<!--<div class="layui-form-item nospace">-->
-						<!--<div class="layui-input-inline">-->
-							<!--<input type="text" name="q" value="<?php echo input('q')?>" placeholder="请输入搜索" class="layui-input">-->
-						<!--</div>-->
-						<!--<div class="layui-input-inline">-->
-							<!--<button class="layui-btn" lay-submit>搜索</button>-->
-							<!--<a class="layui-btn layui-btn-primary"  href="{:url('index',['pid'=>43,'ty'=>45])}">清除搜索</a>-->
-						<!--</div>-->
-					<!--</div>-->
-				</form>
-
+				<blockquote class="layui-elem-quote">{$cate['title']}：{$info['title']}</blockquote>
 				<table class="layui-table">
 					<thead>
 					<tr>
