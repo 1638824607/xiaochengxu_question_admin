@@ -22,7 +22,7 @@ class Post extends Purview {
         $data = Db::name('community_post')
             ->alias('p')
             ->join('tp_users u','p.user_id = u.id','left')
-            ->field('p.id,p.title,p.content,u.nick,p.created_at')
+            ->field('p.id,p.title,p.content,u.nick,p.created_at,u.id as user_id')
             ->order('p.created_at','desc')
             ->paginate(10);
 

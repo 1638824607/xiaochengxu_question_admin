@@ -10,13 +10,6 @@
 		</ul>
 		<div class="layui-tab-content">
 			<div class="layui-tab-item layui-show">
-				<form action="" method="get" class="layui-form">
-					<input type="hidden" name="pid" value="{$vs.pid}">
-					<input type="hidden" name="ty" value="{$vs.ty}">
-					<input type="hidden" name="tty" value="{$vs.tty}">
-					<input type="hidden" name="ttty" value="{$vs.ttty}">
-				</form>
-
 				<table class="layui-table">
 					<thead>
 					<tr>
@@ -25,7 +18,6 @@
 						<th>分享用户</th>
 						<th>分享类型 </th>
 						<th>分享时间</th>
-						<th>操作</th>
 					</tr>
 					</thead>
 					<tbody>
@@ -36,10 +28,6 @@
 							<td>{$v['user_name']}</td>
 							<td>{$v['share_type_desc']}</td>
 							<td>{$v['created_at']}</td>
-							<td>
-								<!--<a href="{:url('Comment/index', ['post_id' => $v['id']])}"  class='layui-btn layui-btn-xs'>查看评论</a>-->
-								<!--<a href="{:url('del', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>-->
-							</td>
 						</tr>
 					{/volist}
 					</tbody>

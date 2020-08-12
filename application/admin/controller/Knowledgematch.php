@@ -23,9 +23,17 @@ class Knowledgematch extends Purview
 {
     public function index()
     {
-        $list = KnowledgeMatchModel::with(['question'])->order('hot desc')->order('sort desc')->paginate(20);
+        $kwd   = input('kwd');
+        $where = [];
+
+        if(! empty($kwd)) {
+            $where['title'] = ['like', "%{$kwd}%"];
+        }
+
+        $list = KnowledgeMatchModel::with(['question'])->where($where)->order('hot desc')->order('sort desc')->paginate(20);
 
         $this->assign('list', $list);
+        $this->assign('kwd', $kwd);
         $this->assign('questionType', KnowledgeMatchQuestionModel::$questionType);
         return $this->fetch();
     }

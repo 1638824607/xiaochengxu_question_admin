@@ -28,8 +28,6 @@
                             <th>点赞类型 </th>
                             <th>点赞时间</th>
                             <th>阅读状态</th>
-                            <th>删除时间</th>
-                            <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -43,11 +41,6 @@
                             <td>{$v['type_desc']}</td>
                             <td>{$v['created_at']}</td>
                             <td>{$v['read_status_desc']}</td>
-                            <td>{$v['deleted_at']}</td>
-                            <td>
-                                <!--<a href="{:url('Comment/index', ['post_id' => $v['id']])}"  class='layui-btn layui-btn-xs'>查看评论</a>-->
-                                <!--<a href="{:url('del', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>-->
-                            </td>
                         </tr>
                         {/volist}
                         </tbody>

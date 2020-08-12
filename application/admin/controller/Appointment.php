@@ -23,7 +23,7 @@ class Appointment extends Purview {
         $end_time = input('end_time','');
 
 		$query = DB::name('community_advisory_order o')
-            ->field('o.id,u.nick,u.user_name,u.phone,o.order_at,a.name advisory_name,o.status order_status')
+            ->field('o.id,u.id as user_id,u.nick,u.user_name,u.phone,o.order_at,a.name advisory_name,a.job,o.status order_status')
             ->join('users u','o.user_id=u.id')
             ->join('community_advisory a','o.advisory_id=a.id');
 		if($start_time)
@@ -47,42 +47,7 @@ class Appointment extends Purview {
 
         return $this->fetch();
     }
- 
-	
-	//详情
-    public function info(){
-        if($this->request->isPost())
-        {
-            // 更新
-            $id = input('id');
-            $updateData = [
-                'nick'=>input('nick'),
-                'phone' => input('phone'),
-                'wechat' => input('wechat'),
-                'status' => input('status'),
-                'publish_article_num' => input('publish_article_num'),
-                'do_question_num' => input('do_question_num'),
-                'game_accuracy' => input('game_accuracy'),
-            ];
-            $res = $this->db->where('id',$id)->update($updateData);
-            $this->success('操作成功',url('index'));
 
-        }else{
-            // 展示
-
-            $id=input('id',0);
-            if($id)
-            {
-                $userRow = $this->db->find($id);
-                $this->assign('info',$userRow);
-                return $this->fetch();
-            }else{
-                $this->error('请选择用户!');
-            }
-        }
-
-    }
-	
 	//删除
 	public function Del(){
 		$id=input('id',0);

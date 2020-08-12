@@ -16,6 +16,15 @@
 			<li><a href="{:url('add')}">知识竞赛测评添加</a></li>
 		</ul>
 		<div class="layui-tab-content">
+			<div class="layui-form-item">
+				<div class="layui-input-inline">
+					<form action="" >
+						<input type="text" name="kwd" id="kwd" value="{$kwd}" style="width:200px;float:left;"  placeholder="请输入关键字" autocomplete="off" class="layui-input">
+						<button type="submit" class="layui-btn" style="float:left;margin-left:8px;">查找</button>
+					</form>
+				</div>
+			</div>
+			<hr>
 			<div class="layui-tab-item layui-show">
 				{volist name="list" id="vo"}
 					<div class="layui-card">

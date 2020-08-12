@@ -29,13 +29,6 @@
 		</ul>
 		<div class="layui-tab-content" id="app">
 			<div class="layui-tab-item layui-show">
-				<form action="" method="get" class="layui-form">
-					<input type="hidden" name="pid" value="{$vs.pid}">
-					<input type="hidden" name="ty" value="{$vs.ty}">
-					<input type="hidden" name="tty" value="{$vs.tty}">
-					<input type="hidden" name="ttty" value="{$vs.ttty}">
-				</form>
-
 				<template>
 					<div class="block">
 						<span class="demonstration">选择日期</span>
@@ -55,10 +48,11 @@
 					<thead>
 					<tr>
 						<th>ID</th>
-						<th>用户名</th>
+						<th>用户ID/昵称</th>
 						<th>手机</th>
 						<th>预约时间</th>
 						<th>预约老师</th>
+						<th>职业</th>
 						<th>状态</th>
 						<th>操作</th>
 					</tr>
@@ -67,10 +61,11 @@
 					{volist name="list" id="v"}
 						<tr>
 							<td>{$v['id']}</td>
-							<td>{$v['user_name']}</td>
+							<td>{$v['user_id']}/{$v['nick']}</td>
 							<td>{$v['phone']}</td>
 							<td>{$v['order_at']}</td>
 							<td>{$v['advisory_name']}</td>
+							<td>{$v['job']}</td>
 							<td>{$v['order_status']}</td>
 							<td>
 								<a href="{:url('del', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
