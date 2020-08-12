@@ -24,7 +24,7 @@ class Comment extends Purview {
         $where = [];
         if($post_id)
         {
-            $where[] = ['post_id'=>$post_id];
+            $where['post_id'] = $post_id;
         }
         if($kwd)
         {
@@ -42,45 +42,16 @@ class Comment extends Purview {
 
         $data = $query->order('c.created_at','desc')
         ->paginate(10);
+
+         $info = Db::name('community_post')->where('id', $post_id)->find();
+
+
         $this->assign('list',$data);
+        $this->assign('info',$info);
+        $this->assign('kwd',$kwd);
         return $this->fetch();
     }
- 
-	
-	//详情
-    public function info(){
-        if($this->request->isPost())
-        {
-            // 更新
-            $id = input('id');
-            $updateData = [
-                'nick'=>input('nick'),
-                'phone' => input('phone'),
-                'wechat' => input('wechat'),
-                'status' => input('status'),
-                'publish_article_num' => input('publish_article_num'),
-                'do_question_num' => input('do_question_num'),
-                'game_accuracy' => input('game_accuracy'),
-            ];
-            $res = $this->db->where('id',$id)->update($updateData);
-            $this->success('操作成功',url('index'));
 
-        }else{
-            // 展示
-
-            $id=input('id',0);
-            if($id)
-            {
-                $userRow = $this->db->find($id);
-                $this->assign('info',$userRow);
-                return $this->fetch();
-            }else{
-                $this->error('请选择用户!');
-            }
-        }
-
-    }
-	
 	//删除
 	public function Del(){
 		$id=input('id',0);

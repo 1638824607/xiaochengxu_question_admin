@@ -6,20 +6,17 @@
 	<div class="layui-body">
 	<div class="layui-tab layui-tab-brief" lay-filter="tab">
 		<ul class="layui-tab-title">
+			<li ><a href="{:url('post/index')}">帖子列表</a></li>
 			<li class="layui-this"><a href="{:url('index')}">评论列表</a></li>
 		</ul>
 		<div class="layui-tab-content">
+			<blockquote class="layui-elem-quote">{$info['title']}</blockquote>
+
 			<div class="layui-tab-item layui-show">
-				<form action="" method="get" class="layui-form">
-					<input type="hidden" name="pid" value="{$vs.pid}">
-					<input type="hidden" name="ty" value="{$vs.ty}">
-					<input type="hidden" name="tty" value="{$vs.tty}">
-					<input type="hidden" name="ttty" value="{$vs.ttty}">
-				</form>
 				<div class="layui-form-item">
 					<label class="layui-form-label" style="text-align:left;">内容查找</label>
 					<div class="layui-input-inline">
-						<input type="text" name="kwd" id="kwd" style="width:200px;float:left;" placeholder="请输入关键字" autocomplete="off" class="layui-input">
+						<input type="text" name="kwd" id="kwd" style="width:200px;float:left;" value="{$kwd}" placeholder="请输入关键字" autocomplete="off" class="layui-input">
 						<button type="button" class="layui-btn" style="float:left;margin-left:8px;" onclick="search()">查找</button>
 					</div>
 				</div>
