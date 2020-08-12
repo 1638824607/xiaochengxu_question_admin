@@ -41,7 +41,7 @@
 				<div class="layui-tab-item layui-show">
 					<form action="" method="post" class="layui-form" onSubmit="return check_manager_add(this);">
 						<input type="hidden" name="id" value="{$v['id']}">
-						{if condition="$Think.session.admin_id eq 99999999"}
+
 							<div class="layui-form-item">
 								<label class="layui-form-label">所属栏目</label>
 								<div class="layui-input-inline">
@@ -66,16 +66,15 @@
 								<!--</div>-->
 							<!--</div>-->
 
-						{else/}
-							<input type="hidden" name="pid" value="{$v.pid}">
-							<input type="hidden" name="model_id" value="{:get_sort_zd($v['pid'],'model_id')}">
-							<div class="layui-form-item">
-								<label class="layui-form-label">所属栏目</label>
-								<div class="layui-input-inline">
-									{:get_sort_zd($v['pid'])}
-								</div>
-							</div>
-						{/if}
+
+<!--							<input type="hidden" name="pid" value="{$v.pid}">-->
+<!--							<input type="hidden" name="model_id" value="{:get_sort_zd($v['pid'],'model_id')}">-->
+<!--							<div class="layui-form-item">-->
+<!--								<label class="layui-form-label">所属栏目</label>-->
+<!--								<div class="layui-input-inline">-->
+<!--									{:get_sort_zd($v['pid'])}-->
+<!--								</div>-->
+<!--							</div>-->
 
 
 
@@ -129,7 +128,6 @@
 
 
 
-						{if condition="$Think.session.admin_id eq 99999999"}
 							<div class="layui-form-item">
 								<label class="layui-form-label">所属模板</label>
 								<div class="layui-input-inline">
@@ -207,19 +205,7 @@
 									<input type="radio" name="isopen" value="0" title="关闭"  {:get_my_checked($v['isopen'],0)}>
 								</div>
 							</div>
-						{else/}
-							<input type="hidden" name="templet" value="{$v['templet']}">
-							<input type="hidden" name="sort_c" value="{$v['sort_c']}">
-							<input type="hidden" name="sort_a" value="{$v['sort_a']}">
-							<input type="hidden" name="imgnum" value="{$v['imgnum']}">
-							<input type="hidden" name="titleimgsize" value="{$v['titleimgsize']}">
-							<input type="hidden" name="imgsize" value="{$v['imgsize']}">
-							<input type="hidden" name="imgname" value="{$v['imgname']}">
-							<input type="hidden" name="sort_p" value="{$v['sort_p']}">
-							<input type="hidden" name="outlinkurl" value="{$v['outlinkurl']}">
-							<input type="hidden" name="inlinkurl" value="{$v['inlinkurl']}">
-							<input type="hidden" name="isopen" value="{:get_sort_zd($v['pid'],'isopen')}">
-						{/if}
+
 
 
 

@@ -98,7 +98,19 @@ class Sort extends Purview {
             $_POST['model_id']=$model_arr[0];
             $_POST['sendtime']=time();
 
+            $sort_c = input('sort_c');
+            $sort_a = input('sort_a');
+
+            if(empty($sort_c) || empty($sort_a)) {
+                $this->error("控制器或方法不能为空");
+            }
+            $existUrl = $db->where(['sort_c' => $sort_c, 'sort_a' => $sort_a])->find();
+
             if($id){
+                if(! empty($existUrl) && $existUrl['id'] != $id) {
+                    $this->error("该路由已存在");
+                }
+
                 if($db->update($_POST)!== false){
                     Cache::set("sort_{$id}",$_POST);//存入缓存
                     sys_log("编辑分类名称:{$_POST['catname']}(id:$id)");
@@ -106,6 +118,10 @@ class Sort extends Purview {
                     exit();
                 }
             }else{
+                if(! empty($existUrl)) {
+                    $this->error("该路由已存在");
+                }
+
                 if($id=$db->insert($_POST)){
                     Cache::set("sort_{$id}",$_POST);//存入缓存
                     sys_log("添加分类名称:{$_POST['catname']}(id:$id)");
