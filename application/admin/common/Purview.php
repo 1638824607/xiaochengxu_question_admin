@@ -112,6 +112,8 @@ class Purview extends controller
 
             $this->assign('adminAuthList', $adminAuthList);
         }
+
+        $this->assign('now_time',date('Y'));
     }
 
     public function get_auth_list($admin_role_auth_ids)

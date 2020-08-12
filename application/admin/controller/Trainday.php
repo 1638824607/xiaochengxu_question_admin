@@ -59,6 +59,7 @@ class Trainday extends Purview
             if(empty($this->request->param('image'))){
                 $this->error('静心图片不存在');
             }
+
             $data['cate_id'] = $this->request->param('cate_id');
             $data['title'] = $this->request->param('title');
             $data['desc'] = $this->request->param('desc');
@@ -179,7 +180,9 @@ class Trainday extends Purview
             if(empty($this->request->param('image'))){
                 $this->error('音乐地址不能为空!');
             }
-
+            if(!is_numeric($this->request->param('duration'))){
+                $this->error('排序值必须为数字');
+            }
             $data['day_id'] = $this->request->param('day_id');
             $data['title'] = $this->request->param('title');
             $data['duration'] = $this->request->param('duration');
@@ -213,6 +216,9 @@ class Trainday extends Purview
             }
             if(empty($this->request->param('duration'))){
                 $this->error('时长不能为空!');
+            }
+            if(!is_numeric($this->request->param('duration'))){
+                $this->error('排序值必须为数字');
             }
             if(empty($this->request->param('image'))){
                 $this->error('音乐地址不能为空!');
