@@ -24,7 +24,8 @@ class Communityadvisory extends Purview
     {
         $where = [];
         if($this->request->param('q')){
-            $where['name|tel'] = $this->request->param('q');
+            $kwd = trim($this->request->param('q'));
+            $where['name|tel'] = ['like', "%{$kwd}%"];
         }
         $list = Db::name('community_advisory')->where($where)->order('id desc')->paginate(20)->each(function($v,$key){
           return $v;

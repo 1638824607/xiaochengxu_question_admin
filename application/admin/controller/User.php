@@ -13,16 +13,23 @@ class User extends Purview {
     public function Index(){
         Cookie::set('Jumpurl',$_SERVER['REQUEST_URI']);
 		$db=Db::name('users');
-        $where = [];
+
         $kwd = trim(input('kwd',''));
         if($kwd)
         {
-            $list = $db->where(sprintf('phone LIKE "%s%%" OR nick LIKE "%s%%" OR user_name LIKE "%s%%"',$kwd,$kwd,$kwd))->paginate(20);
+            # phone nick user_name
+            $list = $db
+                ->whereOr('phone', 'like', "%{$kwd}%")
+                ->whereOr('nick', 'like', "%{$kwd}%")
+                ->whereOr('user_name', 'like', "%{$kwd}%")
+                ->paginate(20);
         }else{
             $list = $db->paginate(20);
         }
         $page = $list->render();
         $list = $list->all();
+
+        $this->assign('kwd', $kwd);
         /*******时实统计******/
         // 评测
         if(!$list)
