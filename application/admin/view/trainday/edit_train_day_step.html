@@ -52,7 +52,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">时长(秒)</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="duration" value="{$info['duration']}" placeholder="请输入时长" class="layui-input">
+                                <input type="text" name="duration" id="duration" value="{$info['duration']}" placeholder="请输入时长" class="layui-input">
                             </div>
                         </div>
                         <!--<div class="layui-form-item">-->
@@ -74,7 +74,7 @@
                         <div class="layui-form-item">
                             <div class="layui-input-block">
                                 <button class="layui-btn" lay-submit>立即提交</button>
-                                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                <button type="reset" id="button_click" class="layui-btn layui-btn-primary">重置</button>
                             </div>
                         </div>
                     </form>
@@ -117,6 +117,13 @@
                     });
                 });
             });
+
+        });
+
+        $("#button_click").click(function(){
+//            $("#duration").val('123');
+//            console.log($("#duration").val())
+//             alert("111")
 
         });
     </script>

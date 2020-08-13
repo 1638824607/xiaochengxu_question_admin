@@ -53,6 +53,16 @@ class Knowledgeread extends Purview
             if(empty($this->request->param('cate_id'))){
                 $this->error('类型必须选择');
             }
+            if($this->request->param('sort') <= 0){
+                $this->error('排序值必须大于等于1');
+            }
+
+            if($this->request->param('sort') > 99999){
+                $this->error('排序值不能大于99999');
+            }
+            if(!is_numeric($this->request->param('sort'))){
+                $this->error('排序值必须为数字');
+            }
 
             $data['src'] = $this->request->param('image');
             $data['cate_id'] = $this->request->param('cate_id');
@@ -94,7 +104,16 @@ class Knowledgeread extends Purview
             if(empty($this->request->param('cate_id'))){
                 $this->error('类型必须选择');
             }
+            if($this->request->param('sort') <= 0){
+                $this->error('排序值必须大于等于1');
+            }
 
+            if($this->request->param('sort') > 99999){
+                $this->error('排序值不能大于99999');
+            }
+            if(!is_numeric($this->request->param('sort'))){
+                $this->error('排序值必须为数字');
+            }
             $data['src'] = $this->request->param('image');
             $data['cate_id'] = $this->request->param('cate_id');
 

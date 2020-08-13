@@ -37,6 +37,17 @@ class Knowledgebanner extends Purview
             if(empty($this->request->param('image'))){
                 $this->error('图片必须传');
             }
+            if($this->request->param('sort') <= 0){
+                $this->error('排序值必须大于等于1');
+            }
+
+            if($this->request->param('sort') > 99999){
+                $this->error('排序值不能大于99999');
+            }
+            if(!is_numeric($this->request->param('sort'))){
+                $this->error('排序值必须为数字');
+            }
+
             $data['image'] = $this->request->param('image');
             $data['title'] = $this->request->param('title');
             $data['sort'] = $this->request->param('sort');
@@ -60,6 +71,16 @@ class Knowledgebanner extends Purview
 
             if(empty($this->request->param('image'))){
                 $this->error('图片必须传');
+            }
+            if($this->request->param('sort') <= 0){
+                $this->error('排序值必须大于等于1');
+            }
+
+            if($this->request->param('sort') > 99999){
+                $this->error('排序值不能大于99999');
+            }
+            if(!is_numeric($this->request->param('sort'))){
+                $this->error('排序值必须为数字');
             }
             $data['image'] = $this->request->param('image');
             $data['title'] = $this->request->param('title');

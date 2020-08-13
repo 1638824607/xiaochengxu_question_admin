@@ -38,6 +38,16 @@ class Knowledgereadcate extends Purview
             if(empty($this->request->param('title'))){
                 $this->error('标题必须传');
             }
+            if($this->request->param('sort') <= 0){
+                $this->error('排序值必须大于等于1');
+            }
+
+            if($this->request->param('sort') > 99999){
+                $this->error('排序值不能大于99999');
+            }
+            if(!is_numeric($this->request->param('sort'))){
+                $this->error('排序值必须为数字');
+            }
 
             $data['title'] = $this->request->param('title');
 
@@ -59,6 +69,20 @@ class Knowledgereadcate extends Purview
         if($this->request->isPost()){
             if(empty($this->request->param('title'))){
                 $this->error('标题必须传');
+            }
+            if($this->request->param('sort') <= 0){
+                $this->error('排序值必须大于等于1');
+            }
+
+            if($this->request->param('sort') > 99999){
+                $this->error('排序值不能大于99999');
+            }
+            if(!is_numeric($this->request->param('sort'))){
+                $this->error('排序值必须为数字');
+            }
+            $info = Db::name('knowledge_read_cate')->where(array('title'=>trim($this->request->param('title'))))->find();
+            if($info){
+                $this->error('类型名称已存在,不能重复添加');
             }
             $data['title'] = $this->request->param('title');
             $data['sort'] = $this->request->param('sort',0);
