@@ -40,8 +40,18 @@ class Trainbanner extends Purview
             $data['image'] = $this->request->param('image');
             $data['title'] = $this->request->param('title');
             $data['sort'] = $this->request->param('sort');
-
-
+            if($data['sort'] < 0)
+            {
+                $this->error('操作失败,排序不能小于0');
+            }
+            if(floor($data['sort'])!=$data['sort'])
+            {
+                $this->error('操作失败,排序必须是正整数');
+            }
+            if($data['sort'] > 99999)
+            {
+                $this->error('排序值不能大于99999');
+            }
             $res = Db::name('train_banner')->insert($data);
             if($res){
                 $this->success('操作成功',url('index'));
@@ -65,7 +75,18 @@ class Trainbanner extends Purview
             $data['title'] = $this->request->param('title');
 
             $data['sort'] = $this->request->param('sort');
-
+            if($data['sort'] < 0)
+            {
+                $this->error('操作失败,排序不能小于0');
+            }
+            if(floor($data['sort'])!=$data['sort'])
+            {
+                $this->error('操作失败,排序必须是正整数');
+            }
+            if($data['sort'] > 99999)
+            {
+                $this->error('排序值不能大于99999');
+            }
 
             $res = Db::name('train_banner')->where(array('id'=>$this->request->param('id')))->update($data);
             if($res){

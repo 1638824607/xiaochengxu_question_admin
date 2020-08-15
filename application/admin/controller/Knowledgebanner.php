@@ -47,6 +47,10 @@ class Knowledgebanner extends Purview
             if(!is_numeric($this->request->param('sort'))){
                 $this->error('排序值必须为数字');
             }
+            if(floor($data['sort'])!=$data['sort'])
+            {
+                $this->error('排序必须是正整数');
+            }
 
             $data['image'] = $this->request->param('image');
             $data['title'] = $this->request->param('title');
@@ -82,6 +86,11 @@ class Knowledgebanner extends Purview
             if(!is_numeric($this->request->param('sort'))){
                 $this->error('排序值必须为数字');
             }
+            if(floor($data['sort'])!=$data['sort'])
+            {
+                $this->error('排序必须是正整数');
+            }
+
             $data['image'] = $this->request->param('image');
             $data['title'] = $this->request->param('title');
 
