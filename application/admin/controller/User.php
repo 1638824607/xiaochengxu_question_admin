@@ -22,9 +22,9 @@ class User extends Purview {
                 ->whereOr('phone', 'like', "%{$kwd}%")
                 ->whereOr('nick', 'like', "%{$kwd}%")
                 ->whereOr('user_name', 'like', "%{$kwd}%")
-                ->paginate(20);
+                ->paginate(20,false,['query'=>request()->param()]);
         }else{
-            $list = $db->paginate(20);
+            $list = $db->paginate(20,false,['query'=>request()->param()]);
         }
         $page = $list->render();
         $list = $list->all();

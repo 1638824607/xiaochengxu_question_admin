@@ -7,62 +7,64 @@
 <!-- 引入组件库 -->
 <script src="__ADMIN__/js/element.js"></script>
 <style>
-	.data-title{
-		font-size:28px;
+	.data-title {
+		font-size: 28px;
 		text-align: center;
 		margin-top: 26px;
-		color:#fff;
+		color: #fff;
 	}
-	.data-value{
-		font-size:24px;
+
+	.data-value {
+		font-size: 24px;
 		text-align: center;
 		margin-top: 18px;
-		color:#fff;
+		color: #fff;
 	}
-	.layui-row{
-		margin-top:26px;
+
+	.layui-row {
+		margin-top: 26px;
 	}
-	 .el-input__inner{
-		 height:34px;
-		 height:34px;
-	 }
-	.el-date-editor .el-range-input{
-		width:38%;
+
+	.el-input__inner {
+		height: 34px;
+		height: 34px;
 	}
-	.el-range-editor.el-input__inner{
-		padding:0px 6px;
+
+	.el-date-editor .el-range-input {
+		width: 38%;
 	}
-	.el-date-editor--daterange.el-input__inner{
-		width:220px;
+
+	.el-range-editor.el-input__inner {
+		padding: 0px 6px;
+	}
+
+	.el-date-editor--daterange.el-input__inner {
+		width: 220px;
 	}
 </style>
 <div class="layui-layout layui-layout-admin">
 	{include file="public/left" /}
 	<div class="layui-body" id="app">
 
-	<!-- 列表页-->
-	<div class="layui-tab layui-tab-brief" lay-filter="tab" v-show="listShow">
-		<ul class="layui-tab-title">
-			<li class="layui-this"><a href="{:url('index')}">关键词管理</a></li>
-		</ul>
-		<div class="layui-tab-content">
+		<!-- 列表页-->
+		<div class="layui-tab layui-tab-brief" lay-filter="tab" v-show="listShow">
+			<ul class="layui-tab-title">
+				<li class="layui-this"><a href="{:url('index')}">关键词管理</a></li>
+			</ul>
+			<div class="layui-tab-content">
 
 				<div class="layui-row">
 					<div class="layui-col-md9">
 						<form action="" method="post" class="layui-form" lay-filter="content">
 							<div class="layui-form-item">
 								<div class="layui-input-block" style="margin-left:0px;">
-									<div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+									<div class="layui-inline">
+										<!-- 注意：这一层元素并不是必须的 -->
 										<template>
 											<div class="block">
 												<span class="demonstration">选择日期</span>
-												<el-date-picker
-														v-model="keyword.selectDate"
-														type="daterange"
-														range-separator="至"
-														start-placeholder="开始日期"
-														end-placeholder="结束日期"
-													    value-format="yyyy-MM-dd">
+												<el-date-picker v-model="keyword.selectDate" type="daterange" range-separator="至"
+													start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd">
 												</el-date-picker>
 											</div>
 										</template>
@@ -87,25 +89,25 @@
 
 					<table class="layui-table">
 						<thead>
-						<tr>
-							<th>序号</th>
-							<th>关键词</th>
-							<th>添加用户</th>
-							<th>添加时间</th>
-							<th>操作</th>
-						</tr>
+							<tr>
+								<th>序号</th>
+								<th>关键词</th>
+								<th>添加用户</th>
+								<th>添加时间</th>
+								<th>操作</th>
+							</tr>
 						</thead>
 						<tbody>
-						<tr v-for="item in keyword.items">
-							<td>{{item.id}}</td>
-							<td>{{item.content}}</td>
-							<td>{{item.user_name}}</td>
-							<td>{{item.created_at}}</td>
+							<tr v-for="item in keyword.items">
+								<td>{{item.id}}</td>
+								<td>{{item.content}}</td>
+								<td>{{item.user_name}}</td>
+								<td>{{item.created_at}}</td>
 
-							<td>
-								<a href="#" @click="del(item)" class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
-							</td>
-						</tr>
+								<td>
+									<a href="#" @click="del(item)" class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+								</td>
+							</tr>
 						</tbody>
 					</table>
 				</div>
@@ -113,40 +115,35 @@
 				<template>
 					<div class="block">
 						<span class="demonstration"></span>
-						<el-pagination
-								@size-change="handleSizeChangeKeyword"
-								@current-change="handleCurrentChangeKeyword"
-								:current-page="keyword.currentPage"
-								:page-sizes="[10, 30, 50, 100]"
-								:page-size="keyword.size"
-								layout="total, sizes, prev, pager, next, jumper"
-								:total="keyword.total">
+						<el-pagination @size-change="handleSizeChangeKeyword" @current-change="handleCurrentChangeKeyword"
+							:current-page="keyword.currentPage" :page-sizes="[10, 30, 50, 100]" :page-size="keyword.size"
+							layout="total, sizes, prev, pager, next, jumper" :total="keyword.total">
 						</el-pagination>
 					</div>
 				</template>
 
+			</div>
 		</div>
-	</div>
 
-	<!-- 列表页 END-->
+		<!-- 列表页 END-->
 		<div class="layui-tab layui-tab-brief" lay-filter="tab" v-show="!listShow">
 			<ul class="layui-tab-title">
 				<li class="layui-this"><a href="{:url('index')}">关键词管理</a></li>
 			</ul>
-		<div class="layui-tab-content">
-		<el-form ref="form" :model="form" label-width="80px">
-			<el-form-item label="关键词">
-				<el-input v-model="form.content"></el-input>
-			</el-form-item>
-			<el-form-item>
-				<el-button type="primary" @click="onSubmit">立即创建</el-button>
-				<el-button @click="reback()">返回</el-button>
-			</el-form-item>
-		</el-form>
-		</div>
+			<div class="layui-tab-content">
+				<el-form ref="form" :model="form" label-width="80px">
+					<el-form-item label="关键词">
+						<el-input v-model="form.content"></el-input>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="primary" @click="onSubmit">立即创建</el-button>
+						<el-button @click="reback()">返回</el-button>
+					</el-form-item>
+				</el-form>
+			</div>
 		</div>
 
-</div>
+	</div>
 
 	{include file="public/footer" /}
 
@@ -176,7 +173,7 @@
 				hour = 0;
 			}
 			if (meridiem === '凌晨' || meridiem === '早上' ||
-					meridiem === '上午') {
+				meridiem === '上午') {
 				return hour;
 			} else if (meridiem === '下午' || meridiem === '晚上') {
 				return hour + 12;
@@ -247,12 +244,12 @@
 			doy: 4  // The week that contains Jan 4th is the first week of the year.
 		}
 	})
-	const headers = new  Headers({
-		'Access-Control-Allow-Origin':'*',
-		"Content-Type":'text/plain'
+	const headers = new Headers({
+		'Access-Control-Allow-Origin': '*',
+		"Content-Type": 'text/plain'
 	})
 
-	layui.use('laydate', function(){
+	layui.use('laydate', function () {
 		var laydate = layui.laydate;
 
 		//执行一个laydate实例
@@ -272,46 +269,55 @@
 	});
 
 	var vue = new Vue({
-		el:"#app",
-		data:{
-			keyword:{
-				items:[],
+		el: "#app",
+		data: {
+			keyword: {
+				items: [],
 				currentPage: 1,
-				total:0,
-				size:10,
+				total: 0,
+				size: 10,
 				selectDate: [],
 			},
 			form: {
 				content: ''
 			},
-			listShow:true
+			listShow: true
 
 		},
-		created(){
+		created() {
 			this.initKeywordPage()
 		},
-		methods:{
-			initKeywordPage(){
+		mounted() {
+			let that = this
+			document.querySelectorAll('.el-input__inner')[2].oninput = function () {
+				let maxPage = Math.ceil(that.keyword.total / that.keyword.size)
+				if (this.value > maxPage) {
+					layer.msg('最大页为' + maxPage)
+				}
+			}
+		},
+		methods: {
+			initKeywordPage() {
 				that = this
-				let url = "/admin/Keyword/getListPage";
+				let url = "/index.php/admin/Keyword/getListPage";
 				let date = that.keyword.selectDate.length == 2 ? "&start_time=" + that.keyword.selectDate[0] + "&end_time=" + that.keyword.selectDate[1] : ''
-				url  = url + "?page=" + that.keyword.currentPage + "&size=" + that.keyword.size + date
-				fetch(url,{
+				url = url + "?page=" + that.keyword.currentPage + "&size=" + that.keyword.size + date
+				fetch(url, {
 					method: "GET",
 					headers: headers,
 					mode: "no-cors"
 				})
-						.then(function(res){
-							console.log(res)
-							return res.json()
-						})
-						.then(function(res){
-							console.log(res)
-							that.keyword.items = res.data
-							that.keyword.currentPage = res.current_page
-							that.keyword.total = res.total
+					.then(function (res) {
+						console.log(res)
+						return res.json()
+					})
+					.then(function (res) {
+						console.log(res)
+						that.keyword.items = res.data
+						that.keyword.currentPage = res.current_page
+						that.keyword.total = res.total
 
-						})
+					})
 			},
 			handleSizeChangeKeyword(val) {
 				console.log(`每页 ${val} 条`)
@@ -328,16 +334,16 @@
 				let conf = confirm('确定要删除吗?')
 				let url = '/admin/Keyword/del'
 				let data = new FormData()
-				data.append('id',item.id)
-				if(conf) {
-					axios.post(url,data)
-							.then(res=>{
-								// 箭头函数, 这里this指vm
-								this.$delete(this.keyword.items,this.keyword.items.indexOf(item))
-							})
-							.catch(error=>{
-								console.log(error)
-							})
+				data.append('id', item.id)
+				if (conf) {
+					axios.post(url, data)
+						.then(res => {
+							// 箭头函数, 这里this指vm
+							this.$delete(this.keyword.items, this.keyword.items.indexOf(item))
+						})
+						.catch(error => {
+							console.log(error)
+						})
 
 				}
 				console.log(item)
@@ -347,15 +353,13 @@
 				let that = this
 				let url = "/admin/Keyword/add";
 				let data = new FormData()
-				for (var k in this.form)
-				{
-					data.append(k,this.form[k])
+				for (var k in this.form) {
+					data.append(k, this.form[k])
 				}
-				axios.post(url,data)
-					.then(res=>{
+				axios.post(url, data)
+					.then(res => {
 						// 箭头函数, 这里this指vm
-						if(res.data.status == 1)
-						{
+						if (res.data.status == 1) {
 							layer.msg("添加成功");
 							let row = {
 								id: res.data.data.id,
@@ -364,24 +368,28 @@
 								user_name: ''
 							}
 							that.keyword.items.unshift(row)
-						}else{
+
+						} else {
 							layer.msg('添加失败');
 						}
 					})
-					.catch(error=>{
+					.catch(error => {
 						console.log(error)
 					})
 			},
-			add(){
+			add() {
 				this.listShow = false
 			},
-			reback(){
+			reback() {
 				this.listShow = true
-			}
+			},
+
 		}
 
 	})
 
+
 </script>
 </body>
+
 </html>
