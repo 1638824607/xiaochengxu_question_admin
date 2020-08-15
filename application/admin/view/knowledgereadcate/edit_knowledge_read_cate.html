@@ -15,13 +15,13 @@
 				<div class="layui-tab-item layui-show">
 					<form action="" method="post" class="layui-form" lay-filter="content" id="edit">
 						<!--<div class="layui-form-item">-->
-							<!--<label class="layui-form-label">上传图片</label>-->
-							<!--<div class="layui-input-inline">-->
-								<!--<input type="text" name="image" id="image" value="{$info['image']}" placeholder="请上传配置图片"  class="layui-input">-->
-							<!--</div>-->
-							<!--<button type="button" id="img_btn" class="layui-btn" data-des="ico">-->
-								<!--<i class="layui-icon">&#xe67c;</i>上传图片-->
-							<!--</button>-->
+						<!--<label class="layui-form-label">上传图片</label>-->
+						<!--<div class="layui-input-inline">-->
+						<!--<input type="text" name="image" id="image" value="{$info['image']}" placeholder="请上传配置图片"  class="layui-input">-->
+						<!--</div>-->
+						<!--<button type="button" id="img_btn" class="layui-btn" data-des="ico">-->
+						<!--<i class="layui-icon">&#xe67c;</i>上传图片-->
+						<!--</button>-->
 						<!--</div>-->
 						<div class="layui-form-item">
 							<label class="layui-form-label">标题</label>
@@ -30,15 +30,16 @@
 							</div>
 						</div>
 						<!--<div class="layui-form-item">-->
-							<!--<label class="layui-form-label">小标题</label>-->
-							<!--<div class="layui-input-inline">-->
-								<!--<input type="text" name="desc" value="{$info['desc']}" placeholder="请输入小标题" class="layui-input">-->
-							<!--</div>-->
+						<!--<label class="layui-form-label">小标题</label>-->
+						<!--<div class="layui-input-inline">-->
+						<!--<input type="text" name="desc" value="{$info['desc']}" placeholder="请输入小标题" class="layui-input">-->
+						<!--</div>-->
 						<!--</div>-->
 						<div class="layui-form-item">
 							<label class="layui-form-label">排序</label>
 							<div class="layui-input-inline">
-								<input type="text" name="sort" value="{$info['sort']}" placeholder="请输入排序" class="layui-input">
+								<input type="text" name="sort" value="{$info['sort']}" lay-verify="Ndouble" placeholder="请输入排序"
+									class="layui-input">
 							</div>
 						</div>
 
@@ -56,33 +57,46 @@
 		</div>
 	</div>
 	<script>
-		KindEditor.ready(function(K) {
+		$(function () {
+			layui.use(['jquery', 'form', 'layer'], function () {
+				var $ = layui.jquery;
+				var layer = layui.layer;
+				var form = layui.form;
+				form.verify({
+					Ndouble: [
+						/^[1-9]\d*$/
+						, '只能输入整数哦'
+					]
+				});
+			})
+		})
+		KindEditor.ready(function (K) {
 			var editor1 = K.create('.editor_id', {
 				filterMode: false,//是否开启过滤模式
-				cssPath : '__ADMIN__/myeditor/plugins/code/prettify.css',
-				uploadJson : '__ADMIN__/myeditor/php/upload_json.php',
-				fileManagerJson : '__ADMIN__/myeditor/php/file_manager_json.php',
-				allowFileManager : true,
-				afterBlur : function() {
+				cssPath: '__ADMIN__/myeditor/plugins/code/prettify.css',
+				uploadJson: '__ADMIN__/myeditor/php/upload_json.php',
+				fileManagerJson: '__ADMIN__/myeditor/php/file_manager_json.php',
+				allowFileManager: true,
+				afterBlur: function () {
 					this.sync();
-					K.ctrl(document, 13, function() {
+					K.ctrl(document, 13, function () {
 						K('form[name=formlist]')[0].submit();
 					});
-					K.ctrl(this.edit.doc, 13, function() {
+					K.ctrl(this.edit.doc, 13, function () {
 						K('form[name=formlist]')[0].submit();
 					});
 				}
 			});
 
 			var editor = K.editor({
-				allowFileManager : true
+				allowFileManager: true
 			});
 
-			K('#img_btn').click(function() {
-				editor.loadPlugin('image', function() {
+			K('#img_btn').click(function () {
+				editor.loadPlugin('image', function () {
 					editor.plugin.imageDialog({
-						imageUrl : K('#img').val(),
-						clickFn : function(url, title, width, height, border, align) {
+						imageUrl: K('#img').val(),
+						clickFn: function (url, title, width, height, border, align) {
 							K('#img').val(url);
 							editor.hideDialog();
 						}
@@ -97,4 +111,5 @@
 </div>
 
 </body>
+
 </html>

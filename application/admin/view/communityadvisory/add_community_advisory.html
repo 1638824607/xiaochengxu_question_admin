@@ -8,7 +8,7 @@
     <div class="layui-body">
         <div class="layui-tab layui-tab-brief" lay-filter="tab">
             <ul class="layui-tab-title">
-                <li ><a href="{:url('index',['pid'=>24,'ty'=>44])}">老师列表</a></li>
+                <li><a href="{:url('index',['pid'=>24,'ty'=>44])}">老师列表</a></li>
                 <li class="layui-this"><a href="{:url('add_community_advisory',['pid'=>24,'ty'=>44])}">老师添加</a></li>
             </ul>
             <div class="layui-tab-content">
@@ -23,7 +23,8 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">老师头像</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="avatar" id="img" value="" placeholder="请上传配置图片"  class="layui-input">
+                                <input type="text" name="avatar" id="img" value="" placeholder="请上传配置图片"
+                                    class="layui-input">
                             </div>
                             <button type="button" id="img_btn" class="layui-btn" data-des="ico">
                                 <i class="layui-icon">&#xe67c;</i>上传图片
@@ -44,20 +45,22 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">手机号</label>
                             <div class="layui-input-inline">
-                                <input type="number" name="tel" value="" placeholder="请输入手机号" class="layui-input">
+                                <input type="number" name="tel" value="" lay-verify="phone" placeholder="请输入手机号"
+                                    class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">简介</label>
                             <div class="layui-input-inline">
-                                <textarea name="desc" style="width:520px;height:100px;" class="layui-textarea"></textarea>
+                                <textarea name="desc" style="width:520px;height:100px;"
+                                    class="layui-textarea"></textarea>
                             </div>
                         </div>
                         <!--<div class="layui-form-item">-->
-                            <!--<label class="layui-form-label">排序</label>-->
-                            <!--<div class="layui-input-inline">-->
-                                <!--<input type="text" name="sort" value="" placeholder="请输入排序" class="layui-input">-->
-                            <!--</div>-->
+                        <!--<label class="layui-form-label">排序</label>-->
+                        <!--<div class="layui-input-inline">-->
+                        <!--<input type="text" name="sort" value="" placeholder="请输入排序" class="layui-input">-->
+                        <!--</div>-->
                         <!--</div>-->
 
                         <!--<input type="hidden" name="id" value="{$info['id']}">-->
@@ -74,33 +77,33 @@
         </div>
     </div>
     <script>
-        KindEditor.ready(function(K) {
+        KindEditor.ready(function (K) {
             var editor1 = K.create('.editor_id', {
                 filterMode: false,//是否开启过滤模式
-                cssPath : '__ADMIN__/myeditor/plugins/code/prettify.css',
-                uploadJson : '__ADMIN__/myeditor/php/upload_json.php',
-                fileManagerJson : '__ADMIN__/myeditor/php/file_manager_json.php',
-                allowFileManager : true,
-                afterBlur : function() {
+                cssPath: '__ADMIN__/myeditor/plugins/code/prettify.css',
+                uploadJson: '__ADMIN__/myeditor/php/upload_json.php',
+                fileManagerJson: '__ADMIN__/myeditor/php/file_manager_json.php',
+                allowFileManager: true,
+                afterBlur: function () {
                     this.sync();
-                    K.ctrl(document, 13, function() {
+                    K.ctrl(document, 13, function () {
                         K('form[name=formlist]')[0].submit();
                     });
-                    K.ctrl(this.edit.doc, 13, function() {
+                    K.ctrl(this.edit.doc, 13, function () {
                         K('form[name=formlist]')[0].submit();
                     });
                 }
             });
 
             var editor = K.editor({
-                allowFileManager : true
+                allowFileManager: true
             });
 
-            K('#img_btn').click(function() {
-                editor.loadPlugin('image', function() {
+            K('#img_btn').click(function () {
+                editor.loadPlugin('image', function () {
                     editor.plugin.imageDialog({
-                        imageUrl : K('#img').val(),
-                        clickFn : function(url, title, width, height, border, align) {
+                        imageUrl: K('#img').val(),
+                        clickFn: function (url, title, width, height, border, align) {
                             K('#img').val(url);
                             editor.hideDialog();
                         }
@@ -115,4 +118,5 @@
 </div>
 
 </body>
+
 </html>
