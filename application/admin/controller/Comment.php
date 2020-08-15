@@ -41,7 +41,7 @@ class Comment extends Purview {
          }
 
         $data = $query->order('c.created_at','desc')
-        ->paginate(10);
+        ->paginate(10,false,['query'=>request()->param()]);
 
          $info = Db::name('community_post')->where('id', $post_id)->find();
 
