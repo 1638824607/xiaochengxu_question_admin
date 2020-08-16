@@ -10,11 +10,15 @@ use think\Db;
 
 class Purview extends controller
 {
+    protected $user_info_update_flag_file_dir = './data/';
     function __construct()
     {
         parent::__construct();
         $PHP_URL = $_SERVER['REQUEST_URI'];
-
+        if(!is_dir($this->user_info_update_flag_file_dir))
+        {
+            mkdir($this->user_info_update_flag_file_dir);
+        }
         $request    = Request::instance();
         $PHP_IP     = $request->ip();
         $module     = $request->module();
@@ -32,8 +36,34 @@ class Purview extends controller
             if ($admin_role_auth_ids) {
                 $qxid = explode(",", $admin_role_auth_ids);
             }
+            $user_auth = session('userinfo');    
+            if ($user_auth['id']) {
+                if(file_exists($this->user_info_update_flag_file_dir . $user_auth['id']))
+                {
+                    // 用户信息发生了变化, 可能被删除, 刷新session 
+                    $db = Db::name('manager');
+                    $info = $db->where("id={$user_auth['id']}")->find();
+                 
+                    if($info)
+                    {
+                      
+                        Session::set('admin_id',$info['id']);
+                        Session::set('admin_username',$info['username']);
+                        Session::set('admin_role_name',$arr['role_name']);
+                        Session::set('userinfo',$info);
+                    }else{
+                        Session::delete('admin_id');
+                        Session::delete('admin_username');
+                        Session::delete('admin_role_name');
+                        Session::delete('userinfo');
+                        $this->success("请先登录！", URL("Login/Index"), 1);
+                        exit();
+                    }
 
-            if (Session::Get('admin_id')) {
+                    unlink($this->user_info_update_flag_file_dir . $user_auth['id']);
+                   
+                }
+            
             } else {
                 $this->success("请先登录！", URL("Login/Index"), 1);
                 exit();

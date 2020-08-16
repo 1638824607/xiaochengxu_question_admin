@@ -105,8 +105,10 @@ class Manager extends Purview {
 		if($id){
             Cache::rm("role_{$id}");//删除缓存
 			if($db->delete($id)){
- 				sys_log("删除系统用户:(id:$id)");
-				$this->success("删除成功",Cookie::get('Jumpurl'));
+                 sys_log("删除系统用户:(id:$id)");
+                 $flag_file = $this->user_info_update_flag_file_dir . $id;
+                 $res = file_put_contents($flag_file,date('Y-m-d H:i:s'));
+                 $this->success("删除成功",Cookie::get('Jumpurl'));
 				exit();
 			}else{
 				$this->error("删除失败");

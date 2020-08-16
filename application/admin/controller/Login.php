@@ -23,7 +23,10 @@ class Login extends Controller {
                     $info = array("code" => "0", "data" => "", "tip" => "登录密码错误!");
                     echo json_encode($info);
                     exit();
-                } else {
+                } elseif($info['status'] == 0){
+                    $info = array("code" => "0", "data" => "", "tip" => "用户已被禁止登录!");
+                    echo json_encode($info);
+                }else {
                     $arr = Db::name('role')->field("role_name,role_auth_ids")->where("id={$info['role_id']}")->find();
                     if ($arr['role_auth_ids']) {
                         Session::set('admin_role_auth_ids',$arr['role_auth_ids']);
