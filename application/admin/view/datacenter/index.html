@@ -7,461 +7,469 @@
 <!-- 引入组件库 -->
 <script src="__ADMIN__/js/element.js"></script>
 <style>
-	.data-title{
-		font-size:28px;
+	.data-title {
+		font-size: 28px;
 		text-align: center;
 		margin-top: 26px;
-		color:#fff;
+		color: #fff;
 	}
-	.data-value{
-		font-size:24px;
+
+	.data-value {
+		font-size: 24px;
 		text-align: center;
 		margin-top: 18px;
-		color:#fff;
+		color: #fff;
 	}
-	.layui-row{
-		margin-top:26px;
+
+	.layui-row {
+		margin-top: 26px;
 	}
-	 .el-input__inner{
-		 height:34px;
-		 height:34px;
-	 }
-	.el-date-editor .el-range-input{
-		width:38%;
+
+	.el-input__inner {
+		height: 34px;
+		height: 34px;
 	}
-	.el-range-editor.el-input__inner{
-		padding:0px 6px;
+
+	.el-date-editor .el-range-input {
+		width: 38%;
 	}
-	.el-date-editor--daterange.el-input__inner{
-		width:220px;
+
+	.el-range-editor.el-input__inner {
+		padding: 0px 6px;
+	}
+
+	.el-date-editor--daterange.el-input__inner {
+		width: 220px;
 	}
 </style>
 <div class="layui-layout layui-layout-admin">
 	{include file="public/left" /}
 	<div class="layui-body" id="app">
-	<div class="layui-tab layui-tab-brief" lay-filter="tab">
-		<ul class="layui-tab-title">
-			<li class="layui-this"><a href="{:url('index')}">数据管理</a></li>
-		</ul>
-		<div class="layui-tab-content">
-			<div class="layui-tab-item layui-show">
-				<div class="layui-row layui-col-space10">
-					<div class="layui-col-md4" style="background-color:#3FAAD4;height:150px;">
-						<div class="data-title">总用户数</div>
-						<div class="data-value" v-html="stat.totalUserNum"></div>
+		<div class="layui-tab layui-tab-brief" lay-filter="tab">
+			<ul class="layui-tab-title">
+				<li class="layui-this"><a href="{:url('index')}">数据管理</a></li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<div class="layui-row layui-col-space10">
+						<div class="layui-col-md4" style="background-color:#3FAAD4;height:150px;">
+							<div class="data-title">总用户数</div>
+							<div class="data-value" v-html="stat.totalUserNum"></div>
+						</div>
+						<div class="layui-col-md4" style="background-color:#FC478D;height:150px;">
+							<div class="data-title">活跃用户数</div>
+							<div class="data-value" v-html="stat.activeUsersNum"></div>
+						</div>
+						<div class="layui-col-md4" style="background-color:#9F55C8;height:150px;">
+							<div class="data-title">今日答题用户数</div>
+							<div class="data-value" v-html="stat.todayAnswerNum"></div>
+						</div>
 					</div>
-					<div class="layui-col-md4" style="background-color:#FC478D;height:150px;">
-						<div class="data-title">活跃用户数</div>
-						<div class="data-value" v-html="stat.activeUsersNum"></div>
-					</div>
-					<div class="layui-col-md4" style="background-color:#9F55C8;height:150px;">
-						<div class="data-title">今日答题用户数</div>
-						<div class="data-value" v-html="stat.todayAnswerNum"></div>
-					</div>
-				</div>
 
-				<div class="layui-row">
-					<div class="layui-col-md9">
-						<form action="" method="post" class="layui-form" lay-filter="content">
-							<div class="layui-form-item">
-								<label class="layui-form-label" style="margin-top:3px;width:30px;">时间</label>
-								<div class="layui-input-block" style="margin-left:80px;">
-									<template>
-										<el-radio @change="inputChange()" lay-ignore v-for="item in statUser.selectRadioList" v-model="statUser.radio" :label="item.value" >{{item.title}}</el-radio>
-									</template>
-									<div class="layui-inline"> <!-- 注意：这一层元素并不是必须的 -->
+					<div class="layui-row">
+						<div class="layui-col-md9">
+							<form action="" method="post" class="layui-form" lay-filter="content">
+								<div class="layui-form-item">
+									<label class="layui-form-label" style="margin-top:3px;width:30px;">时间</label>
+									<div class="layui-input-block" style="margin-left:80px;">
 										<template>
-											<div class="block">
-												<span class="demonstration">选择日期</span>
-												<el-date-picker
-														v-model="statUser.selectDate"
-														type="daterange"
-														range-separator="至"
-														start-placeholder="开始日期"
-														end-placeholder="结束日期"
-													    value-format="yyyy-MM-dd">
-												</el-date-picker>
-											</div>
+											<el-radio @change="inputChange()" lay-ignore v-for="item in statUser.selectRadioList"
+												v-model="statUser.radio" :label="item.value">{{item.title}}</el-radio>
 										</template>
+										<div class="layui-inline">
+											<!-- 注意：这一层元素并不是必须的 -->
+											<template>
+												<div class="block">
+													<span class="demonstration">选择日期</span>
+													<el-date-picker v-model="statUser.selectDate" type="daterange" range-separator="至"
+														start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd">
+													</el-date-picker>
+												</div>
+											</template>
+										</div>
+										<button type="button" class="layui-btn" style="margin-top:-8px;"
+											@click="exportStatUser()">导出</button>
 									</div>
-									<button type="button" class="layui-btn" style="margin-top:-8px;" @click="exportStatUser()">导出</button>
+
 								</div>
+							</form>
+						</div>
+					</div>
 
-							</div>
+					<!--列表 用户统计-->
+
+					<div class="layui-tab-item layui-show">
+						<form action="" method="get" class="layui-form">
+							<input type="hidden" name="pid" value="">
+							<input type="hidden" name="ty" value="">
+							<input type="hidden" name="tty" value="">
+							<input type="hidden" name="ttty" value="">
 						</form>
+
+						<table class="layui-table">
+							<thead>
+								<tr>
+									<th>时间</th>
+									<th>新增用户</th>
+									<th>活跃用户</th>
+									<th>答题用户</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="item in statUser.items">
+									<td>{{item.day}}</td>
+									<td>{{item.new_users_num}}</td>
+									<td>{{item.active_users_num}}</td>
+									<td>{{item.answer_users_num}}</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
-				</div>
-
-				<!--列表 用户统计-->
-
-				<div class="layui-tab-item layui-show">
-					<form action="" method="get" class="layui-form">
-						<input type="hidden" name="pid" value="">
-						<input type="hidden" name="ty" value="">
-						<input type="hidden" name="tty" value="">
-						<input type="hidden" name="ttty" value="">
-					</form>
-
-					<table class="layui-table">
-						<thead>
-						<tr>
-							<th>时间</th>
-							<th>新增用户</th>
-							<th>活跃用户</th>
-							<th>答题用户</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr v-for="item in statUser.items">
-							<td>{{item.day}}</td>
-							<td>{{item.new_users_num}}</td>
-							<td>{{item.active_users_num}}</td>
-							<td>{{item.answer_users_num}}</td>
-						</tr>
-						</tbody>
-					</table>
-				</div>
-
-				<template>
-					<div class="block">
-						<span class="demonstration"></span>
-						<el-pagination
-								@size-change="handleSizeChangeUser"
-								@current-change="handleCurrentChangeUser"
-								:current-page="statUser.currentPage"
-								:page-sizes="[10, 30, 50, 100]"
-								:page-size="statUser.size"
-								layout="total, sizes, prev, pager, next, jumper"
-								:total="statUser.total">
-						</el-pagination>
-					</div>
-				</template>
-
-				<!--列表 用户统计 END-->
-
-				<!--列表 游戏点击量-->
-				<div class="layui-tab-item layui-show">
-					<form action="" method="get" class="layui-form">
-						<input type="hidden" name="pid" value="">
-						<input type="hidden" name="ty" value="">
-						<input type="hidden" name="tty" value="">
-						<input type="hidden" name="ttty" value="">
-					</form>
-
-					<table class="layui-table">
-						<thead>
-						<tr>
-							<th>时间</th>
-							<th>游戏点击量最多</th>
-							<th>当日点击最多</th>
-							<th>用户分享最多</th>
-						</tr>
-						</thead>
-						<tbody>
-						<tr v-for="item in statPlay.items">
-							<td>{{item.day}}</td>
-							<td>{{item.new_users_num}}</td>
-							<td>{{item.active_users_num}}</td>
-							<td>{{item.answer_users_num}}</td>
-						</tr>
-						</tbody>
-					</table>
 
 					<template>
 						<div class="block">
 							<span class="demonstration"></span>
-							<el-pagination
-									@size-change="handleSizeChangePlay"
-									@current-change="handleCurrentChangePlay"
-									:current-page="statPlay.currentPage"
-									:page-sizes="[10, 30, 50, 100]"
-									:page-size="statPlay.size"
-									layout="total, sizes, prev, pager, next, jumper"
-									:total="statPlay.total">
+							<el-pagination @size-change="handleSizeChangeUser" @current-change="handleCurrentChangeUser"
+								:current-page="statUser.currentPage" :page-sizes="[10, 30, 50, 100]" :page-size="statUser.size"
+								layout="total, sizes, prev, pager, next, jumper" :total="statUser.total">
 							</el-pagination>
 						</div>
 					</template>
-				<!--列表 游戏点击量 END-->
+
+					<!--列表 用户统计 END-->
+
+					<!--列表 游戏点击量-->
+					<div class="layui-tab-item layui-show">
+						<form action="" method="get" class="layui-form">
+							<input type="hidden" name="pid" value="">
+							<input type="hidden" name="ty" value="">
+							<input type="hidden" name="tty" value="">
+							<input type="hidden" name="ttty" value="">
+						</form>
+
+						<table class="layui-table">
+							<thead>
+								<tr>
+									<th>时间</th>
+									<th>游戏点击量最多</th>
+									<th>当日点击最多</th>
+									<th>用户分享最多</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-for="item in statPlay.items">
+									<td>{{item.day}}</td>
+									<td>{{item.new_users_num}}</td>
+									<td>{{item.active_users_num}}</td>
+									<td>{{item.answer_users_num}}</td>
+								</tr>
+							</tbody>
+						</table>
+
+						<template>
+							<div class="block">
+								<span class="demonstration"></span>
+								<el-pagination @size-change="handleSizeChangePlay" @current-change="handleCurrentChangePlay"
+									:current-page="statPlay.currentPage" :page-sizes="[10, 30, 50, 100]" :page-size="statPlay.size"
+									layout="total, sizes, prev, pager, next, jumper" :total="statPlay.total">
+								</el-pagination>
+							</div>
+						</template>
+						<!--列表 游戏点击量 END-->
+					</div>
+				</div>
 			</div>
 		</div>
+
+		{include file="public/footer" /}
+
 	</div>
-</div>
-
-	{include file="public/footer" /}
-
-</div>
-<script>
-	moment.locale('zh-cn', {
-		months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
-		monthsShort: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
-		weekdays: '星期日_星期一_星期二_星期三_星期四_星期五_星期六'.split('_'),
-		weekdaysShort: '周日_周一_周二_周三_周四_周五_周六'.split('_'),
-		weekdaysMin: '日_一_二_三_四_五_六'.split('_'),
-		longDateFormat: {
-			LT: 'HH:mm',
-			LTS: 'HH:mm:ss',
-			L: 'YYYY-MM-DD',
-			LL: 'YYYY年MM月DD日',
-			LLL: 'YYYY年MM月DD日Ah点mm分',
-			LLLL: 'YYYY年MM月DD日ddddAh点mm分',
-			l: 'YYYY-M-D',
-			ll: 'YYYY年M月D日',
-			lll: 'YYYY年M月D日 HH:mm',
-			llll: 'YYYY年M月D日dddd HH:mm'
-		},
-		meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
-		meridiemHour: function (hour, meridiem) {
-			if (hour === 12) {
-				hour = 0;
-			}
-			if (meridiem === '凌晨' || meridiem === '早上' ||
+	<script>
+		moment.locale('zh-cn', {
+			months: '一月_二月_三月_四月_五月_六月_七月_八月_九月_十月_十一月_十二月'.split('_'),
+			monthsShort: '1月_2月_3月_4月_5月_6月_7月_8月_9月_10月_11月_12月'.split('_'),
+			weekdays: '星期日_星期一_星期二_星期三_星期四_星期五_星期六'.split('_'),
+			weekdaysShort: '周日_周一_周二_周三_周四_周五_周六'.split('_'),
+			weekdaysMin: '日_一_二_三_四_五_六'.split('_'),
+			longDateFormat: {
+				LT: 'HH:mm',
+				LTS: 'HH:mm:ss',
+				L: 'YYYY-MM-DD',
+				LL: 'YYYY年MM月DD日',
+				LLL: 'YYYY年MM月DD日Ah点mm分',
+				LLLL: 'YYYY年MM月DD日ddddAh点mm分',
+				l: 'YYYY-M-D',
+				ll: 'YYYY年M月D日',
+				lll: 'YYYY年M月D日 HH:mm',
+				llll: 'YYYY年M月D日dddd HH:mm'
+			},
+			meridiemParse: /凌晨|早上|上午|中午|下午|晚上/,
+			meridiemHour: function (hour, meridiem) {
+				if (hour === 12) {
+					hour = 0;
+				}
+				if (meridiem === '凌晨' || meridiem === '早上' ||
 					meridiem === '上午') {
-				return hour;
-			} else if (meridiem === '下午' || meridiem === '晚上') {
-				return hour + 12;
-			} else {
-				// '中午'
-				return hour >= 11 ? hour : hour + 12;
+					return hour;
+				} else if (meridiem === '下午' || meridiem === '晚上') {
+					return hour + 12;
+				} else {
+					// '中午'
+					return hour >= 11 ? hour : hour + 12;
+				}
+			},
+			meridiem: function (hour, minute, isLower) {
+				const hm = hour * 100 + minute;
+				if (hm < 600) {
+					return '凌晨';
+				} else if (hm < 900) {
+					return '早上';
+				} else if (hm < 1130) {
+					return '上午';
+				} else if (hm < 1230) {
+					return '中午';
+				} else if (hm < 1800) {
+					return '下午';
+				} else {
+					return '晚上';
+				}
+			},
+			calendar: {
+				sameDay: '[今天]LT',
+				nextDay: '[明天]LT',
+				nextWeek: '[下]ddddLT',
+				lastDay: '[昨天]LT',
+				lastWeek: '[上]ddddLT',
+				sameElse: 'L'
+			},
+			dayOfMonthOrdinalParse: /\d{1,2}(日|月|周)/,
+			ordinal: function (number, period) {
+				switch (period) {
+					case 'd':
+					case 'D':
+					case 'DDD':
+						return number + '日';
+					case 'M':
+						return number + '月';
+					case 'w':
+					case 'W':
+						return number + '周';
+					default:
+						return number;
+				}
+			},
+			relativeTime: {
+				future: '%s内',
+				past: '%s前',
+				s: '几秒',
+				ss: '%d秒',
+				m: '1分钟',
+				mm: '%d分钟',
+				h: '1小时',
+				hh: '%d小时',
+				d: '1天',
+				dd: '%d天',
+				M: '1个月',
+				MM: '%d个月',
+				y: '1年',
+				yy: '%d年'
+			},
+			week: {
+				// GB/T 7408-1994《数据元和交换格式·信息交换·日期和时间表示法》与ISO 8601:1988等效
+				dow: 1, // Monday is the first day of the week.
+				doy: 4  // The week that contains Jan 4th is the first week of the year.
 			}
-		},
-		meridiem: function (hour, minute, isLower) {
-			const hm = hour * 100 + minute;
-			if (hm < 600) {
-				return '凌晨';
-			} else if (hm < 900) {
-				return '早上';
-			} else if (hm < 1130) {
-				return '上午';
-			} else if (hm < 1230) {
-				return '中午';
-			} else if (hm < 1800) {
-				return '下午';
-			} else {
-				return '晚上';
-			}
-		},
-		calendar: {
-			sameDay: '[今天]LT',
-			nextDay: '[明天]LT',
-			nextWeek: '[下]ddddLT',
-			lastDay: '[昨天]LT',
-			lastWeek: '[上]ddddLT',
-			sameElse: 'L'
-		},
-		dayOfMonthOrdinalParse: /\d{1,2}(日|月|周)/,
-		ordinal: function (number, period) {
-			switch (period) {
-				case 'd':
-				case 'D':
-				case 'DDD':
-					return number + '日';
-				case 'M':
-					return number + '月';
-				case 'w':
-				case 'W':
-					return number + '周';
-				default:
-					return number;
-			}
-		},
-		relativeTime: {
-			future: '%s内',
-			past: '%s前',
-			s: '几秒',
-			ss: '%d秒',
-			m: '1分钟',
-			mm: '%d分钟',
-			h: '1小时',
-			hh: '%d小时',
-			d: '1天',
-			dd: '%d天',
-			M: '1个月',
-			MM: '%d个月',
-			y: '1年',
-			yy: '%d年'
-		},
-		week: {
-			// GB/T 7408-1994《数据元和交换格式·信息交换·日期和时间表示法》与ISO 8601:1988等效
-			dow: 1, // Monday is the first day of the week.
-			doy: 4  // The week that contains Jan 4th is the first week of the year.
-		}
-	})
-	const headers = new  Headers({
-		'Access-Control-Allow-Origin':'*',
-		"Content-Type":'text/plain'
-	})
+		})
+		const headers = new Headers({
+			'Access-Control-Allow-Origin': '*',
+			"Content-Type": 'text/plain'
+		})
 
-	layui.use('laydate', function(){
-		var laydate = layui.laydate;
+		layui.use('laydate', function () {
+			var laydate = layui.laydate;
 
-		//执行一个laydate实例
-		laydate.render({
-			elem: '#test1',
-			type: 'date',
-			trigger: 'click',
-			range: '-',
-			format: 'yyyy-MM-dd',
-			done: function (value, date, endDate) {
-				// page.beginDate = value.substr(0, 10)
-				// page.endDate = value.substr(14, 24)
-				// console.log(page.beginDate, page.endDate)
-			}
+			//执行一个laydate实例
+			laydate.render({
+				elem: '#test1',
+				type: 'date',
+				trigger: 'click',
+				range: '-',
+				format: 'yyyy-MM-dd',
+				done: function (value, date, endDate) {
+					// page.beginDate = value.substr(0, 10)
+					// page.endDate = value.substr(14, 24)
+					// console.log(page.beginDate, page.endDate)
+				}
 
+			});
 		});
-	});
 
-	var vue = new Vue({
-		el:"#app",
-		data:{
-			stat:{
-				totalUserNum:0,
-				activeUsersNum:0,
-				todayAnswerNum:0,//今日答题用户数
+		var vue = new Vue({
+			el: "#app",
+			data: {
+				stat: {
+					totalUserNum: 0,
+					activeUsersNum: 0,
+					todayAnswerNum: 0,//今日答题用户数
+
+				},
+				statUser: {
+					items: [],
+					currentPage: 1,
+					total: 0,
+					size: 10,
+					selectRadioList: [
+						{
+							title: "7天",
+							value: 7,
+						},
+						{
+							title: "14天",
+							value: 14,
+						},
+						{
+							title: "30天",
+							value: 30,
+						},
+
+					],
+					selectDate: '',
+					radio: 7
+				},
+				statPlay: {
+					items: [],
+					currentPage: 1,
+					total: 0,
+					size: 10,
+				},
+
 
 			},
-			statUser:{
-				items:[],
-				currentPage: 1,
-				total:0,
-				size:10,
-				selectRadioList: [
-					{
-						title:"7天",
-						value:7,
-					},
-					{
-						title:"14天",
-						value:14,
-					},
-					{
-						title:"30天",
-						value:30,
-					},
-
-				],
-				selectDate: '',
-				radio:7
+			created() {
+				this.initStatData()
+				this.initStatUserPage()
+				this.initStatPlayPage()
 			},
-			statPlay:{
-				items:[],
-				currentPage: 1,
-				total:0,
-				size:10,
+			mounted() {
+				let that = this
+				document.querySelectorAll('.el-input__inner')[2].oninput = function () {
+					let maxPage1 = Math.ceil(that.statUser.total / that.statUser.size)
+					if (this.value > maxPage1) {
+						layer.msg('最大页为' + maxPage1)
+					}
+				}
+				document.querySelectorAll('.el-input__inner')[4].oninput = function () {
+					let maxPage2 = Math.ceil(that.statPlay.total / that.statPlay.size)
+					if (this.value > maxPage2) {
+						layer.msg('最大页为' + maxPage2)
+					}
+				}
 			},
+			methods: {
+				initStatData() {
+					that = this
+					fetch("/index.php/admin/datacenter/getStatData", {
+						method: "GET",
+						headers: headers,
+						mode: "no-cors",
 
-
-		},
-		created(){
-			this.initStatData()
-			this.initStatUserPage()
-			this.initStatPlayPage()
-		},
-		methods:{
-			initStatData(){
-				that = this
-				fetch("/admin/datacenter/getStatData",{
-					method: "GET",
-					headers: headers,
-					mode: "no-cors",
-
-				})
-				.then(function(res){
-					console.log(res)
-					return res.json()
-				})
-				.then(function(res){
-					console.log(res)
-					that.stat.totalUserNum = res.totalUserNum
-					that.stat.activeUsersNum= res.activeUsersNum
-					that.stat.todayAnswerNum = res.todayAnswerNum
-
-				})
-			},
-			initStatUserPage(){
-				that = this
-				let url = "/admin/datacenter/getStatUserPage";
-				url  = url + "?page=" + that.statUser.currentPage + "&size=" + that.statUser.size
-				fetch(url,{
-					method: "GET",
-					headers: headers,
-					mode: "no-cors"
-				})
-						.then(function(res){
+					})
+						.then(function (res) {
 							console.log(res)
 							return res.json()
 						})
-						.then(function(res){
+						.then(function (res) {
+							console.log(res)
+							that.stat.totalUserNum = res.totalUserNum
+							that.stat.activeUsersNum = res.activeUsersNum
+							that.stat.todayAnswerNum = res.todayAnswerNum
+
+						})
+				},
+				initStatUserPage() {
+					that = this
+					let url = "/index.php/admin/datacenter/getStatUserPage";
+					url = url + "?page=" + that.statUser.currentPage + "&size=" + that.statUser.size
+					fetch(url, {
+						method: "GET",
+						headers: headers,
+						mode: "no-cors"
+					})
+						.then(function (res) {
+							console.log(res)
+							return res.json()
+						})
+						.then(function (res) {
 							console.log(res)
 							that.statUser.items = res.data
 							that.statUser.currentPage = res.current_page
 							that.statUser.total = res.total
 
 						})
-			},
-			initStatPlayPage(){
-				that = this
-				let url = "/admin/datacenter/getStatUserPage";
-				url  = url + "?page=" + that.statPlay.currentPage + "&size=" + that.statPlay.size
-				fetch(url,{
-					method: "GET",
-					headers: headers,
-					mode: "no-cors"
-				})
-						.then(function(res){
+				},
+				initStatPlayPage() {
+					that = this
+					let url = "/index.php/admin/datacenter/getStatUserPage";
+					url = url + "?page=" + that.statPlay.currentPage + "&size=" + that.statPlay.size
+					fetch(url, {
+						method: "GET",
+						headers: headers,
+						mode: "no-cors"
+					})
+						.then(function (res) {
 							console.log(res)
 							return res.json()
 						})
-						.then(function(res){
+						.then(function (res) {
 							console.log(res)
 							that.statPlay.items = res.data
 							that.statPlay.currentPage = res.current_page
 							that.statPlay.total = res.total
 
 						})
-			},
-			handleSizeChangeUser(val) {
-				console.log(`每页 ${val} 条`);
-				this.statUser.size = val
-				this.initStatUserPage();
+				},
+				handleSizeChangeUser(val) {
+					console.log(`每页 ${val} 条`);
+					this.statUser.size = val
+					this.initStatUserPage();
 
-			},
-			handleCurrentChangeUser(val) {
-				console.log(`当前页: ${val}`);
-				this.statUser.currentPage = val
-				this.initStatUserPage();
-			},
-			handleSizeChangePlay(val) {
-				console.log(`每页 ${val} 条`);
-				this.statPlay.size = val
-				this.initStatPlayPage();
+				},
+				handleCurrentChangeUser(val) {
+					console.log(`当前页: ${val}`);
+					this.statUser.currentPage = val
+					this.initStatUserPage();
+				},
+				handleSizeChangePlay(val) {
+					console.log(`每页 ${val} 条`);
+					this.statPlay.size = val
+					this.initStatPlayPage();
 
-			},
-			handleCurrentChangePlay(val) {
-				console.log(`当前页: ${val}`);
-				this.statPlay.currentPage = val
-				this.initStatPlayPage();
-			},
-			exportStatUser()
-			{
-				let url = "/admin/datacenter/getStatUserPage?is_download=1";
-				if(this.statUser.selectDate != '')
-				{
-					url += "&start_time=" + this.statUser.selectDate[0]
-					url += "&end_time=" + this.statUser.selectDate[1]
+				},
+				handleCurrentChangePlay(val) {
+					console.log(`当前页: ${val}`);
+					this.statPlay.currentPage = val
+					this.initStatPlayPage();
+				},
+				exportStatUser() {
+					let url = "/index.php/admin/datacenter/getStatUserPage?is_download=1";
+					if (this.statUser.selectDate != '') {
+						url += "&start_time=" + this.statUser.selectDate[0]
+						url += "&end_time=" + this.statUser.selectDate[1]
+					}
+					window.open(url)
+
+				},
+				inputChange() {
+					let startdDate = moment().subtract('days', this.statUser.radio - 1).format('YYYY-MM-DD')
+					let endDate = moment().format('L');
+					this.statUser.selectDate = [startdDate, endDate]
 				}
-				window.open(url)
 
-			},
-			inputChange(){
-				let startdDate = moment().subtract('days', this.statUser.radio-1).format('YYYY-MM-DD')
-				let endDate = moment().format('L');
-				this.statUser.selectDate = [startdDate,endDate]
 			}
 
-		}
+		})
 
-	})
+	</script>
+	</body>
 
-</script>
-</body>
-</html>
+	</html>
