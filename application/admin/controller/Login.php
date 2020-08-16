@@ -43,7 +43,7 @@ class Login extends Controller {
                     Session::set('userinfo',$info);
                     sys_log("登录后台系统!");
 
-                    $info = array("code" => "1", "data" => "/Admin/Admin/Index", "tip" => "ok");
+                    $info = array("code" => "1", "data" => "/index.php/Admin/Admin/Index", "tip" => "ok");
                     echo json_encode($info);
                     exit();
                 }
@@ -60,11 +60,11 @@ class Login extends Controller {
                         'phone'=>'12345678911',
                         'id'=>1,
                     ]);
-                    $info = array("code" => "1", "data" => "/Admin/Admin/Index", "tip" => "ok");
+                    $info = array("code" => "1", "data" => "/index.php/Admin/Admin/Index", "tip" => "ok");
                     echo json_encode($info);
                     exit();
                 } else {
-                    $info = array("code" => "0", "data" => "/Admin/Login/Index", "tip" => "登录用户名错误!");
+                    $info = array("code" => "0", "data" => "/index.php/Admin/Login/Index", "tip" => "登录用户名错误!");
                     echo json_encode($info);
                     exit();
                 }
