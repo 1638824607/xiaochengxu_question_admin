@@ -54,9 +54,9 @@ class User extends Purview {
         /*******时实统计 END******/
         foreach($list as $k=>$v){
             // 评测
-            $list[$k]['do_question_num'] = ($health[$v['id']] ?? 0 ) + ($match[$v['id']] ?? 0) + ($game[$v['id']] ?? 0);
+            $list[$k]['do_question_num'] = ($health[$v['id']] ? $health[$v['id']] : 0 ) + ($match[$v['id']] ? $match[$v['id']] : 0) + ($game[$v['id']] ? $game[$v['id']] :  0);
             // 发表文章数
-            $list[$k]['publish_post_num'] = $post[$v['id']] ?? 0;
+            $list[$k]['publish_post_num'] = $post[$v['id']] ?$post[$v['id']] : 0;
         }
         $this->assign('list',$list);
         $this->assign('page',$page);

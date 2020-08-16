@@ -13,11 +13,11 @@
 			</ul>
 			<div class="layui-tab-content">
 				<div class="layui-tab-item layui-show">
-					<form action="" method="post" class="layui-form" lay-filter="content" id="edit">
+					<form action="/index.php/admin/user/info" method="post" class="layui-form" lay-filter="content" id="edit">
 						<div class="layui-form-item">
 							<label class="layui-form-label">昵称</label>
 							<div class="layui-input-inline">
-								<input type="text" name="nick" value="{$info['nick']}"  class="layui-input">
+								<input type="text" name="nick" value="{$info['nick']}" class="layui-input">
 							</div>
 						</div>
 
@@ -30,32 +30,35 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">关联微信号</label>
 							<div class="layui-input-inline">
-								<input type="text" name="wechat" value="{$info['wechat']}"  class="layui-input">
+								<input type="text" name="wechat" value="{$info['wechat']}" class="layui-input">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">状态</label>
 							<div class="layui-input-block">
-								<input type="radio" name="status" value="1" title="启用"  {:get_my_checked($info['status'],1)}>
-								<input type="radio" name="status" value="2" title="禁用"  {:get_my_checked($info['status'],2)}>
+								<input type="radio" name="status" value="1" title="启用" {:get_my_checked($info['status'],1)}>
+								<input type="radio" name="status" value="2" title="禁用" {:get_my_checked($info['status'],2)}>
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">发表文章</label>
 							<div class="layui-input-inline">
-								<input readonly="readonly" type="text" name="publish_article_num" value="{$info['publish_post_num']}"  class="layui-input">
+								<input readonly="readonly" type="text" name="publish_article_num" value="{$info['publish_post_num']}"
+									class="layui-input">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">已做训练</label>
 							<div class="layui-input-inline">
-								<input readonly="readonly" type="text" name="do_question_num" value="{$info['do_question_num']}"  class="layui-input">
+								<input readonly="readonly" type="text" name="do_question_num" value="{$info['do_question_num']}"
+									class="layui-input">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">游戏正确率</label>
 							<div class="layui-input-inline">
-								<input readonly="readonly" type="text" name="game_accuracy" value="{$info['game_accuracy']}"  class="layui-input">
+								<input readonly="readonly" type="text" name="game_accuracy" value="{$info['game_accuracy']}"
+									class="layui-input">
 							</div>
 						</div>
 
@@ -63,7 +66,8 @@
 
 						<div class="layui-form-item">
 							<div class="layui-input-block">
-								<button type="button" class="layui-btn layui-btn-primary" onclick="location.href = '/admin/user/index/pid/17/ty/18'">返回</button>
+								<button type="button" class="layui-btn layui-btn-primary"
+									onclick="location.href = '/index.php/admin/user/index/pid/17/ty/18'">返回</button>
 								<button class="layui-btn" lay-submit>保存</button>
 							</div>
 						</div>
@@ -73,33 +77,33 @@
 		</div>
 	</div>
 	<script>
-		KindEditor.ready(function(K) {
+		KindEditor.ready(function (K) {
 			var editor1 = K.create('.editor_id', {
 				filterMode: false,//是否开启过滤模式
-				cssPath : '__ADMIN__/myeditor/plugins/code/prettify.css',
-				uploadJson : '__ADMIN__/myeditor/php/upload_json.php',
-				fileManagerJson : '__ADMIN__/myeditor/php/file_manager_json.php',
-				allowFileManager : true,
-				afterBlur : function() {
+				cssPath: '__ADMIN__/myeditor/plugins/code/prettify.css',
+				uploadJson: '__ADMIN__/myeditor/php/upload_json.php',
+				fileManagerJson: '__ADMIN__/myeditor/php/file_manager_json.php',
+				allowFileManager: true,
+				afterBlur: function () {
 					this.sync();
-					K.ctrl(document, 13, function() {
+					K.ctrl(document, 13, function () {
 						K('form[name=formlist]')[0].submit();
 					});
-					K.ctrl(this.edit.doc, 13, function() {
+					K.ctrl(this.edit.doc, 13, function () {
 						K('form[name=formlist]')[0].submit();
 					});
 				}
 			});
 
 			var editor = K.editor({
-				allowFileManager : true
+				allowFileManager: true
 			});
 
-			K('#img_btn').click(function() {
-				editor.loadPlugin('image', function() {
+			K('#img_btn').click(function () {
+				editor.loadPlugin('image', function () {
 					editor.plugin.imageDialog({
-						imageUrl : K('#img').val(),
-						clickFn : function(url, title, width, height, border, align) {
+						imageUrl: K('#img').val(),
+						clickFn: function (url, title, width, height, border, align) {
 							K('#img').val(url);
 							editor.hideDialog();
 						}
@@ -109,10 +113,10 @@
 		});
 
 		$(function () {
-			layui.use('form', function(){
+			layui.use('form', function () {
 				var form = layui.form;
 				//监听提交
-				form.on('submit(login)', function(data){
+				form.on('submit(login)', function (data) {
 					console.log(data);
 					return false;
 				});
@@ -125,4 +129,5 @@
 </div>
 
 </body>
+
 </html>

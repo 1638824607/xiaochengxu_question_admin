@@ -4,63 +4,67 @@
 	{include file="public/left" /}
 
 	<div class="layui-body">
-	<div class="layui-tab layui-tab-brief" lay-filter="tab">
-		<ul class="layui-tab-title">
-			<li class="layui-this"><a href="{:url('index')}">客户列表</a></li>
-		</ul>
-		<div class="layui-tab-content">
-			<div class="layui-tab-item layui-show">
-				<div class="layui-form-item">
-					<label class="layui-form-label" style="text-align:left;">用户名查找</label>
-					<form action="">
-						<div class="layui-input-inline">
-							<input type="text" name="kwd" value="{$kwd}" id="kwd" style="width:200px;float:left;" placeholder="请输入用户名或手机号" autocomplete="off" class="layui-input">
-							<button type="submit" class="layui-btn" style="float:left;margin-left:8px;">查找</button>
-						</div>
-					</form>
-				</div>
+		<div class="layui-tab layui-tab-brief" lay-filter="tab">
+			<ul class="layui-tab-title">
+				<li class="layui-this"><a href="{:url('index')}">客户列表</a></li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show">
+					<div class="layui-form-item">
+						<label class="layui-form-label" style="text-align:left;">用户名查找</label>
+						<form action="">
+							<div class="layui-input-inline">
+								<input type="text" name="kwd" value="{$kwd}" id="kwd" style="width:200px;float:left;"
+									placeholder="请输入用户名或手机号" autocomplete="off" class="layui-input">
+								<button type="submit" class="layui-btn" style="float:left;margin-left:8px;">查找</button>
+							</div>
+						</form>
+					</div>
 
-				<table class="layui-table">
-					<thead>
-					<tr>
-						<th>ID</th>
-						<th>用户名</th>
-						<th>昵称</th>
-						<th>手机</th>
-<!--						<th>关联微信号</th>-->
-						<th>已做题/训练</th>
-						<th>游戏正确率</th>
-						<th>发表文章数</th>
-						<th>操作</th>
-					</tr>
-					</thead>
-					<tbody>
-					{volist name="list" id="v"}
-						<tr>
-							<td>{$v['id']}</td>
-							<td>{$v['user_name']}</td>
-							<td>{$v['phone']}</td>
-<!--							<td>{$v['wechat']}</td>-->
-							<td>{$v['do_question_num']}</td>
-							<td>{$v['game_accuracy']}</td>
-							<td>{$v['publish_post_num']}</td>
-							<td>
-								<a href="{:url('info', ['id' => $v['id']])}"  class='layui-btn layui-btn-xs'>详情</a>
-								<a href="{:url('del', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
-							</td>
-						</tr>
-					{/volist}
-					</tbody>
-				</table>
-				<div class="page">
-					{$page}
+					<table class="layui-table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>用户名</th>
+								<th>昵称</th>
+								<th>手机</th>
+								<!--						<th>关联微信号</th>-->
+								<th>已做题/训练</th>
+								<th>游戏正确率</th>
+								<th>发表文章数</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							{volist name="list" id="v"}
+							<tr>
+								<td>{$v['id']}</td>
+								<td>{$v['user_name']}</td>
+								<td>{$v['nick']}</td>
+								<td>{$v['phone']}</td>
+								<!--							<td>{$v['wechat']}</td>-->
+								<td>{$v['do_question_num']}</td>
+								<td>{$v['game_accuracy']}</td>
+								<td>{$v['publish_post_num']}</td>
+								<td>
+									<a href="{:url('info', ['id' => $v['id']])}" class='layui-btn layui-btn-xs'>详情</a>
+									<a href="{:url('del', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")'
+										class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+								</td>
+							</tr>
+							{/volist}
+						</tbody>
+					</table>
+					<div class="page">
+						{$page}
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 	{include file="public/footer" /}
 </div>
 
 </body>
+
 </html>
