@@ -110,11 +110,18 @@ class Datacenter extends Purview {
                 ->where('day','<=',$end_time)
                 ->order('day','asc')->select();
             $header = ['时间', '新增用户', '活跃用户', '答题用户'];
+            foreach($header as $k=>$v)
+            {
+                $header[$k] = iconv("UTF-8", "GB2312//IGNORE", $v);
+            }
             $result = '';
             $result .= '"'.implode('","', $header).'"' . PHP_EOL;
             echo $result;
             foreach($list as $key=>$item)
             {
+                $item = array_map(function($v){
+                    return iconv("UTF-8", "GB2312//IGNORE", $v);
+                },$item);
                 $content = '"'.implode('","', $item).'"' . PHP_EOL;
                 echo $content;
             }

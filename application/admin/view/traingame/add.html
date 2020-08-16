@@ -64,7 +64,8 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">排序</label>
 							<div class="layui-input-inline">
-								<input type="number" name="sort" lay-verify="Ndouble" value="" placeholder="请输入排序" class="layui-input">
+								<input type="number" name="sort" lay-verify="Ndouble|num" value="" placeholder="请输入排序"
+									class="layui-input">
 							</div>
 						</div>
 
@@ -89,7 +90,12 @@
 					Ndouble: [
 						/^[1-9]\d*$/
 						, '只能输入整数哦'
-					]
+					],
+					num: function (val, item) {
+						if (val > 99999) {
+							return '不能超过99999'
+						}
+					}
 				});
 			})
 		})

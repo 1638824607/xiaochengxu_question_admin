@@ -17,7 +17,8 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">上传图片</label>
 							<div class="layui-input-inline">
-								<input type="text" name="image" id="img" value="" placeholder="请上传配置图片" class="layui-input">
+								<input type="text" name="image" id="img" value="" lay-verify="checkImage" placeholder="请上传配置图片"
+									class="layui-input">
 							</div>
 							<button type="button" id="img_btn" class="layui-btn" data-des="ico">
 								<i class="layui-icon">&#xe67c;</i>上传图片
@@ -60,7 +61,13 @@
 					Ndouble: [
 						/^[1-9]\d*$/
 						, '只能输入整数哦'
-					]
+					],
+					checkImage: function (val, item) {
+
+						if (val.indexOf('.jpg') == -1 && val.indexOf('.png') == -1 && val.indexOf('.jpeg' && val.indexOf('.gif'))) {
+							return '图片地址不对';
+						}
+					}
 				});
 			})
 		})
