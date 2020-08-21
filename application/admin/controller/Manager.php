@@ -34,6 +34,15 @@ class Manager extends Purview {
             $_POST['sendtime']=time();
             Cache::set("role_{$id}",$_POST);//存入缓存
             if($id){
+                if(empty($_POST['username'])){
+                    $this->error("用户名必须是手机号,请重新输入",Cookie::get('Jumpurl'));
+                    exit();
+                }
+
+                if(!preg_match("/^1[34578]\d{9}$/", $_POST['username'])){
+                    $this->error("用户名必须是手机号",Cookie::get('Jumpurl'));
+                    exit();
+                }
                 if($db->update($_POST)!== false){
                     sys_log("编辑系统用户:{$_POST['username']}(id:$id)");
                     $this->success("编辑成功",Cookie::get('Jumpurl'));
@@ -41,6 +50,15 @@ class Manager extends Purview {
                 }
             }else{
                 $username=$_POST['username'];
+                if(empty($username)){
+                    $this->error("用户名必须是手机号,请重新输入",Cookie::get('Jumpurl'));
+                    exit();
+                }
+
+                if(!preg_match("/^1[34578]\d{9}$/", $username)){
+                    $this->error("用户名必须是手机号",Cookie::get('Jumpurl'));
+                    exit();
+                }
                 $count=$db->where("username='$username'")->count();
                 if($count){
                     $this->error("用户名已存在,请重新输入",Cookie::get('Jumpurl'));
