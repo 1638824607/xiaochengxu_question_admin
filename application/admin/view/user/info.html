@@ -17,29 +17,29 @@
 						<div class="layui-form-item">
 							<label class="layui-form-label">昵称</label>
 							<div class="layui-input-inline">
-								<input type="text" name="nick" value="{$info['nick']}" class="layui-input">
+								<input type="text" name="nick" value="{$info['nick']}" readonly class="layui-input">
 							</div>
 						</div>
 
 						<div class="layui-form-item">
 							<label class="layui-form-label">手机</label>
 							<div class="layui-input-inline">
-								<input type="text" name="phone" value="{$info['phone']}" class="layui-input">
+								<input type="text" name="phone" value="{$info['phone']}" readonly class="layui-input">
 							</div>
 						</div>
 						<div class="layui-form-item">
 							<label class="layui-form-label">关联微信号</label>
 							<div class="layui-input-inline">
-								<input type="text" name="wechat" value="{$info['wechat']}" class="layui-input">
+								<input type="text" name="wechat" value="{$info['wechat']}" readonly class="layui-input">
 							</div>
 						</div>
-						<div class="layui-form-item">
-							<label class="layui-form-label">状态</label>
-							<div class="layui-input-block">
-								<input type="radio" name="status" value="1" title="启用" {:get_my_checked($info['status'],1)}>
-								<input type="radio" name="status" value="2" title="禁用" {:get_my_checked($info['status'],2)}>
-							</div>
-						</div>
+						<!--<div class="layui-form-item">-->
+							<!--<label class="layui-form-label">状态</label>-->
+							<!--<div class="layui-input-block">-->
+								<!--<input type="radio" name="status" value="1" title="启用" {:get_my_checked($info['status'],1)}>-->
+								<!--<input type="radio" name="status" value="2" title="禁用" {:get_my_checked($info['status'],2)}>-->
+							<!--</div>-->
+						<!--</div>-->
 						<div class="layui-form-item">
 							<label class="layui-form-label">发表文章</label>
 							<div class="layui-input-inline">
@@ -68,7 +68,7 @@
 							<div class="layui-input-block">
 								<button type="button" class="layui-btn layui-btn-primary"
 									onclick="location.href = '/index.php/admin/user/index/pid/17/ty/18'">返回</button>
-								<button class="layui-btn" lay-submit>保存</button>
+								<!--<button class="layui-btn" lay-submit>保存</button>-->
 							</div>
 						</div>
 					</form>
