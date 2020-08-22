@@ -5,6 +5,7 @@ use think\Db;
 use think\Controller;
 use think\Session;
 use think\Cookie;
+use api_demo\SmsDemo;
 
 class Login extends Controller {
     public function Index(){
@@ -85,5 +86,50 @@ class Login extends Controller {
 		//$Verify->codeSet = '0123456789'; 
 		$Verify->entry();
 	}
+
+
+
+    public function edit_phone()
+    {
+        if($this->request->isPost()){
+            $username    = $this->request->param('username');
+            $yzm    = $this->request->param('yzm');
+            $password    = $this->request->param('password');
+
+
+
+        }else{
+            return $this->fetch();
+        }
+
+    }
+
+    //发送验证码
+    public function send_yzm(){
+
+        $phone = $this->request->param('phone');
+        if(empty($phone)){
+            echo json_encode(['errCode'=>1,'msg'=>'手机号不能为空']);exit;
+        }
+
+        if(!preg_match("/^1[34578]\d{9}$/", $phone)){
+            echo json_encode(['errCode'=>1,'msg'=>'手机格式不正确']);exit;
+        }
+
+        $code = rand(1000,9999);
+        $data = [
+            'phone' => $phone,
+            'code'=>$code,
+            'create_time' => time(),
+        ];
+        $res = $this->send_msg($phone,$code);
+        if($res->Message =='OK'){
+            $result = Db::name('sms_code')->insert($data);
+            echo json_encode(['errCode'=>0,'msg'=>'发送成功']);exit;
+        }else{
+            echo json_encode(['errCode'=>0,'msg'=>'发送失败']);exit;
+        }
+
+    }
 }
 ?>

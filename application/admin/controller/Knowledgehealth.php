@@ -79,11 +79,7 @@ class Knowledgehealth extends Purview
             $data['hot']                = $this->request->param('hot');
 
             $res = Db::name('knowledge_health')->where(array('id' => $this->request->param('id')))->update($data);
-            if ($res !== false) {
-                $this->success('操作成功', url('index'));
-            } else {
-                $this->error('操作失败,请重试');
-            }
+            $this->success('操作成功', url('index'));
         } else {
             $id = input('id');
             if (empty($id)) {

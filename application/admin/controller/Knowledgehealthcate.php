@@ -63,7 +63,7 @@ class Knowledgehealthcate extends Purview
             $data['sort'] = $this->request->param('sort',0);
 
             $res = Db::name('knowledge_health_cate')->where(array('id'=>$this->request->param('id')))->update($data);
-            if($res){
+            if($res !==false){
                 $this->success('操作成功',url('index',['pid'=>19,'ty'=>34]));
             }else{
                 $this->error('操作失败,请重试');

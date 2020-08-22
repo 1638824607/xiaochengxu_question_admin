@@ -15,11 +15,11 @@
 	<div class="user-login-main">
 		<div class="user-login-header">
 			<h2>
-				欢迎使用后台管理系统
+				找回密码
 			</h2>
 		</div>
 
-		<form action="{:url('Login/Action')}"  onsubmit="return false" class="layui-form" id="dologin">
+		<form action="{:url('Login/edit_phone')}"  onsubmit="return false" class="layui-form" id="dologin">
 			<div class="user-login-box">
 				<div class="layui-form-item">
 					<label class="user-login-icon layui-icon layui-icon-username"></label>
@@ -30,11 +30,8 @@
 					<input name="password" id="password" type="password" lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">
 				</div>
 				<div class="layui-form-item">
-					<button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login-submit" name="dologin" >登 入</button>
+					<button class="layui-btn layui-btn-fluid" lay-submit lay-filter="login-submit" name="dologin" >确定</button>
 				</div>
-				<!--<div class="layui-form-item">-->
-					<!--<a class="layui-btn layui-btn-fluid" href="{:url('login/edit_phone')}" >忘记密码</a>-->
-				<!--</div>-->
 				<div style="color:red;" id="note"></div>
 			</div>
 		</form>
