@@ -368,7 +368,7 @@
 			methods: {
 				initStatData() {
 					that = this
-					fetch("/index.php/admin/datacenter/getStatData", {
+					fetch("admin/datacenter/getStatData", {
 						method: "GET",
 						headers: headers,
 						mode: "no-cors",
@@ -388,7 +388,7 @@
 				},
 				initStatUserPage() {
 					that = this
-					let url = "/index.php/admin/datacenter/getStatUserPage";
+					let url = "/admin/datacenter/getStatUserPage";
 					url = url + "?page=" + that.statUser.currentPage + "&size=" + that.statUser.size
 					fetch(url, {
 						method: "GET",
@@ -409,7 +409,7 @@
 				},
 				initStatPlayPage() {
 					that = this
-					let url = "/index.php/admin/datacenter/getStatUserPage";
+					let url = "/admin/datacenter/getStatUserPage";
 					url = url + "?page=" + that.statPlay.currentPage + "&size=" + that.statPlay.size
 					fetch(url, {
 						method: "GET",
@@ -451,7 +451,7 @@
 					this.initStatPlayPage();
 				},
 				exportStatUser() {
-					let url = "/index.php/admin/datacenter/getStatUserPage?is_download=1";
+					let url = "/admin/datacenter/getStatUserPage?is_download=1";
 					if (this.statUser.selectDate != '') {
 						url += "&start_time=" + this.statUser.selectDate[0]
 						url += "&end_time=" + this.statUser.selectDate[1]

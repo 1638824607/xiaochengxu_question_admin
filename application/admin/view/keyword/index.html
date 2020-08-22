@@ -299,7 +299,7 @@
 		methods: {
 			initKeywordPage() {
 				that = this
-				let url = "/index.php/admin/Keyword/getListPage";
+				let url = "/admin/Keyword/getListPage";
 				let date = that.keyword.selectDate.length == 2 ? "&start_time=" + that.keyword.selectDate[0] + "&end_time=" + that.keyword.selectDate[1] : ''
 				url = url + "?page=" + that.keyword.currentPage + "&size=" + that.keyword.size + date
 				fetch(url, {
