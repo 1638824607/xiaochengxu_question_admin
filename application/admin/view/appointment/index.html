@@ -5,112 +5,126 @@
 <!-- 引入组件库 -->
 <script src="__ADMIN__/js/element.js"></script>
 <style>
-	.el-input__inner{
-		height:34px;
-		height:34px;
+	.el-input__inner {
+		height: 34px;
+		height: 34px;
 	}
-	.el-date-editor .el-range-input{
-		width:38%;
+
+	.el-date-editor .el-range-input {
+		width: 38%;
 	}
-	.el-range-editor.el-input__inner{
-		padding:0px 6px;
+
+	.el-range-editor.el-input__inner {
+		padding: 0px 6px;
 	}
-	.el-date-editor--daterange.el-input__inner{
-		width:220px;
+
+	.el-date-editor--daterange.el-input__inner {
+		width: 220px;
 	}
 </style>
 <div class="layui-layout layui-layout-admin">
 	{include file="public/left" /}
 
 	<div class="layui-body">
-	<div class="layui-tab layui-tab-brief" lay-filter="tab">
-		<ul class="layui-tab-title">
-			<li class="layui-this"><a href="{:url('index')}">预约列表</a></li>
-		</ul>
-		<div class="layui-tab-content" id="app">
-			<div class="layui-tab-item layui-show">
-				<template>
-					<div class="block">
-						<span class="demonstration">选择日期</span>
-						<el-date-picker
-								v-model="selectDate"
-								type="daterange"
-								range-separator="至"
-								start-placeholder="开始日期"
-								end-placeholder="结束日期"
-								value-format="yyyy-MM-dd">
-						</el-date-picker>
-						<button type="button" class="layui-btn" style="margin-top:-8px;" @click="query()">查询</button>
-					</div>
-				</template>
+		<div class="layui-tab layui-tab-brief" lay-filter="tab">
+			<ul class="layui-tab-title">
+				<li class="layui-this"><a href="{:url('index')}">预约列表</a></li>
+			</ul>
+			<div class="layui-tab-content" id="app">
+				<div class="layui-tab-item layui-show">
+					<template>
+						<div class="block">
+							<span class="demonstration">选择日期</span>
+							<el-date-picker v-model="selectDate" type="daterange" range-separator="至" start-placeholder="开始日期"
+								end-placeholder="结束日期" value-format="yyyy-MM-dd">
+							</el-date-picker>
+							<button type="button" class="layui-btn" style="margin-top:-8px;" @click="query()">查询</button>
+						</div>
+					</template>
 
-				<table class="layui-table">
-					<thead>
-					<tr>
-						<th>ID</th>
-						<th>用户ID/昵称</th>
-						<th>手机</th>
-						<th>预约时间</th>
-						<th>预约老师</th>
-						<th>职业</th>
-						<th>状态</th>
-						<th>操作</th>
-					</tr>
-					</thead>
-					<tbody>
-					{volist name="list" id="v"}
-						<tr>
-							<td>{$v['id']}</td>
-							<td>{$v['user_id']}/{$v['nick']}</td>
-							<td>{$v['phone']}</td>
-							<td>{$v['order_at']}</td>
-							<td>{$v['advisory_name']}</td>
-							<td>{$v['job']}</td>
-							<td>{$v['order_status']}</td>
-							<td>
-								<a href="{:url('del', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")' class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
-							</td>
-						</tr>
-					{/volist}
-					</tbody>
-				</table>
-				<div class="page">
-					{$page}
+					<table class="layui-table">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>用户ID/昵称</th>
+								<th>手机</th>
+								<th>预约时间</th>
+								<th>预约老师</th>
+								<th>职业</th>
+								<th>状态</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						<tbody>
+							{volist name="list" id="v"}
+							<tr>
+								<td>{$v['id']}</td>
+								<td>{$v['user_id']}/{$v['nick']}</td>
+								<td>{$v['phone']}</td>
+								<td>{$v['order_at']}</td>
+								<td>{$v['advisory_name']}</td>
+								<td>{$v['job']}</td>
+								<td>{$v['order_status']}</td>
+								<td>
+									<a href="{:url('del', ['id' => $v['id']])}" onclick='return confirm("您确定要删除吗？\n\n删除后不可恢复!")'
+										class='layui-btn layui-btn-xs layui-btn-danger' title='删除'>删除</a>
+								</td>
+							</tr>
+							{/volist}
+						</tbody>
+					</table>
+					<div class="page">
+						{$page}
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
 	{include file="public/footer" /}
 
 </div>
 <script>
 	var vue = new Vue({
-		el:"#app",
-		data:{
-			selectDate:[],
+		el: "#app",
+		data: {
+			selectDate: ['2020-08-26'],
 		},
-		methods:{
-			query(){
+		methods: {
+			query() {
 				let url = location.href
-				if(this.selectDate.length != 0)
-				{
-					if(url.indexOf('start_time=') != -1 )
-					{
-						url = url.replace(/start_time=.*&/,'start_time=' + this.selectDate[0] + '&')
-						url = url.replace(/end_time=.*/,'end_time=' + this.selectDate[1])
-					}else{
+				if (this.selectDate.length != 0) {
+					if (url.indexOf('start_time=') != -1) {
+						url = url.replace(/start_time=.*&/, 'start_time=' + this.selectDate[0] + '&')
+						url = url.replace(/end_time=.*/, 'end_time=' + this.selectDate[1])
+					} else {
 						url += "?start_time=" + this.selectDate[0]
 						url += "&end_time=" + this.selectDate[1]
 					}
 
 				}
 				location.href = url
+			},
+			getQueryVariable(variable) {
+				var query = window.location.search.substring(1);
+				var vars = query.split("&");
+				for (var i = 0; i < vars.length; i++) {
+					var pair = vars[i].split("=");
+					if (pair[0] == variable) { return pair[1]; }
+				}
+				return (false);
 			}
+
+		},
+		mounted: function () {
+			let start_time = this.getQueryVariable('start_time')
+			let end_time = this.getQueryVariable('end_time')
+			this.$set(this, 'selectDate', [start_time, end_time])
 		}
+
 	})
 
 </script>
 </body>
+
 </html>
