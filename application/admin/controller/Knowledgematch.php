@@ -54,6 +54,12 @@ class Knowledgematch extends Purview
             if($this->request->param('duration') <0){
                 $this->error('必须大于0');
             }
+            if(!is_numeric($this->request->param('hot'))){
+                $this->error('必须为数字');
+            }
+            if($this->request->param('hot') <0){
+                $this->error('必须大于0');
+            }
             $data['title']              = $this->request->param('title');
             $data['desc']               = $this->request->param('desc');
             $data['src_type']           = $this->request->param('src_type');
@@ -90,6 +96,12 @@ class Knowledgematch extends Purview
                 $this->error('必须为数字');
             }
             if($this->request->param('duration') <0){
+                $this->error('必须大于0');
+            }
+            if(!is_numeric($this->request->param('hot'))){
+                $this->error('必须为数字');
+            }
+            if($this->request->param('hot') <0){
                 $this->error('必须大于0');
             }
             $data['title']              = $this->request->param('title');
