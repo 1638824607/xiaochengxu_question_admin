@@ -72,6 +72,10 @@ class User extends Purview {
             $db=Db::name('users');
             // 更新
             $id = input('id');
+            if(!is_numeric(input('phone'))){
+                $this->error('手机号必须为数字');
+            }
+            
             $updateData = [
                 'nick'=>input('nick'),
                 'phone' => input('phone'),
