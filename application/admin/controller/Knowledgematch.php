@@ -42,6 +42,12 @@ class Knowledgematch extends Purview
     public function add()
     {
         if ($this->request->isPost()) {
+            if(!is_numeric($this->request->param('sort'))){
+                $this->error('必须为数字');
+            }
+            if($this->request->param('sort') <0){
+                $this->error('必须大于0');
+            }
             $data['title']              = $this->request->param('title');
             $data['desc']               = $this->request->param('desc');
             $data['src_type']           = $this->request->param('src_type');
@@ -67,6 +73,13 @@ class Knowledgematch extends Purview
     public function edit()
     {
         if ($this->request->isPost()) {
+
+            if(!is_numeric($this->request->param('sort'))){
+                $this->error('必须为数字');
+            }
+            if($this->request->param('sort') <0){
+                $this->error('必须大于0');
+            }
             $data['title']              = $this->request->param('title');
             $data['desc']               = $this->request->param('desc');
             $data['src_type']           = $this->request->param('src_type');
