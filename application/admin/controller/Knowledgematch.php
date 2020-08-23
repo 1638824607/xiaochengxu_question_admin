@@ -43,22 +43,22 @@ class Knowledgematch extends Purview
     {
         if ($this->request->isPost()) {
             if(!is_numeric($this->request->param('sort'))){
-                $this->error('必须为数字');
+                $this->error('排序必须为数字');
             }
             if($this->request->param('sort') <0){
-                $this->error('必须大于0');
+                $this->error('排序必须大于0');
             }
             if(!is_numeric($this->request->param('duration'))){
-                $this->error('必须为数字');
+                $this->error('时长必须为数字');
             }
             if($this->request->param('duration') <0){
-                $this->error('必须大于0');
+                $this->error('时长必须大于0');
             }
             if(!is_numeric($this->request->param('hot'))){
-                $this->error('必须为数字');
+                $this->error('热度必须为数字');
             }
             if($this->request->param('hot') <0){
-                $this->error('必须大于0');
+                $this->error('热度必须大于0');
             }
             $data['title']              = $this->request->param('title');
             $data['desc']               = $this->request->param('desc');
@@ -87,22 +87,22 @@ class Knowledgematch extends Purview
         if ($this->request->isPost()) {
 
             if(!is_numeric($this->request->param('sort'))){
-                $this->error('必须为数字');
+                $this->error('排序必须为数字');
             }
             if($this->request->param('sort') <0){
-                $this->error('必须大于0');
+                $this->error('排序必须大于0');
             }
             if(!is_numeric($this->request->param('duration'))){
-                $this->error('必须为数字');
+                $this->error('时长必须为数字');
             }
             if($this->request->param('duration') <0){
-                $this->error('必须大于0');
+                $this->error('时长必须大于0');
             }
             if(!is_numeric($this->request->param('hot'))){
-                $this->error('必须为数字');
+                $this->error('热度必须为数字');
             }
             if($this->request->param('hot') <0){
-                $this->error('必须大于0');
+                $this->error('热度必须大于0');
             }
             $data['title']              = $this->request->param('title');
             $data['desc']               = $this->request->param('desc');
@@ -153,10 +153,10 @@ class Knowledgematch extends Purview
         if ($this->request->isPost()) {
 
             if(!is_numeric($this->request->param('number'))){
-                $this->error('必须为数字');
+                $this->error('题目序号必须为数字');
             }
             if($this->request->param('number') <0){
-                $this->error('必须大于0');
+                $this->error('题目序号必须大于0');
             }
             $data['match_id'] = $this->request->param('match_id');
             $data['title']    = $this->request->param('title');
@@ -215,10 +215,10 @@ class Knowledgematch extends Purview
 
         if ($this->request->isPost()) {
             if(!is_numeric($this->request->param('number'))){
-                $this->error('必须为数字');
+                $this->error('题目序号必须为数字');
             }
             if($this->request->param('number') <0){
-                $this->error('必须大于0');
+                $this->error('题目序号必须大于0');
             }
             $data['id']       = $this->request->param('id');
             $data['title']    = $this->request->param('title');
