@@ -95,13 +95,72 @@ class Login extends Controller {
             $username    = $this->request->param('username');
             $yzm    = $this->request->param('yzm');
             $password    = $this->request->param('password');
+            if(empty($username)){
 
+                $info = array("code" => "0", "data" => "/Admin/Login/edit_phone", "tip" => "手机号不能为空!");
+                echo json_encode($info);
+                exit();
+            }
+            if(empty($yzm)){
 
+                $info = array("code" => "0", "data" => "/Admin/Login/edit_phone", "tip" => "验证码不能为空!");
+                echo json_encode($info);
+                exit();
+            }
+            if(empty($password)){
+
+                $info = array("code" => "0", "data" => "/Admin/Login/edit_phone", "tip" => "密码不能为空!");
+                echo json_encode($info);
+                exit();
+            }
+            $manager = Db::name('manager')->where(['username'=>$username])->find();
+            if(empty($manager)){
+                $info = array("code" => "0", "data" => "/Admin/Login/edit_phone", "tip" => "该用户不存在!");
+                echo json_encode($info);
+                exit();
+            }
+
+            if(!$this->checkYzm($username,$yzm)){
+                $info = array("code" => "0", "data" => "/Admin/Login/edit_phone", "tip" => "验证码错误!");
+                echo json_encode($info);
+                exit();
+            }
+
+            $edit = Db::name('manager')->where(['username'=>$username])->update(array('password'=>$password));
+//            var_dump( Db::name('manager')->getLastSql());
+            if($edit){
+                $info = array("code" => "1", "data" => "/Admin/Login/index", "tip" => "ok");
+                echo json_encode($info);
+                exit();
+            }else{
+                $info = array("code" => "0", "data" => "/Admin/Login/edit_phone", "tip" => "修改失败!");
+                echo json_encode($info);
+                exit();
+            }
 
         }else{
             return $this->fetch();
         }
 
+    }
+
+    private function checkYzm($phone,$code){
+        $where = [
+            'phone'=> $phone,
+            'code'=>$code,
+            'status'=>0
+        ];
+        $info = Db::name('sms_code')->where($where)->find();
+        if($info){
+            $r = Db::name('sms_code')->where($where)->update(['status'=>1]);
+            if($r){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 
     //发送验证码
@@ -123,6 +182,7 @@ class Login extends Controller {
             'create_time' => time(),
         ];
         $res = $this->send_msg($phone,$code);
+
         if($res->Message =='OK'){
             $result = Db::name('sms_code')->insert($data);
             echo json_encode(['errCode'=>0,'msg'=>'发送成功']);exit;
@@ -131,5 +191,18 @@ class Login extends Controller {
         }
 
     }
+
+    public function send_msg($phone='',$code=''){
+//        $phone = '15952810154';
+//        $code = 'ssss';
+        vendor('api_demo.SmsDemo');
+        $sms = new \alisms\SmsDemo();
+        $res = $sms::sendSms($phone,$code);
+
+        return $res;
+    }
+
+
+
 }
 ?>

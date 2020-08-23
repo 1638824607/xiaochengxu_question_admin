@@ -59,6 +59,41 @@ layui.use(['element','upload','laydate','form'], function(){
 	});
     return false;
   });
+
+//用户登陆验证
+form.on('submit(login-submit)', function(data){
+	var form = $("#zhaohuiyzm");
+	var url = form.attr('action');
+	var username = form.find("#username").val();
+	var password = form.find("#password").val();
+	var yzm = form.find("#yzm").val();
+	var checkcode = form.find("#checkcode").val();
+	var formcheck = form.find("#formcheck").val();
+	$.ajax({
+		type: 'POST',
+		url: url,
+		dataType: 'json',
+		data: {
+			username: username,
+			yzm: yzm,
+			password: hex_md5(password),
+			checkcode: checkcode,
+			formcheck: formcheck
+		},
+		success: function (response, status) {
+			if (response.code == 1) {
+				layer.msg("修改成功！", {icon: 1});
+				window.location.href = response.data;
+			} else {
+				layer.msg("错误提示：" + response.tip, {icon: 5});
+			}
+		},
+		error:function(xhr,status,error){
+			layer.msg("错误提示!", {icon: 5});
+		}
+	});
+	return false;
+});
   
   
   var sitedir=$('#sitedir').data('sitedir');
