@@ -114,6 +114,13 @@ class Knowledgematch extends Purview
     {
 
         if ($this->request->isPost()) {
+
+            if(!is_numeric($this->request->param('number'))){
+                $this->error('必须为数字');
+            }
+            if($this->request->param('number') <0){
+                $this->error('必须大于0');
+            }
             $data['match_id'] = $this->request->param('match_id');
             $data['title']    = $this->request->param('title');
             $data['desc']     = $this->request->param('desc');
@@ -170,6 +177,12 @@ class Knowledgematch extends Purview
     {
 
         if ($this->request->isPost()) {
+            if(!is_numeric($this->request->param('number'))){
+                $this->error('必须为数字');
+            }
+            if($this->request->param('number') <0){
+                $this->error('必须大于0');
+            }
             $data['id']       = $this->request->param('id');
             $data['title']    = $this->request->param('title');
             $data['desc']     = $this->request->param('desc');
