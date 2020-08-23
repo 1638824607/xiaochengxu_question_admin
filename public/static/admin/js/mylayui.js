@@ -61,7 +61,7 @@ layui.use(['element','upload','laydate','form'], function(){
   });
 
 //用户登陆验证
-form.on('submit(login-submit)', function(data){
+form.on('submit(yzm-submit)', function(data){
 	var form = $("#zhaohuiyzm");
 	var url = form.attr('action');
 	var username = form.find("#username").val();
