@@ -187,6 +187,7 @@ class Trainday extends Purview
             $data['title'] = $this->request->param('title');
             $data['duration'] = $this->request->param('duration');
             $data['src'] = $this->request->param('image');
+            $data['src_type'] = $this->request->param('src_type');
             $data['created_at'] = date('Y-m-d H:i:s',time());
 
 
@@ -226,6 +227,7 @@ class Trainday extends Purview
             $data['title'] = $this->request->param('title');
             $data['duration'] = $this->request->param('duration');
             $data['src'] = $this->request->param('image');
+            $data['src_type'] = $this->request->param('src_type');
 
             $data['updated_at'] = date('Y-m-d H:i:s',time());
 

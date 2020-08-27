@@ -104,9 +104,9 @@
 
             K('#img_btn').click(function () {
 
-                editor.loadPlugin('insertfile', function () {
-                    editor.plugin.fileDialog({
-                        fileUrl: K('#image').val(),
+                editor.loadPlugin('image', function () {
+                    editor.plugin.imageDialog({
+                        imageUrl: K('#image').val(),
                         clickFn: function (url, title, width, height, border, align) {
                             K('#image').val(url);
                             editor.hideDialog();
