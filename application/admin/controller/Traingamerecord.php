@@ -22,7 +22,17 @@ class Traingamerecord extends Purview
 {
     public function index()
     {
-        $list = TraingamerecordModel::order('id desc')->paginate(20);
+        $list = TraingamerecordModel::order('id desc')->paginate(20)->each(function($v,$key){
+
+            if($v['summary']){
+                $test = json_decode($v['summary'],true);
+
+                $v['test'] = $test['subTitle'];
+            }else{
+                $v['test'] = '';
+            }
+            return $v;
+        });
 
         $this->assign('list', $list);
         return $this->fetch();
