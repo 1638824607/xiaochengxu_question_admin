@@ -71,7 +71,8 @@ class Knowledgehealth extends Purview
                 $this->error('操作失败,请重试');
             }
         }
-
+        $knowledge_health_cate_list = Db::name('knowledge_health_cate')->order('sort desc')->select();
+        $this->assign('knowledge_health_cate_list',$knowledge_health_cate_list);
         return $this->fetch();
     }
 
@@ -98,6 +99,9 @@ class Knowledgehealth extends Purview
             }
             $info = Db::name('knowledge_health')->where(array('id' => $this->request->param('id')))->find();
             $this->assign('info', $info);
+
+            $knowledge_health_cate_list = Db::name('knowledge_health_cate')->order('sort desc')->select();
+            $this->assign('knowledge_health_cate_list',$knowledge_health_cate_list);
             return $this->fetch();
         }
     }
