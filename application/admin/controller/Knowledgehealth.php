@@ -26,13 +26,20 @@ class Knowledgehealth extends Purview
     {
         $kwd   = input('kwd');
         $where = [];
-
+        $title = '';
         if(! empty($kwd)) {
-            $where['title'] = ['like', "%{$kwd}%"];
+//            $where['title'] = ['like', "%{$kwd}%"];
+            $title= $kwd;
         }
 
-        $list = KnowledgeHealthModel::with(['question'])->where($where)->order('hot desc')->order('sort desc')->paginate(20);
+        $list = KnowledgeHealthModel::with(['question'=>function($query)use($title){
+            if($title){
+                $query->where('title','like','%'.$title.'%');
+            }
 
+        }])->where($where)->order('hot desc')->order('sort desc')->paginate(20);
+
+//        $list = Db::name('knowledge_health')->field('h.title,q.*')->alias('h')->join('knowledge_health_question q','h.id = q.health_id')->where($where)->order('h.hot desc')->order('h.sort desc')->paginate(20);
         $this->assign('list', $list);
         $this->assign('kwd', $kwd);
         $this->assign('questionType', KnowledgeHealthQuestionModel::$questionType);
