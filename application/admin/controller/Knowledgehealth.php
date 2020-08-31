@@ -51,6 +51,7 @@ class Knowledgehealth extends Purview
     {
         if ($this->request->isPost()) {
             $data['title']              = $this->request->param('title');
+            $data['cate_id']              = $this->request->param('cate_id');
             $data['desc']               = $this->request->param('desc');
             $data['src_type']           = $this->request->param('src_type');
             $data['src']                = $this->request->param('src');
@@ -80,6 +81,7 @@ class Knowledgehealth extends Purview
     {
         if ($this->request->isPost()) {
             $data['title']              = $this->request->param('title');
+            $data['cate_id']              = $this->request->param('cate_id');
             $data['desc']               = $this->request->param('desc');
             $data['src_type']           = $this->request->param('src_type');
             $data['src']                = $this->request->param('src');
